@@ -1,0 +1,685 @@
+WARNING: [Vivado 12-13650] The IP file '/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/fpga_component/genesys2/xci/xilinx_ddr3_ctrl_axi32/xilinx_ddr3_ctrl_axi32.xci' has been moved from its original location, as a result the outputs for this IP will now be generated in '/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/fpga_component/genesys2/xci/xilinx_ddr3_ctrl_axi32'. Alternatively a copy of the IP can be imported into the project using one of the 'import_ip' or 'import_files' commands.
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_2' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:92]
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_0' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:93]
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_3' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:94]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/imp_genesys2_2026-02-03/src/starc_vera1_fpga.v:63]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2367]
+WARNING: [Synth 8-693] zero replication count - replication ignored [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_066.v:204]
+WARNING: [Synth 8-7071] port 'device_temp_i' of module 'xilinx_ddr3_ctrl_axi32' is unconnected for instance 'u_xilinx_ddr3_ctrl_axi32' [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-7071] port 'device_temp' of module 'xilinx_ddr3_ctrl_axi32' is unconnected for instance 'u_xilinx_ddr3_ctrl_axi32' [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-7023] instance 'u_xilinx_ddr3_ctrl_axi32' of module 'xilinx_ddr3_ctrl_axi32' has 67 connections declared, but only 65 given [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-3848] Net dca_signal_09 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:96]
+WARNING: [Synth 8-3848] Net dca_signal_18 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:97]
+WARNING: [Synth 8-3848] Net dca_signal_01 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:80]
+WARNING: [Synth 8-3848] Net dca_signal_00 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:92]
+WARNING: [Synth 8-3848] Net dca_signal_22 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:93]
+WARNING: [Synth 8-3848] Net dca_signal_35 in module/entity DCA_MODULE_20 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_20.v:212]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/tag_array_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/data_arrays_0_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/tag_array_0_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/data_arrays_0_0_ext.v:27]
+WARNING: [Synth 8-4767] Trying to implement RAM 'regfile_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPU.v:490]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2593]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2638]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2641]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rxs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2694]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2699]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2709]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2714]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rxs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2135]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2132]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2132]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2135]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd0val_x23_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:3032]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd0val_REG_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2134]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd1val_x29_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:3046]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd1val_REG_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2137]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[127] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[126] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[125] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[124] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[123] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[122] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[121] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[120] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[119] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[118] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[117] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[116] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[115] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[114] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[113] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[112] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[111] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[110] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[109] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[108] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[107] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[106] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[105] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[104] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[103] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[102] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[101] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[100] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[99] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[98] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[97] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[96] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[95] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[94] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[93] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[92] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[91] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[90] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[89] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[88] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[87] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[86] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[85] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[84] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[83] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[82] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[81] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[80] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[79] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[78] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[77] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[76] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[75] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[74] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[73] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[72] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[71] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[70] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[69] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[68] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[67] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[66] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[65] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[64] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[63] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[62] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[61] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[60] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[59] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[58] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[57] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[56] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[55] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[54] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[53] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[52] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[51] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[50] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[49] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[48] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[47] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[46] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[45] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[44] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[43] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[42] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[41] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[40] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[39] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[38] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[37] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[36] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[35] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[34] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[33] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[32] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[31] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[30] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[29] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[28] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_00_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_064.v:119]
+WARNING: [Synth 8-3848] Net delay_notice in module/entity ERVP_CORE_PERI_GROUP does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/core_peri_group/src/ervp_core_peri_group.v:98]
+WARNING: [Synth 8-3848] Net rvx_signal_40[3] in module/entity ERVP_PLATFORM_CONTROLLER does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/ervp_platform_controller.v:180]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_5_reg' and it is trimmed from '3' to '2' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/external/ervp_barrel_shifter.v:66]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3848] Net spi_flash_sclk in module/entity STARC_VERA1_FPGA does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/imp_genesys2_2026-02-03/src/starc_vera1_fpga.v:75]
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_MUX__parameterized17 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_DEMUX__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_DEMUX is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_14 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_09 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_06 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_19 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[88] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[87] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[86] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[85] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[84] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[83] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[82] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[80] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[79] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[78] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[77] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[76] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[75] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[74] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[73] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[72] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[71] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[70] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[69] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[68] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[31] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[30] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[29] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[28] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[27] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[26] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[25] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[24] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[23] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[22] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[21] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[20] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[19] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[18] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[17] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[16] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[1] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[0] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_02[1] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_25 in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[41] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[40] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[39] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[38] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[37] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[36] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[35] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_25 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_02[1] in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[6] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[5] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[4] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[3] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[2] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[1] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[0] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_24[1] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_23 in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rstnn in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[13] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[12] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[11] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[10] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[9] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[8] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[7] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[6] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[5] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[4] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[3] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[2] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[1] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[0] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[13] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[12] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[11] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[10] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[9] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[8] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[7] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[6] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[5] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[4] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[3] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[2] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[1] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[0] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port external_rstnn in module STARC_VERA1_CLOCK_PLL_0_01 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk_ref in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rxawaddr[31] in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rxawaddr[30] in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_2' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:92]
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_0' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:93]
+WARNING: [Synth 8-10940] macro 'RVX_LDEF_3' is redefined [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/rvx_module_079.v:94]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/imp_genesys2_2026-02-03/src/starc_vera1_fpga.v:63]
+WARNING: [Synth 8-4446] all outputs are unconnected for this instance and logic may be removed [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2367]
+WARNING: [Synth 8-693] zero replication count - replication ignored [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_066.v:204]
+WARNING: [Synth 8-7071] port 'device_temp_i' of module 'xilinx_ddr3_ctrl_axi32' is unconnected for instance 'u_xilinx_ddr3_ctrl_axi32' [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-7071] port 'device_temp' of module 'xilinx_ddr3_ctrl_axi32' is unconnected for instance 'u_xilinx_ddr3_ctrl_axi32' [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-7023] instance 'u_xilinx_ddr3_ctrl_axi32' of module 'xilinx_ddr3_ctrl_axi32' has 67 connections declared, but only 65 given [/home/kshan/rvx_repos/npx-tutorials/rvx_install/mini_git/imp_class_info/genesys2/include/slow_dram_body.vh:69]
+WARNING: [Synth 8-3848] Net dca_signal_09 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:96]
+WARNING: [Synth 8-3848] Net dca_signal_18 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:97]
+WARNING: [Synth 8-3848] Net dca_signal_01 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:80]
+WARNING: [Synth 8-3848] Net dca_signal_00 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:92]
+WARNING: [Synth 8-3848] Net dca_signal_22 in module/entity DCA_MODULE_24 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_24.v:93]
+WARNING: [Synth 8-3848] Net dca_signal_35 in module/entity DCA_MODULE_20 does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_special_ip/dca/src/dca_module_20.v:212]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/tag_array_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/data_arrays_0_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/tag_array_0_ext.v:27]
+WARNING: [Synth 8-6014] Unused sequential element reg_RW0_ren_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/data_arrays_0_0_ext.v:27]
+WARNING: [Synth 8-4767] Trying to implement RAM 'regfile_reg' in registers. Block RAM or DRAM implementation is not possible; see log for reasons. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPU.v:490]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2593]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2638]
+WARNING: [Synth 8-6014] Unused sequential element ex_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2641]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rxs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2694]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2699]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2709]
+WARNING: [Synth 8-6014] Unused sequential element mem_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2714]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rxs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2135]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rxs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2132]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rfs1_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2132]
+WARNING: [Synth 8-6014] Unused sequential element wb_ctrl_rfs2_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2135]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd0val_x23_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:3032]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd0val_REG_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2134]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd1val_x29_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:3046]
+WARNING: [Synth 8-6014] Unused sequential element coreMonitorBundle_rd1val_REG_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2137]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[127] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[126] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[125] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[124] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[123] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[122] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[121] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[120] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[119] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[118] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[117] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[116] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[115] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[114] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[113] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[112] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[111] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[110] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[109] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[108] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[107] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[106] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[105] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[104] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[103] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[102] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[101] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[100] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[99] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[98] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[97] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[96] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[95] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[94] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[93] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[92] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[91] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[90] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[89] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[88] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[87] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[86] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[85] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[84] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[83] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[82] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[81] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[80] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[79] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[78] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[77] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[76] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[75] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[74] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[73] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[72] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[71] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[70] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[69] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[68] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[67] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[66] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[65] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[64] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[63] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[62] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[61] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[60] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[59] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[58] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[57] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[56] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[55] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[54] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[53] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[52] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[51] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[50] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[49] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[48] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[47] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[46] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[45] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[44] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[43] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[42] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[41] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[40] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[39] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[38] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[37] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[36] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[35] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[34] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[33] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[32] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[31] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[30] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[29] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-7137] Register rvx_signal_17_reg[28] in module RVX_MODULE_012 has both Set and reset with same priority. This may cause simulation mismatches. Consider rewriting code  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_012.v:85]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_00_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/uart/src/rvx_module_064.v:119]
+WARNING: [Synth 8-3848] Net delay_notice in module/entity ERVP_CORE_PERI_GROUP does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/core_peri_group/src/ervp_core_peri_group.v:98]
+WARNING: [Synth 8-3848] Net rvx_signal_40[3] in module/entity ERVP_PLATFORM_CONTROLLER does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/peripheral/platform_controller/src/ervp_platform_controller.v:180]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_5_reg' and it is trimmed from '3' to '2' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/external/ervp_barrel_shifter.v:66]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3936] Found unconnected internal register 'rvx_signal_05_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:170]
+WARNING: [Synth 8-6014] Unused sequential element rvx_signal_01_reg was removed.  [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/lib_rtl/src/memory/ervp_asynch_fifo.v:183]
+WARNING: [Synth 8-3848] Net spi_flash_sclk in module/entity STARC_VERA1_FPGA does not have driver. [/home/kshan/rvx_repos/npx-fpga-sdk/platform/starc_vera1/imp_genesys2_2026-02-03/src/starc_vera1_fpga.v:75]
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_MUX__parameterized17 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_DEMUX__parameterized0 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port select[0] in module ERVP_DEMUX is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_14 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_09 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_06 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_19 in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[88] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[87] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[86] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[85] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[84] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[83] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[82] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[80] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[79] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[78] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[77] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[76] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[75] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[74] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[73] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[72] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[71] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[70] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[69] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[68] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[31] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[30] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[29] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[28] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[27] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[26] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[25] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[24] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[23] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[22] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[21] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[20] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[19] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[18] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[17] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[16] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[1] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11[0] in module RVX_MODULE_109 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_02[1] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_25 in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[41] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[40] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[39] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[38] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[37] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[36] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17[35] in module RVX_MODULE_018 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_11 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_25 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_17 in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_02[1] in module RVX_MODULE_074 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[6] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[5] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[4] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[3] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[2] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[1] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_26[0] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_24[1] in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rvx_port_23 in module RVX_MODULE_080 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rstnn in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[13] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[12] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[11] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[10] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[9] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[8] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[7] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[6] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[5] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[4] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[3] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[2] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[1] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port windex[0] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[13] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[12] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[11] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[10] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[9] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[8] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[7] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[6] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[5] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[4] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[3] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[2] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[1] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rindex[0] in module ERVP_MEMORY_CELL_1R1W is either unconnected or has no load
+WARNING: [Synth 8-7129] Port external_rstnn in module STARC_VERA1_CLOCK_PLL_0_01 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port clk_ref in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rxawaddr[31] in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-7129] Port rxawaddr[30] in module STARC_VERA1_SLOW_DRAM_00 is either unconnected or has no load
+WARNING: [Synth 8-3936] Found unconnected internal register 'pstore2_addr_reg' and it is trimmed from '32' to '12' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/DCache.v:3237]
+WARNING: [Synth 8-3936] Found unconnected internal register 'pstore1_addr_reg' and it is trimmed from '32' to '12' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/DCache.v:3224]
+WARNING: [Synth 8-3936] Found unconnected internal register 'release_ack_addr_reg' and it is trimmed from '32' to '22' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/DCache.v:3719]
+WARNING: [Synth 8-7032] RAM "ram_reg" have possible Byte Write pattern, however the data width (84) is not multiple of supported byte widths of 8 or 9 .
+WARNING: [Synth 8-3936] Found unconnected internal register 'r_btb_updatePipe_bits_br_pc_reg' and it is trimmed from '32' to '2' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/BTB.v:1859]
+WARNING: [Synth 8-3936] Found unconnected internal register 'in_typ_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPToInt.v:131]
+WARNING: [Synth 8-3936] Found unconnected internal register 'inPipe_bits_typ_reg' and it is trimmed from '2' to '1' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/IntToFP.v:95]
+WARNING: [Synth 8-3936] Found unconnected internal register 'inPipe_bits_rm_reg' and it is trimmed from '3' to '2' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPToFP.v:31]
+WARNING: [Synth 8-3936] Found unconnected internal register 'mem_reg_inst_reg' and it is trimmed from '32' to '12' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPU.v:577]
+WARNING: [Synth 8-3936] Found unconnected internal register 'ex_reg_inst_reg' and it is trimmed from '32' to '28' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/FPU.v:259]
+WARNING: [Synth 8-3936] Found unconnected internal register 'wb_reg_raw_inst_reg' and it is trimmed from '32' to '16' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2072]
+WARNING: [Synth 8-3936] Found unconnected internal register 'mem_reg_raw_inst_reg' and it is trimmed from '32' to '16' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2899]
+WARNING: [Synth 8-3936] Found unconnected internal register 'ex_reg_raw_inst_reg' and it is trimmed from '32' to '16' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/Rocket.v:2826]
+WARNING: [Synth 8-6430] The Block RAM "tag_array_ext:/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6841] Block RAM (ram_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+WARNING: [Synth 8-6430] The Block RAM "data_arrays_0_ext:/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6430] The Block RAM "tag_array_0_ext:/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6841] Block RAM (ram_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+WARNING: [Synth 8-6430] The Block RAM "data_arrays_0_0_ext:/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6841] Block RAM (i_system_sram/generate_cell[0].i_cell/i_write_bit[1].rvx_signal_1_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+WARNING: [Synth 8-3917] design Frontend has port io_cpu_npc[0] driven by constant 0
+WARNING: [Synth 8-6430] The Block RAM "icache/tag_array/tag_array_0_ext/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6841] Block RAM (tag_array/tag_array_0_ext/ram_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+WARNING: [Synth 8-6430] The Block RAM "icache/data_arrays_0/data_arrays_0_0_ext/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-3936] Found unconnected internal register 'reg_medeleg_reg' and it is trimmed from '32' to '24' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/CSRFile.v:391]
+WARNING: [Synth 8-3936] Found unconnected internal register 'reg_mideleg_reg' and it is trimmed from '32' to '10' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/CSRFile.v:388]
+WARNING: [Synth 8-3936] Found unconnected internal register 'reg_mcounteren_reg' and it is trimmed from '32' to '3' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/CSRFile.v:471]
+WARNING: [Synth 8-3936] Found unconnected internal register 'reg_scounteren_reg' and it is trimmed from '32' to '3' bits. [/home/kshan/rvx_repos/npx-fpga-sdk/rvx_hwlib/core/rocket_big/src/CSRFile.v:473]
+WARNING: [Synth 8-3917] design Rocket has port io_imem_btb_update_bits_pc[1] driven by constant 0
+WARNING: [Synth 8-3917] design Rocket has port io_imem_btb_update_bits_pc[0] driven by constant 0
+WARNING: [Synth 8-3917] design Rocket has port io_imem_bht_update_bits_pc[1] driven by constant 0
+WARNING: [Synth 8-3917] design Rocket has port io_imem_bht_update_bits_pc[0] driven by constant 0
+WARNING: [Synth 8-3917] design Rocket has port io_dmem_req_bits_tag[6] driven by constant 0
+WARNING: [Synth 8-3917] design Rocket has port io_dmem_req_bits_dv driven by constant 0
+WARNING: [Synth 8-3917] design RocketTile__GB4 has port io_requestor_1_resp_bits_tag[6] driven by constant 0
+WARNING: [Synth 8-6430] The Block RAM "dcache/tag_array/tag_array_ext/ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-6841] Block RAM (tag_array_ext/ram_reg) originally specified as a Byte Wide Write Enable RAM cannot take advantage of ByteWide feature and is implemented with single write enable per RAM due to following reason.
+WARNING: [Synth 8-6430] The Block RAM "dcache/\data/data_arrays_0/data_arrays_0_ext /ram_reg" may get memory collision error if read and write address collide. Use attribute (* rw_addr_collision= "yes" *) to avoid collision 
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqhint driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqlast driven by constant 1
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqafy driven by constant 1
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[190] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[189] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[180] driven by constant 1
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[179] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[178] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[177] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[176] driven by constant 1
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[175] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[174] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[173] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[172] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[171] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[170] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[169] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[168] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[167] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[166] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[165] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[164] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[163] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[162] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[161] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[160] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[159] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[158] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[157] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[156] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[155] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[154] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[153] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[152] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[151] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[150] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[149] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[148] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[147] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[146] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[145] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[144] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[143] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[142] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[141] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[140] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[139] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[138] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[137] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[136] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[135] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[134] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[133] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[132] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[131] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[130] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[129] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[128] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[127] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[126] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[125] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[124] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[123] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[122] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[121] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[120] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[119] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[118] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[117] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[116] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[115] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[114] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[113] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[112] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[111] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[110] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[109] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[108] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[107] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[106] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[105] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[104] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[103] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[102] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[101] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[100] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[99] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[98] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[97] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[96] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[95] driven by constant 0
+WARNING: [Synth 8-3917] design DCA_MATRIX_LSU_LPI2P__GC0 has port read_slxqdata[94] driven by constant 0
+WARNING: [Synth 8-3332] Sequential element (i_rvx_instance_2/FSM_onehot_rvx_signal_46_reg[2]) is unused and will be removed from module ERVP_PLATFORM_CONTROLLER.
+WARNING: [Synth 8-565] redefining clock 'external_clk_0'
+WARNING: [Synth 8-565] redefining clock 'external_clk_0'
+WARNING: [Synth 8-565] redefining clock 'external_clk_0'
+WARNING: [Synth 8-565] redefining clock 'external_clk_0'
+WARNING: [Synth 8-565] redefining clock 'external_clk_0'
+WARNING: [DRC 23-803] Only the first 20 REQP-1839 messages were issued by mandatory DRC reporting. An additional 1 messages have not been issued. Use 'set_property MAX_MESSAGES <number> [get_drc_check REQP-1839]' to change the number of messages that should be reported.
+WARNING: [Place 30-574] Poor placement for routing between an IO pin and BUFG. This is normally an ERROR but the CLOCK_DEDICATED_ROUTE constraint is set to FALSE allowing your design to continue. The use of this override is highly discouraged as it may lead to very poor timing results. It is recommended that this error condition be corrected in the design.
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
+WARNING: [Power 33-332] Found switching activity that implies high-fanout reset nets being asserted for excessive periods of time which may result in inaccurate power analysis.
