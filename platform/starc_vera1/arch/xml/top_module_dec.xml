@@ -4,6 +4,12 @@
     <name>starc_vera1</name>
     <hdl_name>STARC_VERA1</hdl_name>
     <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
+    <signal>
       <name>external_clk_0</name>
       <port>input</port>
       <width type="dec">1</width>
@@ -68,6 +74,34 @@
     </signal>
     <signal>
       <name>printf_rx</name>
+      <width type="dec">1</width>
+      <port>input</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sclk</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_scs</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq0</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq1</name>
       <width type="dec">1</width>
       <port>input</port>
       <sync>None</sync>

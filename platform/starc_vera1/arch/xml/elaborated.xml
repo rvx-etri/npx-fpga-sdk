@@ -17,6 +17,12 @@
       <library_name>starc_vera1_rtl</library_name>
       <hdl_name>STARC_VERA1_RTL</hdl_name>
       <signal>
+        <name>boot_mode</name>
+        <width type="text">`BW_BOOT_MODE</width>
+        <port>input</port>
+        <comm_type>boot_mode</comm_type>
+      </signal>
+      <signal>
         <name>clk_system</name>
         <width type="dec">1</width>
         <comm_type>clk_system</comm_type>
@@ -310,6 +316,34 @@
       </signal>
       <signal>
         <name>printf_rx</name>
+        <width type="dec">1</width>
+        <port>input</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_flash_sclk</name>
+        <width type="dec">1</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_flash_scs</name>
+        <width type="dec">1</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_flash_sdq0</name>
+        <width type="dec">1</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_flash_sdq1</name>
         <width type="dec">1</width>
         <port>input</port>
         <sync>None</sync>
@@ -1263,6 +1297,12 @@
       <imp_dependent/>
     </ip_instance>
     <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
+    <signal>
       <name>external_clk_0</name>
       <port>input</port>
       <width type="dec">1</width>
@@ -1472,6 +1512,38 @@
       <init>None</init>
     </signal>
     <signal>
+      <name>spi_flash_sclk</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_scs</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq0</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq1</name>
+      <width type="dec">1</width>
+      <port>input</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>i_rtl_boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+    </signal>
+    <signal>
       <name>i_rtl_clk_system</name>
       <width type="dec">1</width>
     </signal>
@@ -1673,6 +1745,22 @@
     </signal>
     <signal>
       <name>i_rtl_printf_rx</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_rtl_spi_flash_sclk</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_rtl_spi_flash_scs</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_rtl_spi_flash_sdq0</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_rtl_spi_flash_sdq1</name>
       <width type="dec">1</width>
     </signal>
     <signal>
@@ -2212,6 +2300,10 @@
       <width type="text">2</width>
     </signal>
     <connect>
+      <input>boot_mode</input>
+      <output>i_rtl_boot_mode</output>
+    </connect>
+    <connect>
       <input>external_rstnn</input>
       <output>i_rtl_external_rstnn</output>
     </connect>
@@ -2422,6 +2514,22 @@
     <connect>
       <input>printf_rx</input>
       <output>i_rtl_printf_rx</output>
+    </connect>
+    <connect>
+      <input>i_rtl_spi_flash_sclk</input>
+      <output>spi_flash_sclk</output>
+    </connect>
+    <connect>
+      <input>i_rtl_spi_flash_scs</input>
+      <output>spi_flash_scs</output>
+    </connect>
+    <connect>
+      <input>i_rtl_spi_flash_sdq0</input>
+      <output>spi_flash_sdq0</output>
+    </connect>
+    <connect>
+      <input>spi_flash_sdq1</input>
+      <output>i_rtl_spi_flash_sdq1</output>
     </connect>
     <connect>
       <input>i_system_ddr_rxawready</input>
@@ -2679,6 +2787,10 @@
         <value type="bool">True</value>
       </define>
       <define>
+        <name>include_spi_flash</name>
+        <value type="bool">True</value>
+      </define>
+      <define>
         <name>num_led_checker</name>
         <value type="dec">1</value>
       </define>
@@ -2709,6 +2821,10 @@
       <define>
         <name>sram_port_width</name>
         <value type="dec">32</value>
+      </define>
+      <define>
+        <name>include_boot_mode</name>
+        <value type="bool">True</value>
       </define>
       <define>
         <name>include_core_peri_group</name>
@@ -3652,7 +3768,7 @@
       </parameter>
       <parameter>
         <id>NUM_SPI</id>
-        <value type="dec">0</value>
+        <value type="dec">1</value>
       </parameter>
       <parameter>
         <id>NUM_I2C</id>
@@ -3795,6 +3911,34 @@
       </signal>
       <signal>
         <name>uart_srx_list</name>
+        <width type="text">(1)*(1)</width>
+        <port>input</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_sclk_list</name>
+        <width type="text">(1)*(1)</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_scs_list</name>
+        <width type="text">(1)*(1)</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_sdq0_list</name>
+        <width type="text">(1)*(1)</width>
+        <port>output</port>
+        <sync>None</sync>
+        <init>None</init>
+      </signal>
+      <signal>
+        <name>spi_sdq1_list</name>
         <width type="text">(1)*(1)</width>
         <port>input</port>
         <sync>None</sync>
@@ -8718,6 +8862,12 @@
       <sim_large_ram_size>8388608</sim_large_ram_size>
     </sim_define>
     <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
+    <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
       <comm_type>clk_system</comm_type>
@@ -9021,6 +9171,34 @@
     </signal>
     <signal>
       <name>printf_rx</name>
+      <width type="dec">1</width>
+      <port>input</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sclk</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_scs</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq0</name>
+      <width type="dec">1</width>
+      <port>output</port>
+      <sync>None</sync>
+      <init>None</init>
+    </signal>
+    <signal>
+      <name>spi_flash_sdq1</name>
       <width type="dec">1</width>
       <port>input</port>
       <sync>None</sync>
@@ -10032,6 +10210,22 @@
     </signal>
     <signal>
       <name>external_peri_group_uart_srx_list</name>
+      <width type="text">(1)*(1)</width>
+    </signal>
+    <signal>
+      <name>external_peri_group_spi_sclk_list</name>
+      <width type="text">(1)*(1)</width>
+    </signal>
+    <signal>
+      <name>external_peri_group_spi_scs_list</name>
+      <width type="text">(1)*(1)</width>
+    </signal>
+    <signal>
+      <name>external_peri_group_spi_sdq0_list</name>
+      <width type="text">(1)*(1)</width>
+    </signal>
+    <signal>
+      <name>external_peri_group_spi_sdq1_list</name>
       <width type="text">(1)*(1)</width>
     </signal>
     <signal>
@@ -12995,6 +13189,10 @@
       <output>platform_controller_external_rstnn</output>
     </connect>
     <connect>
+      <input>boot_mode</input>
+      <output>platform_controller_boot_mode</output>
+    </connect>
+    <connect>
       <input>`JTAG_SELECT_NOC</input>
       <output>platform_controller_jtag_select</output>
     </connect>
@@ -13033,10 +13231,6 @@
     <connect>
       <input>0</input>
       <output>core_peri_group_plic_interrupt</output>
-    </connect>
-    <connect>
-      <input>0</input>
-      <output>platform_controller_boot_mode</output>
     </connect>
     <connect>
       <input>0</input>
@@ -14513,6 +14707,22 @@
     <connect>
       <input>printf_rx</input>
       <output>external_peri_group_uart_srx_list[1*(`UART_INDEX_FOR_UART_PRINTF+1)-1 -:1]</output>
+    </connect>
+    <connect>
+      <input>external_peri_group_spi_sclk_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
+      <output>spi_flash_sclk</output>
+    </connect>
+    <connect>
+      <input>external_peri_group_spi_scs_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
+      <output>spi_flash_scs</output>
+    </connect>
+    <connect>
+      <input>external_peri_group_spi_sdq0_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
+      <output>spi_flash_sdq0</output>
+    </connect>
+    <connect>
+      <input>spi_flash_sdq1</input>
+      <output>external_peri_group_spi_sdq1_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</output>
     </connect>
     <include_header>ervp_platform_controller_memorymap_offset</include_header>
     <include_header>ervp_external_peri_group_memorymap_offset</include_header>

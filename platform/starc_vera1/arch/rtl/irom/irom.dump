@@ -61,7 +61,7 @@ Disassembly of section .text:
   9c:	00000393          	li	t2,0
   a0:	00792823          	sw	t2,16(s2)
   a4:	00100313          	li	t1,1
-  a8:	fff00393          	li	t2,-1
+  a8:	00000393          	li	t2,0
   ac:	007313b3          	sll	t2,t1,t2
   b0:	e2011337          	lui	t1,0xe2011
   b4:	b5030313          	addi	t1,t1,-1200 # e2010b50 <check_empty+0xe20108d8>

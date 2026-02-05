@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-02-03
+// 2026-02-04
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -26,6 +26,7 @@
 
 module STARC_VERA1_RTL
 (
+	boot_mode,
 	clk_system,
 	clk_dca_core,
 	clk_core,
@@ -77,6 +78,10 @@ module STARC_VERA1_RTL
 	pjtag_rtdo,
 	printf_tx,
 	printf_rx,
+	spi_flash_sclk,
+	spi_flash_scs,
+	spi_flash_sdq0,
+	spi_flash_sdq1,
 	i_system_ddr_sxawready,
 	i_system_ddr_sxawvalid,
 	i_system_ddr_sxawaddr,
@@ -142,6 +147,7 @@ module STARC_VERA1_RTL
 parameter BW_FNI_PHIT = `MAX_BW_FNI_PHIT;
 parameter BW_BNI_PHIT = `MAX_BW_BNI_PHIT;
 
+input wire [(`BW_BOOT_MODE)-1:0] boot_mode;
 output wire clk_system;
 output wire clk_dca_core;
 output wire clk_core;
@@ -193,6 +199,10 @@ input wire pjtag_rtdi;
 output wire pjtag_rtdo;
 output wire printf_tx;
 input wire printf_rx;
+output wire spi_flash_sclk;
+output wire spi_flash_scs;
+output wire spi_flash_sdq0;
+input wire spi_flash_sdq1;
 input wire i_system_ddr_sxawready;
 output wire i_system_ddr_sxawvalid;
 output wire [(32)-1:0] i_system_ddr_sxawaddr;
@@ -406,6 +416,10 @@ wire [(32)-1:0] external_peri_group_rprdata;
 wire external_peri_group_rpslverr;
 wire [((1)*(1))-1:0] external_peri_group_uart_stx_list;
 wire [((1)*(1))-1:0] external_peri_group_uart_srx_list;
+wire [((1)*(1))-1:0] external_peri_group_spi_sclk_list;
+wire [((1)*(1))-1:0] external_peri_group_spi_scs_list;
+wire [((1)*(1))-1:0] external_peri_group_spi_sdq0_list;
+wire [((1)*(1))-1:0] external_peri_group_spi_sdq1_list;
 wire [(1)-1:0] external_peri_group_oled_sdcsel_oe;
 wire [(1)-1:0] external_peri_group_oled_sdcsel_oval;
 wire [(1)-1:0] external_peri_group_oled_sdcsel_ival;
@@ -1198,7 +1212,7 @@ ERVP_EXTERNAL_PERI_GROUP
 	.BW_ADDR(32),
 	.BW_DATA(32),
 	.NUM_UART(1),
-	.NUM_SPI(0),
+	.NUM_SPI(1),
 	.NUM_I2C(0),
 	.NUM_GPIO(0),
 	.NUM_AIOIF(0)
@@ -1226,6 +1240,10 @@ external_peri_group
 	.rpslverr(external_peri_group_rpslverr),
 	.uart_stx_list(external_peri_group_uart_stx_list),
 	.uart_srx_list(external_peri_group_uart_srx_list),
+	.spi_sclk_list(external_peri_group_spi_sclk_list),
+	.spi_scs_list(external_peri_group_spi_scs_list),
+	.spi_sdq0_list(external_peri_group_spi_sdq0_list),
+	.spi_sdq1_list(external_peri_group_spi_sdq1_list),
 	.oled_sdcsel_oe(external_peri_group_oled_sdcsel_oe),
 	.oled_sdcsel_oval(external_peri_group_oled_sdcsel_oval),
 	.oled_sdcsel_ival(external_peri_group_oled_sdcsel_ival),
@@ -2237,6 +2255,7 @@ assign autoname_102_tick_1us = autoname_100_tick_1us;
 assign external_peri_group_tick_1us = autoname_100_tick_1us;
 assign core_peri_group_tick_1us = autoname_101;
 assign platform_controller_external_rstnn = external_rstnn;
+assign platform_controller_boot_mode = boot_mode;
 assign platform_controller_jtag_select = `JTAG_SELECT_NOC;
 assign i_main_core_interrupt_vector = core_peri_group_core_interrupt_vector;
 assign core_peri_group_allows_holds = i_mnim_i_main_core_no_name_local_allows_holds;
@@ -2247,7 +2266,6 @@ assign i_snim_platform_controller_no_name_comm_disable = 0;
 assign i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio_comm_disable = 0;
 assign i_mnim_platform_controller_master_comm_disable = 0;
 assign core_peri_group_plic_interrupt = 0;
-assign platform_controller_boot_mode = 0;
 assign i_snim_i_system_sram_no_name_comm_disable = 0;
 assign i_mnim_i_main_core_no_name_comm_disable = 0;
 assign i_mnim_i_dca_neugemm00_ma_mlsu_noc_part_comm_disable = 0;
@@ -2617,6 +2635,10 @@ assign core_peri_group_florian_sprdata = 0;
 assign core_peri_group_florian_spslverr = 0;
 assign printf_tx = external_peri_group_uart_stx_list[1*(`UART_INDEX_FOR_UART_PRINTF+1)-1 -:1];
 assign external_peri_group_uart_srx_list[1*(`UART_INDEX_FOR_UART_PRINTF+1)-1 -:1] = printf_rx;
+assign spi_flash_sclk = external_peri_group_spi_sclk_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1];
+assign spi_flash_scs = external_peri_group_spi_scs_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1];
+assign spi_flash_sdq0 = external_peri_group_spi_sdq0_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1];
+assign external_peri_group_spi_sdq1_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1] = spi_flash_sdq1;
 
 
 endmodule

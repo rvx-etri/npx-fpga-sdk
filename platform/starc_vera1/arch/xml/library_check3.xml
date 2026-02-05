@@ -12483,6 +12483,12 @@
     <name>starc_vera1_rtl</name>
     <hdl_name>STARC_VERA1_RTL</hdl_name>
     <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
+    <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
       <comm_type>clk_system</comm_type>
@@ -12778,6 +12784,13 @@
       <init>None</init>
     </interface>
     <interface>
+      <name>spi_flash</name>
+      <library_name>spi</library_name>
+      <role>sender</role>
+      <sync>None</sync>
+      <init>None</init>
+    </interface>
+    <interface>
       <name>i_system_ddr_no_name</name>
       <library_name>axi</library_name>
       <hdl_prefix>i_system_ddr_</hdl_prefix>
@@ -12854,6 +12867,12 @@
     <name>starc_vera1</name>
     <hdl_name>STARC_VERA1</hdl_name>
     <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
+    <signal>
       <name>external_clk_0</name>
       <port>input</port>
       <width type="dec">1</width>
@@ -12886,6 +12905,13 @@
       <name>printf</name>
       <library_name>uart</library_name>
       <role>both</role>
+      <sync>None</sync>
+      <init>None</init>
+    </interface>
+    <interface>
+      <name>spi_flash</name>
+      <library_name>spi</library_name>
+      <role>sender</role>
       <sync>None</sync>
       <init>None</init>
     </interface>

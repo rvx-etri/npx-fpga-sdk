@@ -13,6 +13,10 @@
         <value type="bool">True</value>
       </define>
       <define>
+        <name>include_spi_flash</name>
+        <value type="bool">True</value>
+      </define>
+      <define>
         <name>num_led_checker</name>
         <value type="dec">1</value>
       </define>
@@ -43,6 +47,10 @@
       <define>
         <name>sram_port_width</name>
         <value type="dec">32</value>
+      </define>
+      <define>
+        <name>include_boot_mode</name>
+        <value type="bool">True</value>
       </define>
       <define>
         <name>include_core_peri_group</name>
@@ -147,7 +155,7 @@
       </parameter>
       <parameter>
         <id>NUM_SPI</id>
-        <value type="dec">0</value>
+        <value type="dec">1</value>
       </parameter>
       <parameter>
         <id>NUM_I2C</id>
@@ -826,6 +834,12 @@
       <simulate_spi_flash type="bool">False</simulate_spi_flash>
       <sim_large_ram_size>8388608</sim_large_ram_size>
     </sim_define>
+    <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
     <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
@@ -1668,6 +1682,10 @@
       <output>platform_controller/external_rstnn</output>
     </connect>
     <connect>
+      <input>boot_mode</input>
+      <output>platform_controller/boot_mode</output>
+    </connect>
+    <connect>
       <input>`JTAG_SELECT_NOC</input>
       <output>platform_controller/jtag_select</output>
     </connect>
@@ -1812,10 +1830,6 @@
       <output>`NOT_CONNECT</output>
     </connect>
     <connect>
-      <input>`NOT_CONNECT</input>
-      <output>platform_controller/boot_mode</output>
-    </connect>
-    <connect>
       <input>default_slave/svri</input>
       <output>`NOT_CONNECT</output>
     </connect>
@@ -1902,6 +1916,10 @@
     <connect>
       <input>external_peri_group/uart(`UART_INDEX_FOR_UART_PRINTF)</input>
       <output>printf</output>
+    </connect>
+    <connect>
+      <input>external_peri_group/spi(`SPI_INDEX_FOR_SPI_FLASH)</input>
+      <output>spi_flash</output>
     </connect>
     <include_header>ervp_platform_controller_memorymap_offset</include_header>
     <include_header>ervp_external_peri_group_memorymap_offset</include_header>
@@ -2344,6 +2362,13 @@
       <name>printf</name>
       <library_name>uart</library_name>
       <role>both</role>
+      <sync>None</sync>
+      <init>None</init>
+    </interface>
+    <interface>
+      <name>spi_flash</name>
+      <library_name>spi</library_name>
+      <role>sender</role>
       <sync>None</sync>
       <init>None</init>
     </interface>

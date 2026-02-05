@@ -41,7 +41,7 @@
 #define USE_DDR
 #define USE_SMALL_RAM
 #define USE_LARGE_RAM
-//#define USE_BOOT_MODE
+#define USE_BOOT_MODE
 #define USE_CACHE
 //#define USE_TIMER
 //#define USE_PLIC
@@ -49,7 +49,7 @@
 //#define USE_OLED
 //#define USE_OLED_BW
 //#define USE_OLED_RGB
-//#define USE_SPI_FLASH
+#define USE_SPI_FLASH
 #define USE_UART_PRINTF
 //#define USE_OLEDBW_PRINTF
 //#define USE_FUSE_BOX
@@ -109,12 +109,12 @@
 #define USE_REAL_CORE
 //#define USE_BARRIER
 //#define USE_LOCK
-//#define USE_SPI_SYSTEM
+#define USE_SPI_SYSTEM
 #define USE_UART_SYSTEM
 //#define USE_I2C_SYSTEM
 //#define USE_GPIO
 #define USE_UART
-//#define USE_SPI
+#define USE_SPI
 //#define USE_I2C
 #define USE_SRAM
 #define USE_DRAM

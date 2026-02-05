@@ -13,6 +13,10 @@
 				<value type="bool">True</value>
 			</define>
 			<define>
+				<name>include_spi_flash</name>
+				<value type="bool">True</value>
+			</define>
+			<define>
 				<name>num_led_checker</name>
 				<value>1</value>
 			</define>

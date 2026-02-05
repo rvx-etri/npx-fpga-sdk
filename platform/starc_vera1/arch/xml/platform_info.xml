@@ -267,7 +267,7 @@
     </define>
     <define>
       <name>INCLUDE_BOOT_MODE</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_CACHE</name>
@@ -299,7 +299,7 @@
     </define>
     <define>
       <name>INCLUDE_SPI_FLASH</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_UART_PRINTF</name>
@@ -550,8 +550,12 @@
       <value type="dec">0</value>
     </define>
     <define>
-      <name>NUM_SPI_SYSTEM</name>
+      <name>SPI_INDEX_FOR_SPI_FLASH</name>
       <value type="dec">0</value>
+    </define>
+    <define>
+      <name>NUM_SPI_SYSTEM</name>
+      <value type="dec">1</value>
     </define>
     <define>
       <name>UART_INDEX_FOR_READYMADE</name>
@@ -599,7 +603,7 @@
     </define>
     <define>
       <name>NUM_SPI</name>
-      <value type="dec">0</value>
+      <value type="dec">1</value>
     </define>
     <define>
       <name>NUM_I2C</name>
@@ -699,7 +703,7 @@
     </define>
     <define>
       <name>INCLUDE_SPI_SYSTEM</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_UART_SYSTEM</name>
@@ -719,7 +723,7 @@
     </define>
     <define>
       <name>INCLUDE_SPI</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_I2C</name>
@@ -898,7 +902,7 @@
     </define>
     <define>
       <name>USE_BOOT_MODE</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>USE_CACHE</name>
@@ -930,7 +934,7 @@
     </define>
     <define>
       <name>USE_SPI_FLASH</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>USE_UART_PRINTF</name>
@@ -1170,7 +1174,7 @@
     </define>
     <define>
       <name>USE_SPI_SYSTEM</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>USE_UART_SYSTEM</name>
@@ -1190,7 +1194,7 @@
     </define>
     <define>
       <name>USE_SPI</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>USE_I2C</name>

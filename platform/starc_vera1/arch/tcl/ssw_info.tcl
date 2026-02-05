@@ -37,7 +37,7 @@ set ::USE_SLOW_DRAM 1
 set ::USE_DDR 1
 set ::USE_SMALL_RAM 1
 set ::USE_LARGE_RAM 1
-# set ::USE_BOOT_MODE
+set ::USE_BOOT_MODE 1
 set ::USE_CACHE 1
 # set ::USE_TIMER
 # set ::USE_PLIC
@@ -45,7 +45,7 @@ set ::USE_CACHE 1
 # set ::USE_OLED
 # set ::USE_OLED_BW
 # set ::USE_OLED_RGB
-# set ::USE_SPI_FLASH
+set ::USE_SPI_FLASH 1
 set ::USE_UART_PRINTF 1
 # set ::USE_OLEDBW_PRINTF
 # set ::USE_FUSE_BOX
@@ -105,12 +105,12 @@ set ::USE_CORE 1
 set ::USE_REAL_CORE 1
 # set ::USE_BARRIER
 # set ::USE_LOCK
-# set ::USE_SPI_SYSTEM
+set ::USE_SPI_SYSTEM 1
 set ::USE_UART_SYSTEM 1
 # set ::USE_I2C_SYSTEM
 # set ::USE_GPIO
 set ::USE_UART 1
-# set ::USE_SPI
+set ::USE_SPI 1
 # set ::USE_I2C
 set ::USE_SRAM 1
 set ::USE_DRAM 1

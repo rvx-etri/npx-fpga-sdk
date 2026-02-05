@@ -13,6 +13,10 @@
         <value type="bool">True</value>
       </define>
       <define>
+        <name>include_spi_flash</name>
+        <value type="bool">True</value>
+      </define>
+      <define>
         <name>num_led_checker</name>
         <value type="dec">1</value>
       </define>
@@ -43,6 +47,10 @@
       <define>
         <name>sram_port_width</name>
         <value type="dec">32</value>
+      </define>
+      <define>
+        <name>include_boot_mode</name>
+        <value type="bool">True</value>
       </define>
       <define>
         <name>include_core_peri_group</name>
@@ -720,6 +728,12 @@
       <simulate_spi_flash type="bool">False</simulate_spi_flash>
       <sim_large_ram_size>8388608</sim_large_ram_size>
     </sim_define>
+    <signal>
+      <name>boot_mode</name>
+      <width type="text">`BW_BOOT_MODE</width>
+      <port>input</port>
+      <comm_type>boot_mode</comm_type>
+    </signal>
     <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
@@ -1562,6 +1576,10 @@
       <output>platform_controller/external_rstnn</output>
     </connect>
     <connect>
+      <input>boot_mode</input>
+      <output>platform_controller/boot_mode</output>
+    </connect>
+    <connect>
       <input>`JTAG_SELECT_NOC</input>
       <output>platform_controller/jtag_select</output>
     </connect>
@@ -1704,10 +1722,6 @@
     <connect>
       <input>platform_controller/global_rstpp</input>
       <output>`NOT_CONNECT</output>
-    </connect>
-    <connect>
-      <input>`NOT_CONNECT</input>
-      <output>platform_controller/boot_mode</output>
     </connect>
     <connect>
       <input>default_slave/svri</input>

@@ -11,7 +11,7 @@
 // IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE
 // COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 // ****************************************************************************
-// 2026-02-03
+// 2026-02-04
 // Kyuseung Han (han@etri.re.kr)
 // ****************************************************************************
 // ****************************************************************************
@@ -26,6 +26,7 @@
 
 module STARC_VERA1
 (
+	boot_mode,
 	external_clk_0,
 	external_clk_0_pair,
 	external_rstnn,
@@ -36,11 +37,16 @@ module STARC_VERA1
 	pjtag_rtdi,
 	pjtag_rtdo,
 	printf_tx,
-	printf_rx
+	printf_rx,
+	spi_flash_sclk,
+	spi_flash_scs,
+	spi_flash_sdq0,
+	spi_flash_sdq1
 	`include "slow_dram_cell_port_dec.vh"
 );
 
 
+input wire [(`BW_BOOT_MODE)-1:0] boot_mode;
 input wire external_clk_0;
 input wire external_clk_0_pair;
 input wire external_rstnn;
@@ -52,6 +58,10 @@ input wire pjtag_rtdi;
 output wire pjtag_rtdo;
 output wire printf_tx;
 input wire printf_rx;
+output wire spi_flash_sclk;
+output wire spi_flash_scs;
+output wire spi_flash_sdq0;
+input wire spi_flash_sdq1;
 
 `include "slow_dram_cell_port_def.vh"
 
@@ -86,6 +96,7 @@ wire [(6)-1:0] rstnn_seqeunce;
 wire [(6)-1:0] rstpp_seqeunce;
 wire rstnn_user;
 wire rstpp_user;
+wire [(`BW_BOOT_MODE)-1:0] i_rtl_boot_mode;
 wire i_rtl_clk_system;
 wire i_rtl_clk_dca_core;
 wire i_rtl_clk_core;
@@ -137,6 +148,10 @@ wire i_rtl_pjtag_rtdi;
 wire i_rtl_pjtag_rtdo;
 wire i_rtl_printf_tx;
 wire i_rtl_printf_rx;
+wire i_rtl_spi_flash_sclk;
+wire i_rtl_spi_flash_scs;
+wire i_rtl_spi_flash_sdq0;
+wire i_rtl_spi_flash_sdq1;
 wire i_rtl_i_system_ddr_sxawready;
 wire i_rtl_i_system_ddr_sxawvalid;
 wire [(32)-1:0] i_rtl_i_system_ddr_sxawaddr;
@@ -275,6 +290,7 @@ wire [(2)-1:0] i_system_sram_rxrresp;
 STARC_VERA1_RTL
 i_rtl
 (
+	.boot_mode(i_rtl_boot_mode),
 	.clk_system(i_rtl_clk_system),
 	.clk_dca_core(i_rtl_clk_dca_core),
 	.clk_core(i_rtl_clk_core),
@@ -326,6 +342,10 @@ i_rtl
 	.pjtag_rtdo(i_rtl_pjtag_rtdo),
 	.printf_tx(i_rtl_printf_tx),
 	.printf_rx(i_rtl_printf_rx),
+	.spi_flash_sclk(i_rtl_spi_flash_sclk),
+	.spi_flash_scs(i_rtl_spi_flash_scs),
+	.spi_flash_sdq0(i_rtl_spi_flash_sdq0),
+	.spi_flash_sdq1(i_rtl_spi_flash_sdq1),
 	.i_system_ddr_sxawready(i_rtl_i_system_ddr_sxawready),
 	.i_system_ddr_sxawvalid(i_rtl_i_system_ddr_sxawvalid),
 	.i_system_ddr_sxawaddr(i_rtl_i_system_ddr_sxawaddr),
@@ -478,6 +498,7 @@ i_system_sram
 	.rxrresp(i_system_sram_rxrresp)
 );
 
+assign i_rtl_boot_mode = boot_mode;
 assign i_rtl_external_rstnn = external_rstnn;
 assign i_system_ddr_clk_ref = i_rtl_i_system_ddr_clk_ref;
 assign i_system_ddr_clk_sys = i_rtl_i_system_ddr_clk_sys;
@@ -531,6 +552,10 @@ assign i_rtl_pjtag_rtdi = pjtag_rtdi;
 assign pjtag_rtdo = i_rtl_pjtag_rtdo;
 assign printf_tx = i_rtl_printf_tx;
 assign i_rtl_printf_rx = printf_rx;
+assign spi_flash_sclk = i_rtl_spi_flash_sclk;
+assign spi_flash_scs = i_rtl_spi_flash_scs;
+assign spi_flash_sdq0 = i_rtl_spi_flash_sdq0;
+assign i_rtl_spi_flash_sdq1 = spi_flash_sdq1;
 assign i_rtl_i_system_ddr_sxawready = i_system_ddr_rxawready;
 assign i_system_ddr_rxawvalid = i_rtl_i_system_ddr_sxawvalid;
 assign i_system_ddr_rxawaddr = i_rtl_i_system_ddr_sxawaddr;
