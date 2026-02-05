@@ -2,8 +2,8 @@
 <version_info>
   <rvx_version.path>kshan/rvx_server_manager_v2</rvx_version.path>
   <rvx_version.url>private</rvx_version.url>
-  <rvx_version.commit>9ab8b19</rvx_version.commit>
-  <rvx_version.date>2026-02-04-12-37</rvx_version.date>
+  <rvx_version.commit>fab8ef2</rvx_version.commit>
+  <rvx_version.date>2026-02-05-10-12</rvx_version.date>
   <rvx_devkit.path>rvx_server_manager_v2/rvx_devkit</rvx_devkit.path>
   <rvx_devkit.url>private</rvx_devkit.url>
   <rvx_devkit.commit>62b6188</rvx_devkit.commit>
@@ -14,8 +14,8 @@
   <rvx_binary.date>2025-06-12-17-10</rvx_binary.date>
   <rvx_install.path>rvx_server_manager_v2/rvx_install</rvx_install.path>
   <rvx_install.url>https://github.com/rvx-etri/rvx_install.git</rvx_install.url>
-  <rvx_install.commit>002943c</rvx_install.commit>
-  <rvx_install.date>2026-01-29-18-28</rvx_install.date>
+  <rvx_install.commit>54ed330</rvx_install.commit>
+  <rvx_install.date>2026-02-04-20-11</rvx_install.date>
   <rvx_synthesizer_obfuscated.path>rvx_server_manager_v2/rvx_synthesizer_obfuscated</rvx_synthesizer_obfuscated.path>
   <rvx_synthesizer_obfuscated.url>https://github.com/rvx-etri/rvx_synthesizer_obfuscated.git</rvx_synthesizer_obfuscated.url>
   <rvx_synthesizer_obfuscated.commit>b773f99</rvx_synthesizer_obfuscated.commit>
