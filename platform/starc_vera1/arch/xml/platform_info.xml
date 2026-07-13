@@ -118,7 +118,19 @@
       <value type="dec">1</value>
     </define>
     <define>
-      <name>NUM_CORE_TEAM</name>
+      <name>NUM_CORE_WORKER</name>
+      <value type="dec">0</value>
+    </define>
+    <define>
+      <name>NUM_CORE_SYSTEM</name>
+      <value type="dec">0</value>
+    </define>
+    <define>
+      <name>NUM_CORE_PHYSICAL</name>
+      <value type="dec">1</value>
+    </define>
+    <define>
+      <name>NUM_CORECLUSTER</name>
       <value type="dec">1</value>
     </define>
     <define>
@@ -198,7 +210,11 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>EXT_MRAM_CLK_HZ</name>
+      <name>OFFCHIP_MRAM_CLK_HZ</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>SDRAM_CLK_HZ</name>
       <value type="bool">False</value>
     </define>
     <define>
@@ -250,7 +266,11 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>INCLUDE_EXT_MRAM</name>
+      <name>INCLUDE_OFFCHIP_MRAM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>INCLUDE_OFFCHIP_MRAM_OPT</name>
       <value type="bool">False</value>
     </define>
     <define>
@@ -267,7 +287,7 @@
     </define>
     <define>
       <name>INCLUDE_BOOT_MODE</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>INCLUDE_CACHE</name>
@@ -299,7 +319,7 @@
     </define>
     <define>
       <name>INCLUDE_SPI_FLASH</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>INCLUDE_UART_PRINTF</name>
@@ -498,6 +518,14 @@
       <value type="dec">0</value>
     </define>
     <define>
+      <name>NUM_OFFCHIP_MRAM_PROFILER</name>
+      <value type="dec">8</value>
+    </define>
+    <define>
+      <name>BW_OFFCHIP_MRAM_PROFILER</name>
+      <value type="dec">64</value>
+    </define>
+    <define>
       <name>FIXED_CACHEABLE_START</name>
       <value type="hex">0x00000000</value>
     </define>
@@ -514,16 +542,12 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>NUM_CORE</name>
-      <value type="dec">1</value>
-    </define>
-    <define>
-      <name>NUM_REAL_CORE</name>
-      <value type="dec">1</value>
-    </define>
-    <define>
       <name>CACHE_LINE_SIZE</name>
       <value type="dec">64</value>
+    </define>
+    <define>
+      <name>NUM_CORE</name>
+      <value type="dec">1</value>
     </define>
     <define>
       <name>INCLUDE_MULTICORE</name>
@@ -550,12 +574,8 @@
       <value type="dec">0</value>
     </define>
     <define>
-      <name>SPI_INDEX_FOR_SPI_FLASH</name>
-      <value type="dec">0</value>
-    </define>
-    <define>
       <name>NUM_SPI_SYSTEM</name>
-      <value type="dec">1</value>
+      <value type="dec">0</value>
     </define>
     <define>
       <name>UART_INDEX_FOR_READYMADE</name>
@@ -603,7 +623,7 @@
     </define>
     <define>
       <name>NUM_SPI</name>
-      <value type="dec">1</value>
+      <value type="dec">0</value>
     </define>
     <define>
       <name>NUM_I2C</name>
@@ -614,75 +634,191 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>INCLUDE_CORE_TEAM</name>
+      <name>NOT_INCLUDE_CORE_USER</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>INCLUDE_CORE_WORKER</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_CORE_WORKER</name>
       <value type="bool">True</value>
+    </define>
+    <define>
+      <name>INCLUDE_CORE_SYSTEM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_CORE_SYSTEM</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>INCLUDE_CORE_PHYSICAL</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_CORE_PHYSICAL</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>INCLUDE_CORECLUSTER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_CORECLUSTER</name>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>INCLUDE_LOCK_USER</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_LOCK_USER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_LOCK_SYSTEM</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_LOCK_SYSTEM</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_BARRIER_USER</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_BARRIER_USER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_BARRIER_SYSTEM</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_BARRIER_SYSTEM</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_AUTO_ID</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_AUTO_ID</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_GLOBAL_TAG</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_GLOBAL_TAG</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_UART_READYMADE</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_UART_READYMADE</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_SPI_READYMADE</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_SPI_READYMADE</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_I2C_READYMADE</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_I2C_READYMADE</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_UART_USER</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_UART_USER</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_SPI_USER</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_SPI_USER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_I2C_USER</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_I2C_USER</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_LED_CHECKER</name>
       <value type="bool">True</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_LED_CHECKER</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>INCLUDE_AIOIF</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_AIOIF</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_SWITCH_SLIDE_READYMADE</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_SWITCH_SLIDE_READYMADE</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_TRAFFIC_GENERATOR</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_VTA</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_C2C_MASTER</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_C2C_MASTER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_C2C_SLAVE</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_C2C_SLAVE</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>INCLUDE_OFFCHIP_MRAM_PROFILER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_OFFCHIP_MRAM_PROFILER</name>
       <value type="bool">False</value>
     </define>
     <define>
@@ -690,19 +826,31 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>INCLUDE_REAL_CORE</name>
-      <value type="bool">True</value>
+      <name>NOT_INCLUDE_CORE</name>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>INCLUDE_BARRIER</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_BARRIER</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_LOCK</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_LOCK</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_SPI_SYSTEM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_SPI_SYSTEM</name>
       <value type="bool">True</value>
     </define>
     <define>
@@ -710,24 +858,48 @@
       <value type="bool">True</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_UART_SYSTEM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>INCLUDE_I2C_SYSTEM</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_I2C_SYSTEM</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_GPIO</name>
       <value type="bool">False</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_GPIO</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
       <name>INCLUDE_UART</name>
       <value type="bool">True</value>
     </define>
     <define>
+      <name>NOT_INCLUDE_UART</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>INCLUDE_SPI</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_SPI</name>
       <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_I2C</name>
       <value type="bool">False</value>
+    </define>
+    <define>
+      <name>NOT_INCLUDE_I2C</name>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>NUM_PREDEFINED_CLOCK</name>
@@ -805,8 +977,44 @@
       <value type="dec">0</value>
     </define>
     <define>
-      <name>EXT_MRAM_CYCLE</name>
+      <name>OFFCHIP_MRAM_CYCLE</name>
       <value type="dec">0</value>
+    </define>
+    <define>
+      <name>I_DDR_BASEADDR</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_DDR_SIZE</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_DDR_LASTADDR</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_SDRAM_BASEADDR</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_SDRAM_SIZE</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_SDRAM_LASTADDR</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_OFFCHIP_MRAM_BASEADDR</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_OFFCHIP_MRAM_SIZE</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>I_OFFCHIP_MRAM_LASTADDR</name>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>USE_PROFILING</name>
@@ -857,6 +1065,10 @@
       <value type="bool">True</value>
     </define>
     <define>
+      <name>USE_SMART_FLUSH</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>CACHING_NONE</name>
       <value type="bool">False</value>
     </define>
@@ -873,6 +1085,10 @@
       <value type="bool">False</value>
     </define>
     <define>
+      <name>PROFILE_OFFCHIP_MRAM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>USE_IROM</name>
       <value type="bool">True</value>
     </define>
@@ -885,7 +1101,11 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>USE_EXT_MRAM</name>
+      <name>USE_OFFCHIP_MRAM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>USE_OFFCHIP_MRAM_OPT</name>
       <value type="bool">False</value>
     </define>
     <define>
@@ -902,7 +1122,7 @@
     </define>
     <define>
       <name>USE_BOOT_MODE</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>USE_CACHE</name>
@@ -934,7 +1154,7 @@
     </define>
     <define>
       <name>USE_SPI_FLASH</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>USE_UART_PRINTF</name>
@@ -1085,7 +1305,19 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>USE_CORE_TEAM</name>
+      <name>USE_CORE_WORKER</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>USE_CORE_SYSTEM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>USE_CORE_PHYSICAL</name>
+      <value type="bool">True</value>
+    </define>
+    <define>
+      <name>USE_CORECLUSTER</name>
       <value type="bool">True</value>
     </define>
     <define>
@@ -1157,11 +1389,11 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>USE_CORE</name>
+      <name>USE_OFFCHIP_MRAM_PROFILER</name>
       <value type="bool">True</value>
     </define>
     <define>
-      <name>USE_REAL_CORE</name>
+      <name>USE_CORE</name>
       <value type="bool">True</value>
     </define>
     <define>
@@ -1174,7 +1406,7 @@
     </define>
     <define>
       <name>USE_SPI_SYSTEM</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>USE_UART_SYSTEM</name>
@@ -1194,7 +1426,7 @@
     </define>
     <define>
       <name>USE_SPI</name>
-      <value type="bool">True</value>
+      <value type="bool">False</value>
     </define>
     <define>
       <name>USE_I2C</name>
@@ -1213,7 +1445,11 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>NUM_THREAD_PER_TEAM</name>
+      <name>NUM_CORE_MANAGER</name>
+      <value type="dec">1</value>
+    </define>
+    <define>
+      <name>NUM_CORE_PER_CORECLUSTER</name>
       <value type="dec">1</value>
     </define>
     <define>
@@ -1280,7 +1516,7 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>SIMULATE_EXT_MRAM_BEHAVIOR</name>
+      <name>SIMULATE_OFFCHIP_MRAM_BEHAVIOR</name>
       <value type="bool">False</value>
     </define>
     <define>

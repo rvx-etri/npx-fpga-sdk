@@ -13,16 +13,28 @@
         <value type="bool">True</value>
       </define>
       <define>
-        <name>include_spi_flash</name>
-        <value type="bool">True</value>
-      </define>
-      <define>
         <name>num_led_checker</name>
         <value type="dec">1</value>
       </define>
       <define>
         <name>include_fast_dram</name>
         <value type="bool">False</value>
+      </define>
+      <define>
+        <name>num_core_user</name>
+        <value type="dec">1</value>
+      </define>
+      <define>
+        <name>num_core_worker</name>
+        <value type="dec">0</value>
+      </define>
+      <define>
+        <name>num_core_system</name>
+        <value type="dec">0</value>
+      </define>
+      <define>
+        <name>num_core_physical</name>
+        <value type="dec">1</value>
       </define>
       <define>
         <name>include_large_ram</name>
@@ -47,10 +59,6 @@
       <define>
         <name>sram_port_width</name>
         <value type="dec">32</value>
-      </define>
-      <define>
-        <name>include_boot_mode</name>
-        <value type="bool">True</value>
       </define>
       <define>
         <name>include_core_peri_group</name>
@@ -91,16 +99,16 @@
       <domain>gclk_process_000</domain>
     </ip_instance>
     <ip_instance>
-      <library_name>slow_dram</library_name>
-      <name>i_system_ddr</name>
-    </ip_instance>
-    <ip_instance>
       <name>i_led</name>
       <library_name>led_checker</library_name>
       <parameter>
         <id>NUM_LED</id>
         <value type="dec">1</value>
       </parameter>
+    </ip_instance>
+    <ip_instance>
+      <library_name>slow_dram</library_name>
+      <name>i_system_ddr</name>
     </ip_instance>
     <ip_instance>
       <name>i_pll0</name>
@@ -161,11 +169,11 @@
       </parameter>
     </ip_instance>
     <ip_instance>
-      <name>autoname_100</name>
+      <name>autoname_121</name>
       <library_name>tick_generator</library_name>
     </ip_instance>
     <ip_instance>
-      <name>autoname_102</name>
+      <name>autoname_123</name>
       <library_name>real_clock</library_name>
     </ip_instance>
     <ip_instance>
@@ -207,6 +215,10 @@
       <parameter>
         <id>BW_ADDR</id>
         <value type="dec">32</value>
+      </parameter>
+      <parameter>
+        <id>NUM_CORE</id>
+        <value type="dec">1</value>
       </parameter>
       <parameter>
         <id>NUM_RESET</id>
@@ -396,7 +408,7 @@
         <id>BW_NODE_DATA</id>
         <value type="dec">32</value>
       </parameter>
-      <library_name>sni_apb_asynch</library_name>
+      <library_name>sni_apbe_asynch</library_name>
       <domain>clk_system</domain>
     </ip_instance>
     <ip_instance>
@@ -719,21 +731,25 @@
       </define>
     </clock_info>
     <sw_define>
+            
       <use_reuse_memory_allocator type="bool">True</use_reuse_memory_allocator>
+            
       <caching_most type="bool">True</caching_most>
+            
       <use_profiling type="bool">True</use_profiling>
+            
       <silent_for_profiling type="bool">False</silent_for_profiling>
+          
     </sw_define>
+        
     <sim_define>
+            
       <simulate_spi_flash type="bool">False</simulate_spi_flash>
+            
       <sim_large_ram_size>8388608</sim_large_ram_size>
+          
     </sim_define>
-    <signal>
-      <name>boot_mode</name>
-      <width type="text">`BW_BOOT_MODE</width>
-      <port>input</port>
-      <comm_type>boot_mode</comm_type>
-    </signal>
+      
     <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
@@ -874,7 +890,7 @@
       <user_available/>
     </signal>
     <signal>
-      <name>autoname_101</name>
+      <name>autoname_122</name>
       <width type="dec">1</width>
       <comm_type>tick_timer</comm_type>
     </signal>
@@ -1004,11 +1020,11 @@
       <output>gclk_noc</output>
     </connect>
     <connect>
-      <input>autoname_100/tick_1us</input>
+      <input>autoname_121/tick_1us</input>
       <output>tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_100/tick_62d5ms</input>
+      <input>autoname_121/tick_62d5ms</input>
       <output>tick_62d5ms</output>
     </connect>
     <connect>
@@ -1017,7 +1033,7 @@
     </connect>
     <connect>
       <input>tick_1us</input>
-      <output>autoname_101</output>
+      <output>autoname_122</output>
     </connect>
     <connect>
       <input>external_peri_group/spi_common_sclk</input>
@@ -1093,11 +1109,11 @@
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
-      <output>i_system_ddr/rstnn_dram_if</output>
+      <output>i_led/rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
-      <output>i_led/rstnn</output>
+      <output>i_system_ddr/rstnn_dram_if</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
@@ -1109,11 +1125,11 @@
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
-      <output>autoname_100/rstnn</output>
+      <output>autoname_121/rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
-      <output>autoname_102/rstnn</output>
+      <output>autoname_123/rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
@@ -1160,6 +1176,14 @@
       <output>i_dca_neugemm00/clk</output>
     </connect>
     <connect>
+      <input>gclk_system_external</input>
+      <output>i_led/clk</output>
+    </connect>
+    <connect>
+      <input>gclk_system_external</input>
+      <output>external_peri_group/clk</output>
+    </connect>
+    <connect>
       <input>i_pll0/clk_dram_ref</input>
       <output>clk_dram_ref</output>
     </connect>
@@ -1180,14 +1204,6 @@
       <output>clk_dram_if</output>
     </connect>
     <connect>
-      <input>gclk_system_external</input>
-      <output>i_led/clk</output>
-    </connect>
-    <connect>
-      <input>gclk_system_external</input>
-      <output>external_peri_group/clk</output>
-    </connect>
-    <connect>
       <input>i_pll0/clk_system</input>
       <output>clk_system</output>
     </connect>
@@ -1197,11 +1213,11 @@
     </connect>
     <connect>
       <input>clk_system</input>
-      <output>autoname_100/clk</output>
+      <output>autoname_121/clk</output>
     </connect>
     <connect>
       <input>clk_system</input>
-      <output>autoname_102/clk</output>
+      <output>autoname_123/clk</output>
     </connect>
     <connect>
       <input>clk_system</input>
@@ -1524,6 +1540,14 @@
       <output>platform_controller/pc(0)</output>
     </connect>
     <connect>
+      <input>autoname_121/tick_62d5ms</input>
+      <output>i_led/tick_62d5ms</output>
+    </connect>
+    <connect>
+      <input>platform_controller/app_finished</input>
+      <output>i_led/app_finished</output>
+    </connect>
+    <connect>
       <input>platform_controller/global_rstnn</input>
       <output>i_system_ddr/rstnn_sys</output>
     </connect>
@@ -1536,19 +1560,15 @@
       <output>platform_controller/initialized</output>
     </connect>
     <connect>
-      <input>autoname_100/tick_62d5ms</input>
-      <output>i_led/tick_62d5ms</output>
-    </connect>
-    <connect>
-      <input>platform_controller/app_finished</input>
-      <output>i_led/app_finished</output>
-    </connect>
-    <connect>
       <input>common_peri_group/lock_status_list</input>
       <output>core_peri_group/lock_status_list</output>
     </connect>
     <connect>
-      <input>autoname_102/real_clock</input>
+      <input>common_peri_group/thread_status_list</input>
+      <output>core_peri_group/thread_status_list</output>
+    </connect>
+    <connect>
+      <input>autoname_123/real_clock</input>
       <output>common_peri_group/real_clock</output>
     </connect>
     <connect>
@@ -1557,27 +1577,23 @@
     </connect>
     <connect>
       <input>common_peri_group/system_tick_config</input>
-      <output>autoname_100/tick_config</output>
+      <output>autoname_121/tick_config</output>
     </connect>
     <connect>
-      <input>autoname_100/tick_1us</input>
-      <output>autoname_102/tick_1us</output>
+      <input>autoname_121/tick_1us</input>
+      <output>autoname_123/tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_100/tick_1us</input>
+      <input>autoname_121/tick_1us</input>
       <output>external_peri_group/tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_101</input>
+      <input>autoname_122</input>
       <output>core_peri_group/tick_1us</output>
     </connect>
     <connect>
       <input>external_rstnn</input>
       <output>platform_controller/external_rstnn</output>
-    </connect>
-    <connect>
-      <input>boot_mode</input>
-      <output>platform_controller/boot_mode</output>
     </connect>
     <connect>
       <input>`JTAG_SELECT_NOC</input>
@@ -1688,6 +1704,30 @@
       <output>`NOT_CONNECT</output>
     </connect>
     <connect>
+      <input>i_snim_external_peri_group_no_name/sptid</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>i_snim_external_peri_group_no_name/spwstrb</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>i_snim_platform_controller_no_name/sptid</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>i_snim_platform_controller_no_name/spwstrb</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio/sptid</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio/spwstrb</input>
+      <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
       <input>`NOT_CONNECT</input>
       <output>default_slave/comm_disable</output>
     </connect>
@@ -1722,6 +1762,10 @@
     <connect>
       <input>platform_controller/global_rstpp</input>
       <output>`NOT_CONNECT</output>
+    </connect>
+    <connect>
+      <input>`NOT_CONNECT</input>
+      <output>platform_controller/boot_mode</output>
     </connect>
     <connect>
       <input>default_slave/svri</input>

@@ -1,6 +1,6 @@
 reg valid_access;
-reg [NUM_CORE_TEAM-1:0] process_id_temp;
-reg [NUM_CORE_TEAM-1:0] process_id_onehot_temp;
+reg [32-1:0] process_id_temp;
+reg [32-1:0] process_id_onehot_temp;
 
 always@(*)
 begin

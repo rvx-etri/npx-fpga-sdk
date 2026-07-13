@@ -17,7 +17,16 @@
 #define TEMPORARY_CACHING_HEAP_START 0
 #define TEMPORARY_CACHING_HEAP_SIZE 0
 #define TEMPORARY_CACHING_HEAP_LAST 0
-#define EXT_MRAM_CYCLE 0
+#define OFFCHIP_MRAM_CYCLE 0
+//#define I_DDR_BASEADDR
+//#define I_DDR_SIZE
+//#define I_DDR_LASTADDR
+//#define I_SDRAM_BASEADDR
+//#define I_SDRAM_SIZE
+//#define I_SDRAM_LASTADDR
+//#define I_OFFCHIP_MRAM_BASEADDR
+//#define I_OFFCHIP_MRAM_SIZE
+//#define I_OFFCHIP_MRAM_LASTADDR
 #define USE_PROFILING
 //#define SILENT_FOR_PROFILING
 //#define USE_TCACHING
@@ -30,18 +39,21 @@
 //#define USE_FLORIAN_SP
 //#define USE_FLORIAN_DP
 #define USE_REUSE_MEMORY_ALLOCATOR
+//#define USE_SMART_FLUSH
 //#define CACHING_NONE
 //#define CACHING_SAFE
 #define CACHING_MOST
 //#define CACHING_ALL
+//#define PROFILE_OFFCHIP_MRAM
 #define USE_IROM
 #define USE_SLOW_DRAM
 //#define USE_FAST_DRAM
-//#define USE_EXT_MRAM
+//#define USE_OFFCHIP_MRAM
+//#define USE_OFFCHIP_MRAM_OPT
 #define USE_DDR
 #define USE_SMALL_RAM
 #define USE_LARGE_RAM
-#define USE_BOOT_MODE
+//#define USE_BOOT_MODE
 #define USE_CACHE
 //#define USE_TIMER
 //#define USE_PLIC
@@ -49,7 +61,7 @@
 //#define USE_OLED
 //#define USE_OLED_BW
 //#define USE_OLED_RGB
-#define USE_SPI_FLASH
+//#define USE_SPI_FLASH
 #define USE_UART_PRINTF
 //#define USE_OLEDBW_PRINTF
 //#define USE_FUSE_BOX
@@ -87,7 +99,10 @@
 #define USE_RVC_ROCKET_BIG
 //#define USE_MULTICORE
 #define USE_CORE_USER
-#define USE_CORE_TEAM
+//#define USE_CORE_WORKER
+//#define USE_CORE_SYSTEM
+#define USE_CORE_PHYSICAL
+#define USE_CORECLUSTER
 //#define USE_LOCK_USER
 //#define USE_LOCK_SYSTEM
 //#define USE_BARRIER_USER
@@ -105,21 +120,22 @@
 //#define USE_SWITCH_SLIDE_READYMADE
 //#define USE_C2C_MASTER
 //#define USE_C2C_SLAVE
+#define USE_OFFCHIP_MRAM_PROFILER
 #define USE_CORE
-#define USE_REAL_CORE
 //#define USE_BARRIER
 //#define USE_LOCK
-#define USE_SPI_SYSTEM
+//#define USE_SPI_SYSTEM
 #define USE_UART_SYSTEM
 //#define USE_I2C_SYSTEM
 //#define USE_GPIO
 #define USE_UART
-#define USE_SPI
+//#define USE_SPI
 //#define USE_I2C
 #define USE_SRAM
 #define USE_DRAM
 #define CACHING_MOST_OR_ALL
-#define NUM_THREAD_PER_TEAM 1
+#define NUM_CORE_MANAGER 1
+#define NUM_CORE_PER_CORECLUSTER 1
 #define TEXT_MEMORY_REGION dram
 #define SINGLE_WRITE_MEMORY_REGION dram
 #define MULTI_WRITE_MEMORY_REGION sram

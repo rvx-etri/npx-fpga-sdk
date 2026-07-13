@@ -17,12 +17,6 @@
       <library_name>starc_vera1_rtl</library_name>
       <hdl_name>STARC_VERA1_RTL</hdl_name>
       <signal>
-        <name>boot_mode</name>
-        <width type="text">`BW_BOOT_MODE</width>
-        <port>input</port>
-        <comm_type>boot_mode</comm_type>
-      </signal>
-      <signal>
         <name>clk_system</name>
         <width type="dec">1</width>
         <comm_type>clk_system</comm_type>
@@ -316,34 +310,6 @@
       </signal>
       <signal>
         <name>printf_rx</name>
-        <width type="dec">1</width>
-        <port>input</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_flash_sclk</name>
-        <width type="dec">1</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_flash_scs</name>
-        <width type="dec">1</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_flash_sdq0</name>
-        <width type="dec">1</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_flash_sdq1</name>
         <width type="dec">1</width>
         <port>input</port>
         <sync>None</sync>
@@ -1297,12 +1263,6 @@
       <imp_dependent/>
     </ip_instance>
     <signal>
-      <name>boot_mode</name>
-      <width type="text">`BW_BOOT_MODE</width>
-      <port>input</port>
-      <comm_type>boot_mode</comm_type>
-    </signal>
-    <signal>
       <name>external_clk_0</name>
       <port>input</port>
       <width type="dec">1</width>
@@ -1512,38 +1472,6 @@
       <init>None</init>
     </signal>
     <signal>
-      <name>spi_flash_sclk</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_scs</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_sdq0</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_sdq1</name>
-      <width type="dec">1</width>
-      <port>input</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>i_rtl_boot_mode</name>
-      <width type="text">`BW_BOOT_MODE</width>
-    </signal>
-    <signal>
       <name>i_rtl_clk_system</name>
       <width type="dec">1</width>
     </signal>
@@ -1745,22 +1673,6 @@
     </signal>
     <signal>
       <name>i_rtl_printf_rx</name>
-      <width type="dec">1</width>
-    </signal>
-    <signal>
-      <name>i_rtl_spi_flash_sclk</name>
-      <width type="dec">1</width>
-    </signal>
-    <signal>
-      <name>i_rtl_spi_flash_scs</name>
-      <width type="dec">1</width>
-    </signal>
-    <signal>
-      <name>i_rtl_spi_flash_sdq0</name>
-      <width type="dec">1</width>
-    </signal>
-    <signal>
-      <name>i_rtl_spi_flash_sdq1</name>
       <width type="dec">1</width>
     </signal>
     <signal>
@@ -2300,10 +2212,6 @@
       <width type="text">2</width>
     </signal>
     <connect>
-      <input>boot_mode</input>
-      <output>i_rtl_boot_mode</output>
-    </connect>
-    <connect>
       <input>external_rstnn</input>
       <output>i_rtl_external_rstnn</output>
     </connect>
@@ -2514,22 +2422,6 @@
     <connect>
       <input>printf_rx</input>
       <output>i_rtl_printf_rx</output>
-    </connect>
-    <connect>
-      <input>i_rtl_spi_flash_sclk</input>
-      <output>spi_flash_sclk</output>
-    </connect>
-    <connect>
-      <input>i_rtl_spi_flash_scs</input>
-      <output>spi_flash_scs</output>
-    </connect>
-    <connect>
-      <input>i_rtl_spi_flash_sdq0</input>
-      <output>spi_flash_sdq0</output>
-    </connect>
-    <connect>
-      <input>spi_flash_sdq1</input>
-      <output>i_rtl_spi_flash_sdq1</output>
     </connect>
     <connect>
       <input>i_system_ddr_rxawready</input>
@@ -2787,16 +2679,28 @@
         <value type="bool">True</value>
       </define>
       <define>
-        <name>include_spi_flash</name>
-        <value type="bool">True</value>
-      </define>
-      <define>
         <name>num_led_checker</name>
         <value type="dec">1</value>
       </define>
       <define>
         <name>include_fast_dram</name>
         <value type="bool">False</value>
+      </define>
+      <define>
+        <name>num_core_user</name>
+        <value type="dec">1</value>
+      </define>
+      <define>
+        <name>num_core_worker</name>
+        <value type="dec">0</value>
+      </define>
+      <define>
+        <name>num_core_system</name>
+        <value type="dec">0</value>
+      </define>
+      <define>
+        <name>num_core_physical</name>
+        <value type="dec">1</value>
       </define>
       <define>
         <name>include_large_ram</name>
@@ -2821,10 +2725,6 @@
       <define>
         <name>sram_port_width</name>
         <value type="dec">32</value>
-      </define>
-      <define>
-        <name>include_boot_mode</name>
-        <value type="bool">True</value>
       </define>
       <define>
         <name>include_core_peri_group</name>
@@ -3016,6 +2916,13 @@
         <init>rstnn</init>
       </signal>
       <signal>
+        <name>ma_scache_flush</name>
+        <width type="dec">1</width>
+        <port>output</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
         <name>ma_sload_tensor_row_wvalid</name>
         <width type="dec">1</width>
         <port>input</port>
@@ -3114,6 +3021,13 @@
         <init>rstnn</init>
       </signal>
       <signal>
+        <name>mb_scache_flush</name>
+        <width type="dec">1</width>
+        <port>output</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
         <name>mb_sload_tensor_row_wvalid</name>
         <width type="dec">1</width>
         <port>input</port>
@@ -3208,6 +3122,13 @@
         <name>mc_sinst_busy</name>
         <width type="dec">1</width>
         <port>input</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
+        <name>mc_scache_flush</name>
+        <width type="dec">1</width>
+        <port>output</port>
         <sync>clk</sync>
         <init>rstnn</init>
       </signal>
@@ -3604,9 +3525,15 @@
       </signal>
       <signal>
         <name>lock_status_list</name>
-        <width type="text">1</width>
+        <width type="text">1*16</width>
         <port>output</port>
         <comm_type>lock_status_list</comm_type>
+      </signal>
+      <signal>
+        <name>thread_status_list</name>
+        <width type="dec">32</width>
+        <port>output</port>
+        <comm_type>thread_status_list</comm_type>
       </signal>
       <signal>
         <name>real_clock</name>
@@ -3631,6 +3558,22 @@
         <width type="dec">11</width>
         <port>output</port>
         <comm_type>core_tick_config</comm_type>
+      </signal>
+      <signal>
+        <name>rptid</name>
+        <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+        <port>input</port>
+        <comm_type>not_used</comm_type>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
+        <name>rpwstrb</name>
+        <width type="text">32/8</width>
+        <port>input</port>
+        <comm_type>not_used</comm_type>
+        <sync>clk</sync>
+        <init>rstnn</init>
       </signal>
       <signal>
         <name>rpsel</name>
@@ -3690,7 +3633,7 @@
       </signal>
     </ip_instance>
     <ip_instance>
-      <name>autoname_100</name>
+      <name>autoname_121</name>
       <library_name>tick_generator</library_name>
       <hdl_name>ERVP_TICK_GENERATOR</hdl_name>
       <signal>
@@ -3724,7 +3667,7 @@
       </signal>
     </ip_instance>
     <ip_instance>
-      <name>autoname_102</name>
+      <name>autoname_123</name>
       <library_name>real_clock</library_name>
       <hdl_name>ERVP_REAL_CLOCK</hdl_name>
       <signal>
@@ -3768,7 +3711,7 @@
       </parameter>
       <parameter>
         <id>NUM_SPI</id>
-        <value type="dec">1</value>
+        <value type="dec">0</value>
       </parameter>
       <parameter>
         <id>NUM_I2C</id>
@@ -3911,34 +3854,6 @@
       </signal>
       <signal>
         <name>uart_srx_list</name>
-        <width type="text">(1)*(1)</width>
-        <port>input</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_sclk_list</name>
-        <width type="text">(1)*(1)</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_scs_list</name>
-        <width type="text">(1)*(1)</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_sdq0_list</name>
-        <width type="text">(1)*(1)</width>
-        <port>output</port>
-        <sync>None</sync>
-        <init>None</init>
-      </signal>
-      <signal>
-        <name>spi_sdq1_list</name>
         <width type="text">(1)*(1)</width>
         <port>input</port>
         <sync>None</sync>
@@ -4113,7 +4028,7 @@
       </signal>
       <signal>
         <name>lock_status_list</name>
-        <width type="text">1</width>
+        <width type="text">1*16</width>
         <port>input</port>
         <comm_type>lock_status_list</comm_type>
       </signal>
@@ -4122,6 +4037,12 @@
         <width type="text">1</width>
         <port>input</port>
         <comm_type>global_tag_list</comm_type>
+      </signal>
+      <signal>
+        <name>thread_status_list</name>
+        <width type="dec">32</width>
+        <port>input</port>
+        <comm_type>thread_status_list</comm_type>
       </signal>
       <signal>
         <name>core_interrupt_vector</name>
@@ -4312,16 +4233,16 @@
         <value type="dec">32</value>
       </parameter>
       <parameter>
+        <id>NUM_CORE</id>
+        <value type="dec">1</value>
+      </parameter>
+      <parameter>
         <id>NUM_RESET</id>
         <value type="dec">6</value>
       </parameter>
       <parameter>
         <id>NUM_AUTO_RESET</id>
         <value type="dec">4</value>
-      </parameter>
-      <parameter>
-        <id>NUM_CORE</id>
-        <value type="dec">1</value>
       </parameter>
       <hdl_name>ERVP_PLATFORM_CONTROLLER</hdl_name>
       <signal>
@@ -5102,6 +5023,13 @@
         <init>rstnn</init>
       </signal>
       <signal>
+        <name>rcache_flush</name>
+        <width type="dec">1</width>
+        <port>input</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
         <name>rload_tensor_row_wvalid</name>
         <width type="dec">1</width>
         <port>output</port>
@@ -5357,6 +5285,13 @@
         <init>rstnn</init>
       </signal>
       <signal>
+        <name>rcache_flush</name>
+        <width type="dec">1</width>
+        <port>input</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
         <name>rload_tensor_row_wvalid</name>
         <width type="dec">1</width>
         <port>output</port>
@@ -5604,6 +5539,13 @@
         <name>rinst_busy</name>
         <width type="dec">1</width>
         <port>output</port>
+        <sync>clk</sync>
+        <init>rstnn</init>
+      </signal>
+      <signal>
+        <name>rcache_flush</name>
+        <width type="dec">1</width>
+        <port>input</port>
         <sync>clk</sync>
         <init>rstnn</init>
       </signal>
@@ -6211,7 +6153,7 @@
         <id>NAME</id>
         <value type="text">&quot;common_peri_group_no_name&quot;</value>
       </parameter>
-      <library_name>sni_apb_asynch</library_name>
+      <library_name>sni_apbe_asynch</library_name>
       <domain>clk_system</domain>
       <hdl_name>MUNOC_APB_SLAVE_NETWORK_INTERFACE_MODULE_ASYNCH</hdl_name>
       <signal>
@@ -6239,6 +6181,22 @@
         <width type="dec">1</width>
         <port>input</port>
         <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>sptid</name>
+        <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+        <sync>clk_slave</sync>
+        <init>rstnn_slave</init>
+      </signal>
+      <signal>
+        <name>spwstrb</name>
+        <width type="text">32/8</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+        <sync>clk_slave</sync>
+        <init>rstnn_slave</init>
       </signal>
       <signal>
         <name>spsel</name>
@@ -6406,6 +6364,18 @@
         <name>comm_disable</name>
         <width type="dec">1</width>
         <port>input</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>sptid</name>
+        <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>spwstrb</name>
+        <width type="text">32/8</width>
+        <port>output</port>
         <comm_type>not_used</comm_type>
       </signal>
       <signal>
@@ -6577,6 +6547,18 @@
         <comm_type>not_used</comm_type>
       </signal>
       <signal>
+        <name>sptid</name>
+        <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>spwstrb</name>
+        <width type="text">32/8</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
         <name>spsel</name>
         <width type="dec">1</width>
         <port>output</port>
@@ -6742,6 +6724,18 @@
         <name>comm_disable</name>
         <width type="dec">1</width>
         <port>input</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>sptid</name>
+        <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+        <port>output</port>
+        <comm_type>not_used</comm_type>
+      </signal>
+      <signal>
+        <name>spwstrb</name>
+        <width type="text">32/8</width>
+        <port>output</port>
         <comm_type>not_used</comm_type>
       </signal>
       <signal>
@@ -8852,21 +8846,25 @@
       </define>
     </clock_info>
     <sw_define>
+            
       <use_reuse_memory_allocator type="bool">True</use_reuse_memory_allocator>
+            
       <caching_most type="bool">True</caching_most>
+            
       <use_profiling type="bool">True</use_profiling>
+            
       <silent_for_profiling type="bool">False</silent_for_profiling>
+          
     </sw_define>
+        
     <sim_define>
+            
       <simulate_spi_flash type="bool">False</simulate_spi_flash>
+            
       <sim_large_ram_size>8388608</sim_large_ram_size>
+          
     </sim_define>
-    <signal>
-      <name>boot_mode</name>
-      <width type="text">`BW_BOOT_MODE</width>
-      <port>input</port>
-      <comm_type>boot_mode</comm_type>
-    </signal>
+      
     <signal>
       <name>clk_system</name>
       <width type="dec">1</width>
@@ -8997,7 +8995,7 @@
       <port>output</port>
     </signal>
     <signal>
-      <name>autoname_101</name>
+      <name>autoname_122</name>
       <width type="dec">1</width>
       <comm_type>tick_timer</comm_type>
     </signal>
@@ -9171,34 +9169,6 @@
     </signal>
     <signal>
       <name>printf_rx</name>
-      <width type="dec">1</width>
-      <port>input</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_sclk</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_scs</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_sdq0</name>
-      <width type="dec">1</width>
-      <port>output</port>
-      <sync>None</sync>
-      <init>None</init>
-    </signal>
-    <signal>
-      <name>spi_flash_sdq1</name>
       <width type="dec">1</width>
       <port>input</port>
       <sync>None</sync>
@@ -9725,6 +9695,10 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_dca_neugemm00_ma_scache_flush</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
       <name>i_dca_neugemm00_ma_sload_tensor_row_wvalid</name>
       <width type="dec">1</width>
     </signal>
@@ -9781,6 +9755,10 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_dca_neugemm00_mb_scache_flush</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
       <name>i_dca_neugemm00_mb_sload_tensor_row_wvalid</name>
       <width type="dec">1</width>
     </signal>
@@ -9834,6 +9812,10 @@
     </signal>
     <signal>
       <name>i_dca_neugemm00_mc_sinst_busy</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_dca_neugemm00_mc_scache_flush</name>
       <width type="dec">1</width>
     </signal>
     <signal>
@@ -10042,7 +10024,11 @@
     </signal>
     <signal>
       <name>common_peri_group_lock_status_list</name>
-      <width type="text">1</width>
+      <width type="text">1*16</width>
+    </signal>
+    <signal>
+      <name>common_peri_group_thread_status_list</name>
+      <width type="dec">32</width>
     </signal>
     <signal>
       <name>common_peri_group_real_clock</name>
@@ -10059,6 +10045,14 @@
     <signal>
       <name>common_peri_group_core_tick_config</name>
       <width type="dec">11</width>
+    </signal>
+    <signal>
+      <name>common_peri_group_rptid</name>
+      <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+    </signal>
+    <signal>
+      <name>common_peri_group_rpwstrb</name>
+      <width type="text">32/8</width>
     </signal>
     <signal>
       <name>common_peri_group_rpsel</name>
@@ -10093,39 +10087,39 @@
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_100_clk</name>
+      <name>autoname_121_clk</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_100_rstnn</name>
+      <name>autoname_121_rstnn</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_100_tick_config</name>
+      <name>autoname_121_tick_config</name>
       <width type="dec">11</width>
     </signal>
     <signal>
-      <name>autoname_100_tick_1us</name>
+      <name>autoname_121_tick_1us</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_100_tick_62d5ms</name>
+      <name>autoname_121_tick_62d5ms</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_102_clk</name>
+      <name>autoname_123_clk</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_102_rstnn</name>
+      <name>autoname_123_rstnn</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_102_tick_1us</name>
+      <name>autoname_123_tick_1us</name>
       <width type="dec">1</width>
     </signal>
     <signal>
-      <name>autoname_102_real_clock</name>
+      <name>autoname_123_real_clock</name>
       <width type="dec">64</width>
     </signal>
     <signal>
@@ -10210,22 +10204,6 @@
     </signal>
     <signal>
       <name>external_peri_group_uart_srx_list</name>
-      <width type="text">(1)*(1)</width>
-    </signal>
-    <signal>
-      <name>external_peri_group_spi_sclk_list</name>
-      <width type="text">(1)*(1)</width>
-    </signal>
-    <signal>
-      <name>external_peri_group_spi_scs_list</name>
-      <width type="text">(1)*(1)</width>
-    </signal>
-    <signal>
-      <name>external_peri_group_spi_sdq0_list</name>
-      <width type="text">(1)*(1)</width>
-    </signal>
-    <signal>
-      <name>external_peri_group_spi_sdq1_list</name>
       <width type="text">(1)*(1)</width>
     </signal>
     <signal>
@@ -10314,11 +10292,15 @@
     </signal>
     <signal>
       <name>core_peri_group_lock_status_list</name>
-      <width type="text">1</width>
+      <width type="text">1*16</width>
     </signal>
     <signal>
       <name>core_peri_group_global_tag_list</name>
       <width type="text">1</width>
+    </signal>
+    <signal>
+      <name>core_peri_group_thread_status_list</name>
+      <width type="dec">32</width>
     </signal>
     <signal>
       <name>core_peri_group_core_interrupt_vector</name>
@@ -10841,6 +10823,10 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_dca_neugemm00_ma_mlsu_rcache_flush</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
       <name>i_dca_neugemm00_ma_mlsu_rload_tensor_row_wvalid</name>
       <width type="dec">1</width>
     </signal>
@@ -10977,6 +10963,10 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_dca_neugemm00_mb_mlsu_rcache_flush</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
       <name>i_dca_neugemm00_mb_mlsu_rload_tensor_row_wvalid</name>
       <width type="dec">1</width>
     </signal>
@@ -11110,6 +11100,10 @@
     </signal>
     <signal>
       <name>i_dca_neugemm00_mc_mlsu_rinst_busy</name>
+      <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_dca_neugemm00_mc_mlsu_rcache_flush</name>
       <width type="dec">1</width>
     </signal>
     <signal>
@@ -11441,6 +11435,14 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_snim_common_peri_group_no_name_sptid</name>
+      <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+    </signal>
+    <signal>
+      <name>i_snim_common_peri_group_no_name_spwstrb</name>
+      <width type="text">32/8</width>
+    </signal>
+    <signal>
       <name>i_snim_common_peri_group_no_name_spsel</name>
       <width type="dec">1</width>
     </signal>
@@ -11523,6 +11525,14 @@
     <signal>
       <name>i_snim_external_peri_group_no_name_comm_disable</name>
       <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_snim_external_peri_group_no_name_sptid</name>
+      <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+    </signal>
+    <signal>
+      <name>i_snim_external_peri_group_no_name_spwstrb</name>
+      <width type="text">32/8</width>
     </signal>
     <signal>
       <name>i_snim_external_peri_group_no_name_spsel</name>
@@ -11609,6 +11619,14 @@
       <width type="dec">1</width>
     </signal>
     <signal>
+      <name>i_snim_platform_controller_no_name_sptid</name>
+      <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+    </signal>
+    <signal>
+      <name>i_snim_platform_controller_no_name_spwstrb</name>
+      <width type="text">32/8</width>
+    </signal>
+    <signal>
       <name>i_snim_platform_controller_no_name_spsel</name>
       <width type="dec">1</width>
     </signal>
@@ -11691,6 +11709,14 @@
     <signal>
       <name>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio_comm_disable</name>
       <width type="dec">1</width>
+    </signal>
+    <signal>
+      <name>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio_sptid</name>
+      <width type="text">`REQUIRED_BW_OF_SLAVE_TID</width>
+    </signal>
+    <signal>
+      <name>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio_spwstrb</name>
+      <width type="text">32/8</width>
     </signal>
     <signal>
       <name>i_snim_i_dca_neugemm00_control_mmiox1_interface_mmio_spsel</name>
@@ -12737,11 +12763,11 @@
       <output>gclk_noc</output>
     </connect>
     <connect>
-      <input>autoname_100_tick_1us</input>
+      <input>autoname_121_tick_1us</input>
       <output>tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_100_tick_62d5ms</input>
+      <input>autoname_121_tick_62d5ms</input>
       <output>tick_62d5ms</output>
     </connect>
     <connect>
@@ -12750,7 +12776,7 @@
     </connect>
     <connect>
       <input>tick_1us</input>
-      <output>autoname_101</output>
+      <output>autoname_122</output>
     </connect>
     <connect>
       <input>external_peri_group_spi_common_sclk</input>
@@ -12810,11 +12836,11 @@
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
-      <output>i_system_ddr_rstnn_dram_if</output>
+      <output>i_led_rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
-      <output>i_led_rstnn</output>
+      <output>i_system_ddr_rstnn_dram_if</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[1]</input>
@@ -12826,11 +12852,11 @@
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
-      <output>autoname_100_rstnn</output>
+      <output>autoname_121_rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
-      <output>autoname_102_rstnn</output>
+      <output>autoname_123_rstnn</output>
     </connect>
     <connect>
       <input>rstnn_seqeunce[2]</input>
@@ -12877,6 +12903,14 @@
       <output>i_dca_neugemm00_clk</output>
     </connect>
     <connect>
+      <input>gclk_system_external</input>
+      <output>i_led_clk</output>
+    </connect>
+    <connect>
+      <input>gclk_system_external</input>
+      <output>external_peri_group_clk</output>
+    </connect>
+    <connect>
       <input>i_pll0_clk_dram_ref</input>
       <output>clk_dram_ref</output>
     </connect>
@@ -12897,14 +12931,6 @@
       <output>clk_dram_if</output>
     </connect>
     <connect>
-      <input>gclk_system_external</input>
-      <output>i_led_clk</output>
-    </connect>
-    <connect>
-      <input>gclk_system_external</input>
-      <output>external_peri_group_clk</output>
-    </connect>
-    <connect>
       <input>i_pll0_clk_system</input>
       <output>clk_system</output>
     </connect>
@@ -12914,11 +12940,11 @@
     </connect>
     <connect>
       <input>clk_system</input>
-      <output>autoname_100_clk</output>
+      <output>autoname_121_clk</output>
     </connect>
     <connect>
       <input>clk_system</input>
-      <output>autoname_102_clk</output>
+      <output>autoname_123_clk</output>
     </connect>
     <connect>
       <input>clk_system</input>
@@ -13137,6 +13163,14 @@
       <output>i_snim_i_system_ddr_no_name_rstnn</output>
     </connect>
     <connect>
+      <input>autoname_121_tick_62d5ms</input>
+      <output>i_led_tick_62d5ms</output>
+    </connect>
+    <connect>
+      <input>platform_controller_app_finished</input>
+      <output>i_led_app_finished</output>
+    </connect>
+    <connect>
       <input>platform_controller_global_rstnn</input>
       <output>i_system_ddr_rstnn_sys</output>
     </connect>
@@ -13149,19 +13183,15 @@
       <output>platform_controller_initialized</output>
     </connect>
     <connect>
-      <input>autoname_100_tick_62d5ms</input>
-      <output>i_led_tick_62d5ms</output>
-    </connect>
-    <connect>
-      <input>platform_controller_app_finished</input>
-      <output>i_led_app_finished</output>
-    </connect>
-    <connect>
       <input>common_peri_group_lock_status_list</input>
       <output>core_peri_group_lock_status_list</output>
     </connect>
     <connect>
-      <input>autoname_102_real_clock</input>
+      <input>common_peri_group_thread_status_list</input>
+      <output>core_peri_group_thread_status_list</output>
+    </connect>
+    <connect>
+      <input>autoname_123_real_clock</input>
       <output>common_peri_group_real_clock</output>
     </connect>
     <connect>
@@ -13170,27 +13200,23 @@
     </connect>
     <connect>
       <input>common_peri_group_system_tick_config</input>
-      <output>autoname_100_tick_config</output>
+      <output>autoname_121_tick_config</output>
     </connect>
     <connect>
-      <input>autoname_100_tick_1us</input>
-      <output>autoname_102_tick_1us</output>
+      <input>autoname_121_tick_1us</input>
+      <output>autoname_123_tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_100_tick_1us</input>
+      <input>autoname_121_tick_1us</input>
       <output>external_peri_group_tick_1us</output>
     </connect>
     <connect>
-      <input>autoname_101</input>
+      <input>autoname_122</input>
       <output>core_peri_group_tick_1us</output>
     </connect>
     <connect>
       <input>external_rstnn</input>
       <output>platform_controller_external_rstnn</output>
-    </connect>
-    <connect>
-      <input>boot_mode</input>
-      <output>platform_controller_boot_mode</output>
     </connect>
     <connect>
       <input>`JTAG_SELECT_NOC</input>
@@ -13231,6 +13257,10 @@
     <connect>
       <input>0</input>
       <output>core_peri_group_plic_interrupt</output>
+    </connect>
+    <connect>
+      <input>0</input>
+      <output>platform_controller_boot_mode</output>
     </connect>
     <connect>
       <input>0</input>
@@ -13353,6 +13383,10 @@
       <output>i_dca_neugemm00_ma_sinst_busy</output>
     </connect>
     <connect>
+      <input>i_dca_neugemm00_ma_scache_flush</input>
+      <output>i_dca_neugemm00_ma_mlsu_rcache_flush</output>
+    </connect>
+    <connect>
       <input>i_dca_neugemm00_ma_mlsu_rload_tensor_row_wvalid</input>
       <output>i_dca_neugemm00_ma_sload_tensor_row_wvalid</output>
     </connect>
@@ -13409,6 +13443,10 @@
       <output>i_dca_neugemm00_mb_sinst_busy</output>
     </connect>
     <connect>
+      <input>i_dca_neugemm00_mb_scache_flush</input>
+      <output>i_dca_neugemm00_mb_mlsu_rcache_flush</output>
+    </connect>
+    <connect>
       <input>i_dca_neugemm00_mb_mlsu_rload_tensor_row_wvalid</input>
       <output>i_dca_neugemm00_mb_sload_tensor_row_wvalid</output>
     </connect>
@@ -13463,6 +13501,10 @@
     <connect>
       <input>i_dca_neugemm00_mc_mlsu_rinst_busy</input>
       <output>i_dca_neugemm00_mc_sinst_busy</output>
+    </connect>
+    <connect>
+      <input>i_dca_neugemm00_mc_scache_flush</input>
+      <output>i_dca_neugemm00_mc_mlsu_rcache_flush</output>
     </connect>
     <connect>
       <input>i_dca_neugemm00_mc_mlsu_rload_tensor_row_wvalid</input>
@@ -13615,6 +13657,14 @@
     <connect>
       <input>i_system_sram_sxrresp</input>
       <output>i_snim_i_system_sram_no_name_sxrresp</output>
+    </connect>
+    <connect>
+      <input>i_snim_common_peri_group_no_name_sptid</input>
+      <output>common_peri_group_rptid</output>
+    </connect>
+    <connect>
+      <input>i_snim_common_peri_group_no_name_spwstrb</input>
+      <output>common_peri_group_rpwstrb</output>
     </connect>
     <connect>
       <input>i_snim_common_peri_group_no_name_spsel</input>
@@ -14707,22 +14757,6 @@
     <connect>
       <input>printf_rx</input>
       <output>external_peri_group_uart_srx_list[1*(`UART_INDEX_FOR_UART_PRINTF+1)-1 -:1]</output>
-    </connect>
-    <connect>
-      <input>external_peri_group_spi_sclk_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
-      <output>spi_flash_sclk</output>
-    </connect>
-    <connect>
-      <input>external_peri_group_spi_scs_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
-      <output>spi_flash_scs</output>
-    </connect>
-    <connect>
-      <input>external_peri_group_spi_sdq0_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</input>
-      <output>spi_flash_sdq0</output>
-    </connect>
-    <connect>
-      <input>spi_flash_sdq1</input>
-      <output>external_peri_group_spi_sdq1_list[1*(`SPI_INDEX_FOR_SPI_FLASH+1)-1 -:1]</output>
     </connect>
     <include_header>ervp_platform_controller_memorymap_offset</include_header>
     <include_header>ervp_external_peri_group_memorymap_offset</include_header>

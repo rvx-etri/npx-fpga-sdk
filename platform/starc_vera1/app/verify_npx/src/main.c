@@ -5,8 +5,7 @@
 #include "ervp_matrix_op_sw.h"
 
 #ifdef INCLUDE_DCA
-  #include "map_your_matrix_hw.h"
-  #include "ip_instance_info.h"
+#include "map_your_matrix_hw.h"
 #endif
 
 #include "npx_parser.h"
@@ -14,6 +13,7 @@
 #include "npx_network.h"
 #include "npx_sample.h"
 #include "npx_preprocess.h"
+#include "npx_buffer_allocator.h"
 
 #define FNAME_MAX 256
 
@@ -50,6 +50,9 @@ int main()
     npx_network_load_parameters(net, parameter_fname);
     npx_network_map_matrix_operator(net, -1, mop_mapping);
     npx_network_print(net);
+#if defined(I_SCRATCHPAD_BASEADDR)
+    npx_buffer_create(I_SCRATCHPAD_BASEADDR, I_SCRATCHPAD_SIZE);
+#endif
 
     while (1)
     {
@@ -72,13 +75,20 @@ int main()
         state.output_tsseq = npx_inference(net, state.input_tsseq, layer_index, layer_index + 1);
         assert(state.output_tsseq != NULL);
         npx_verify_with_testvector(state.output_tsseq, tv, layer_index);
+        if (layer_index != 0)
+          npx_layerio_tsseq_free(state.input_tsseq);
         state.input_tsseq = state.output_tsseq;
         state.output_tsseq = NULL;
       }
+      npx_layerio_tsseq_free(state.input_tsseq);
       sample_index++;
     }
+    
+#if defined(I_SCRATCHPAD_BASEADDR)
+    npx_buffer_destroy();
+#endif
 
-    printf_must("\n\nVerify NPX Complete");
+    printf("\n\nVerify NPX Complete");
   }
 
   return 0;
