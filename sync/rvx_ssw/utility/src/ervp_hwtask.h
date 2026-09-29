@@ -7,6 +7,8 @@
 typedef uint64_t HWTASK_BUSY_FX_T_TYPE;
 typedef HWTASK_BUSY_FX_T_TYPE ervp_hwtask_busy_fx_t;
 
+#define HWTASK_BUSY_FX_NULL ((HWTASK_BUSY_FX_T_TYPE)0)
+
 typedef union
 {
   HWTASK_BUSY_FX_T_TYPE value;

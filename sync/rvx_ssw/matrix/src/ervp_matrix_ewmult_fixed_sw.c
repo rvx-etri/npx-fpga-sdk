@@ -7,9 +7,8 @@ void _matrix_ewmult_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixIn
 {
   // printf_function();
   int i, j;
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
-  assert(_mop_option_check(c, option_value));
-  assert(mop_option.br.stride_m1==0);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
+  assert(_mop_option_check(c, mop_option_set(option_value)));
   assert(!a->is_scalar);
 
   if(b->is_scalar)
@@ -21,7 +20,7 @@ void _matrix_ewmult_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixIn
       {
         int result = 0;
         int a_value = matrix_read_fixed_element(a, i, j);
-        
+
         result = a_value * b_value;
         result = _melement_perform_rshift_and_clip(result,mop_option.br.rshift,mop_option.br.performs_cliping,c->datatype);
         if(mop_option.br.acc)
@@ -39,7 +38,7 @@ void _matrix_ewmult_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixIn
         int result = 0;
         int a_value = matrix_read_fixed_element(a, i, j);
         int b_value = matrix_read_fixed_element(b, i, j);
-        
+
         result = a_value * b_value;
         result = _melement_perform_rshift_and_clip(result,mop_option.br.rshift,mop_option.br.performs_cliping,c->datatype);
         if(mop_option.br.acc)
@@ -53,5 +52,4 @@ void _matrix_ewmult_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixIn
   trackedvar_add(a->addr, 0);
   trackedvar_add(b->addr, 0);
   trackedvar_add(c->addr, 1);
-  mop_option_free(mop_option);
 }

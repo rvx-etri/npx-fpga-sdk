@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     input_file_path = Path(args.input)
     assert input_file_path.is_file(), input_file_path
-    input_contents = input_file_path.read_text()
+    input_contents = input_file_path.read_text(encoding='utf8')
 
     contents = '\n[[BUILD FAILURE]]\n\n'
     contents += analyze_build_log(input_contents)
@@ -41,6 +41,6 @@ if __name__ == '__main__':
     if args.output:
         output_path = Path(args.output)
         assert output_path.parent.is_dir(), output_path
-        output_path.write_text(contents)
+        output_path.write_text(contents, encoding='utf8')
     else:
         print(contents)

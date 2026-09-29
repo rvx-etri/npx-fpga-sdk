@@ -31,7 +31,7 @@ static void __attribute__ ((constructor)) construct_ip_instance_info()
 	i_dca_neugemm00_control_info_para.output_fifo_depth = 0;
 	mmiox1_hwinfo_elaborate(&i_dca_neugemm00_control_info_para, &i_dca_neugemm00_control_info_static);
 	i_dca_neugemm00_control_info_static.baseaddr = I_DCA_NEUGEMM00_CONTROL_BASEADDR;
-	i_dca_neugemm00_control_info_static.busy_fx = i_dca_neugemm00_control_info_is_busy;
+	i_dca_neugemm00_control_info_static.busy_fx = (ervp_hwtask_busy_fx_t)i_dca_neugemm00_control_info_is_busy;
 	//i_dca_neugemm00_info
 	dca_neugemm_hwpara_t i_dca_neugemm00_info_para;
 	i_dca_neugemm00_info_para.bw_addr = 32;

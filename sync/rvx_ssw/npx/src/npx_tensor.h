@@ -5,6 +5,7 @@
 #include "ervp_matrix_op.h"
 #include "ervp_special_matrix_op.h"
 #include "ervp_sharedpointer.h"
+#include "ervp_memory_util.h"
 
 typedef uint16_t npx_tensor_dim_size_t;
 
@@ -20,17 +21,25 @@ typedef struct
 	ervp_matrix_datatype_t datatype;
 	uint8_t num_dim;
 	uint8_t is_binary;
-	uint8_t is_array_allocated;
+	uint8_t array_needs_free;
 	uint8_t is_sub;
 	refcount_t *refcount;
 } NpxTensorInfo;
+
+typedef NpxTensorInfo NpxTensorDescriptor;
+
+static inline void npx_tensor_init(NpxTensorInfo *a)
+{
+	assert(a);
+	memset(a, 0, sizeof(NpxTensorInfo));
+}
 
 NpxTensorInfo *npx_tensor_alloc_wo_data(int num_dim);
 void npx_tensor_set_size_array(NpxTensorInfo *a, npx_tensor_dim_size_t *size_array);
 void npx_tensor_alloc_data(NpxTensorInfo *a);
 void npx_tensor_free(NpxTensorInfo *a);
 NpxTensorInfo *npx_tensor_alloc(ervp_matrix_datatype_t datatype, int num_dim, npx_tensor_dim_size_t *size_array);
-NpxTensorInfo *npx_tensor_generate_subtensor_info(NpxTensorInfo *a);
+NpxTensorInfo *npx_tensor_generate_subtensor_info(NpxTensorInfo *a); // set addr and stride separately
 static inline NpxTensorInfo *npx_tensor_get_original_tensor(const NpxTensorInfo *a)
 {
 	assert(a);
@@ -99,10 +108,10 @@ static inline int npx_tensor_has_contiguous_layout(const NpxTensorInfo *a)
 
 int npx_tensor_sizes(const NpxTensorInfo *a);
 
-ErvpMatrixInfo *npx_tensor_to_matrix_info(const NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated);
-ErvpMatrixInfo *npx_tensor_to_flattened_matrix_info(const NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated);
-ErvpMatrixInfo *npx_tensor_to_iterative_matrix_info(const NpxTensorInfo *tensor, int num_channel, ErvpMatrixInfo *preallocated);
-ErvpMatrixInfo **npx_tensor_to_matrix_info_list(const NpxTensorInfo *tensor, int num_channel, int num_info);
+void npx_tensor_to_matrix_info(NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated);
+void npx_tensor_to_flattened_matrix_info(NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated);
+ErvpMatrixInfo *npx_tensor_iterate_using_matrix_info(NpxTensorInfo *tensor, int num_channel, ErvpMatrixInfo *preallocated);
+ErvpMatrixInfo **npx_tensor_generate_matrix_info_list(NpxTensorInfo *tensor, int num_channel, int num_info);
 void npx_tensor_print(const NpxTensorInfo *tensor, int num_elements);
 
 void npx_tensor_reshape(ervp_mop_mapping_t *mop_mapping, NpxTensorInfo *src, NpxTensorInfo *dst);
@@ -113,16 +122,16 @@ NpxTensorInfo *npx_tensor_cast_sint8_to_float(const NpxTensorInfo *tensor);
 
 static inline ervp_hwtask_busy_fx_t npx_tensor_zero(ervp_mop_mapping_t *mop_mapping, NpxTensorInfo *tensor)
 {
-	ervp_hwtask_busy_fx_t (*p_matrix_zero)(ervp_mop_mapping_t *mop_mapping, ErvpMatrixInfo *result);
+	ervp_matrix_fill_special_fx_t matrix_zero_fx;
 	if (mop_mapping == NULL)
-		p_matrix_zero = _matrix_zero_sw;
+		matrix_zero_fx = _matrix_zero_sw;
 	else
-		p_matrix_zero = mop_mapping->matrix_zero;
-	assert(p_matrix_zero != NULL);
+		matrix_zero_fx = mop_mapping->matrix_zero;
+	assert(matrix_zero_fx != NULL);
 
 	ErvpMatrixInfo contiguous_info;
 	npx_tensor_to_flattened_matrix_info(tensor, &contiguous_info);
-	return p_matrix_zero(mop_mapping, &contiguous_info);
+	return matrix_zero_fx(mop_mapping, &contiguous_info);
 }
 
 #endif

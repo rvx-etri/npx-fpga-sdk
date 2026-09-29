@@ -11,6 +11,7 @@ static inline void _matrix_conv_float_each_sw(const ErvpMatrixInfo *input_info, 
   float k_value;
   assert(!input_info->is_scalar);
   assert(!kernel_info->is_scalar);
+  const ervp_mpad_option_t pad_option = mconv_option_get_pad_option(conv_option);
 
   const int row_index_dd = _matrix_conv_cal_start_row_index_of_input_matrix(kernel_info->num_row, o_row_index, conv_option);
   const int col_index_dd = _matrix_conv_cal_start_col_index_of_input_matrix(kernel_info->num_col, o_col_index, conv_option);
@@ -22,38 +23,38 @@ static inline void _matrix_conv_float_each_sw(const ErvpMatrixInfo *input_info, 
       int is_pad = 0;
       i_row_index = k_row_index + row_index_dd;
       i_col_index = k_col_index + col_index_dd;
-      
+
       if(i_row_index < 0)
       {
-        assert(conv_option.br.pad_has_rowd);
-        assert(i_row_index >= (0- conv_option.br.pad_amount));
+        assert(pad_option.br.num_rowd);
+        assert(i_row_index >= (0 - pad_option.br.num_rowd));
         i_row_index = 0;
         is_pad = 1;
       }
       else if(i_row_index >= input_info->num_row)
       {
-        assert(conv_option.br.pad_has_rowu);
-        assert(i_row_index < (input_info->num_row + conv_option.br.pad_amount));
+        assert(pad_option.br.num_rowu);
+        assert(i_row_index < (input_info->num_row + pad_option.br.num_rowu));
         i_row_index = input_info->num_row - 1;
         is_pad = 1;
       }
 
       if(i_col_index < 0)
       {
-        assert(conv_option.br.pad_has_cold);
-        assert(i_col_index >= (0- conv_option.br.pad_amount));
+        assert(pad_option.br.num_cold);
+        assert(i_col_index >= (0 - pad_option.br.num_cold));
         i_col_index = 0;
         is_pad = 1;
       }
       else if(i_col_index >= input_info->num_col)
       {
-        assert(conv_option.br.pad_has_colu);
-        assert(i_col_index < (input_info->num_col + conv_option.br.pad_amount));
+        assert(pad_option.br.num_colu);
+        assert(i_col_index < (input_info->num_col + pad_option.br.num_colu));
         i_col_index = input_info->num_col - 1;
         is_pad = 1;
       }
 
-      if(is_pad && (conv_option.br.pad_mode==PADMODE_ZEROS))
+      if(is_pad && (pad_option.br.mode==PADMODE_ZEROS))
         ;
       else
       {
@@ -63,8 +64,8 @@ static inline void _matrix_conv_float_each_sw(const ErvpMatrixInfo *input_info, 
       }
     }
   }
-  result = _melement_perform_rshift_and_clip(result,conv_option.br.rshift,conv_option.br.performs_cliping,output_info->datatype);
-  if(conv_option.br.acc)
+  result = _melement_perform_rshift_and_clip(result,conv_option.br.mop_option.br.rshift,conv_option.br.mop_option.br.performs_cliping,output_info->datatype);
+  if(conv_option.br.mop_option.br.acc)
     result += matrix_read_float_element(output_info, o_row_index, o_col_index);
   matrix_write_float_element(output_info, o_row_index, o_col_index, result);
 }
@@ -86,6 +87,6 @@ ervp_hwtask_busy_fx_t _matrix_conv_float_sw(ervp_mop_mapping_t* mop_mapping, con
   trackedvar_add(input_info->addr, 0);
   trackedvar_add(kernel_info->addr, 0);
   trackedvar_add(output_info->addr, 1);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 

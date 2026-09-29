@@ -2,6 +2,7 @@
 #include "ervp_printf.h"
 #include "ervp_smart_flush.h"
 #include "ervp_delay.h"
+#include "ervp_matrix_op_transform.h"
 
 #include "dca_matrix_info.h"
 #include "dca_matrix_mac.h"
@@ -19,7 +20,7 @@ static ErvpMatrixInfo scalar_matrix_info;
 
 static void __attribute__((constructor)) construct_dca_matrix_mac()
 {
-	matrix_generate_info(MATRIX_DATATYPE_SINT32, 1, 1, &scalar_matrix_value, &scalar_matrix_info);
+	matrix_init_info(MATRIX_DATATYPE_SINT32, 1, 1, &scalar_matrix_value, &scalar_matrix_info);
 }
 
 void dca_matrix_mac_hwinfo_elaborate(dca_matrix_mac_hwpara_t *hwpara, dca_matrix_mac_hwinfo_t *hwinfo)
@@ -50,11 +51,10 @@ ervp_hwtask_busy_fx_t dca_matrix_mac_start(ervp_mop_mapping_t *mop_mapping, cons
 	ervp_mop_option_t mop_option;
 	mop_option.value = option_value;
 
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-	if (mop_option_has_postprocess(option_value))
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+	if (mop_option_has_postprocess(mop_option_set(option_value)))
 	{
-		const int stride = mop_option.br.stride_m1 + 1;
-		ErvpMatrixInfo *temp = matrix_alloc(MATRIX_DATATYPE_SINT32, mc_info->num_row * stride, mc_info->num_col * stride, NULL);
+		ErvpMatrixInfo *temp = matrix_alloc(MATRIX_DATATYPE_SINT32, mc_info->num_row, mc_info->num_col);
 		trackedvar_smart_flush(3, ma_info->addr, mb_info->addr, temp->addr);
 		_dca_matrix_mac_request(hwinfo, opcode, ma_info, mb_info, temp);
 		dca_matrix_mac_wait(hwinfo);
@@ -62,7 +62,7 @@ ervp_hwtask_busy_fx_t dca_matrix_mac_start(ervp_mop_mapping_t *mop_mapping, cons
 		if (hwtask_busy_fx)
 		{
 			hwtask_wait_complete(hwtask_busy_fx);
-			hwtask_busy_fx = NULL;
+			hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
 			matrix_free(temp);
 		}
 		else

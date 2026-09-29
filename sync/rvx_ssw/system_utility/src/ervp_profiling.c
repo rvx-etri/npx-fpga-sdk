@@ -39,7 +39,7 @@ void profiling_init()
 	// HASH_DEL(_section_table, section);
 }
 
-static void _profiling_section_print(const profile_t* section)
+static void _profiling_section_print(const profile_t *section)
 {
 	float average_ms, total_ms;
 	printf_must("\n\n[section] %s", section->name);
@@ -78,7 +78,7 @@ static profile_t *__profiling_register(const char *name)
 	section = (profile_t *)malloc(sizeof(profile_t));
 	assert(section);
 	__section_init(section);
-	section->name = malloc(sizeof(char)*(strlen(name)+1));
+	section->name = malloc(sizeof(char) * (strlen(name) + 1));
 	strcpy(section->name, name);
 	HASH_ADD_STR(_section_table, name, section);
 	return section;
@@ -92,13 +92,14 @@ profile_t *profiling_register(const char *name)
 	return __profiling_register(name);
 }
 
-void profiling_start_by_name(const char *name)
+profile_t *profiling_start_by_name(const char *name)
 {
 	profile_t *section;
 	HASH_FIND_STR(_section_table, name, section);
 	if (section == NULL)
 		section = __profiling_register(name);
 	profiling_start_by_section(section);
+	return section;
 }
 
 void profiling_end_by_name(const char *name)
@@ -136,9 +137,15 @@ void profiling_end_by_section(profile_t *section)
 	}
 }
 
+static int compare_name(const profile_t *a, const profile_t *b)
+{
+	return strcmp(a->name, b->name);
+}
+
 void profiling_print()
 {
 	printf_must("\n");
+	HASH_SORT(_section_table, compare_name);
 	profiling_warning();
 	for (profile_t *section = _section_table; section != NULL; section = (profile_t *)(section->hh.next))
 	{

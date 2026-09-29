@@ -44,10 +44,10 @@ static void npx_forward_conv2d_layer_matrix_old(npx_conv2d_layer_t *layer, ervp_
     ervp_matrix_datatype_t datatype = layer->iodata.out_is_quantized ? MATRIX_DATATYPE_SINT32 : MATRIX_DATATYPE_FLOAT32;
     state->output_tsseq = npx_output_tsseq_alloc(timesteps, state->input_tsseq->is_boundary, state->input_tsseq->scaled, datatype, 3, size);
 
-    ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+    ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
     ervp_mconv_option_t conv_option;
     conv_option.value = 0;
-    conv_option.br.acc = 1;
+    conv_option.br.mop_option.br.acc = 1;
 
     for (int i = 0; i < timesteps; i++)
     {
@@ -60,20 +60,20 @@ static void npx_forward_conv2d_layer_matrix_old(npx_conv2d_layer_t *layer, ervp_
 
       for (int j = 0; j < layer->iodata.out_channels; j++)
       {
-        output_matrix = npx_tensor_to_iterative_matrix_info(output_tensor3d, 1, output_matrix);
+        output_matrix = npx_tensor_iterate_using_matrix_info(output_tensor3d, 1, output_matrix);
         hwtask_wait_complete(hwtask_busy_fx);
         mop_mapping->matrix_zero(mop_mapping, output_matrix);
         ErvpMatrixInfo *input_matrix = NULL;
         for (int k = 0; k < layer->iodata.in_channels; k++)
         {
-          input_matrix = npx_tensor_to_iterative_matrix_info(input_tensor3d, 1, input_matrix);
-          weight_matrix = npx_tensor_to_iterative_matrix_info(layer->weight_tensor, 1, weight_matrix);
+          input_matrix = npx_tensor_iterate_using_matrix_info(input_tensor3d, 1, input_matrix);
+          weight_matrix = npx_tensor_iterate_using_matrix_info(layer->weight_tensor, 1, weight_matrix);
 
           hwtask_wait_complete(hwtask_busy_fx);
           hwtask_busy_fx = mop_mapping->matrix_conv(mop_mapping, input_matrix, weight_matrix, output_matrix, conv_option.value);
         }
         hwtask_wait_complete(hwtask_busy_fx);
-        hwtask_busy_fx = NULL;
+        hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
         matrix_free(input_matrix);
       }
       matrix_free(weight_matrix);
@@ -92,8 +92,6 @@ static void _forward_conv2d_layer_matrix_sharedoutput(npx_conv2d_layer_t *layer,
   assert(timesteps > 0);
   assert(layer->iodata.out_channels > 0);
 
-  assert(layer->pad_options.br.num_rowd == 0);
-
   npx_tensor_dim_size_t size_array[3];
   size_array[0] = layer->iodata.out_size[0];
   size_array[1] = layer->iodata.out_size[1];
@@ -102,10 +100,10 @@ static void _forward_conv2d_layer_matrix_sharedoutput(npx_conv2d_layer_t *layer,
   ervp_matrix_datatype_t datatype = layer->iodata.out_datatype;
   state->output_tsseq = npx_output_tsseq_alloc(timesteps, state->input_tsseq->is_boundary, state->input_tsseq->scaled, datatype, 3, size_array);
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   ervp_mconv_option_t conv_option;
   conv_option.value = 0;
-  conv_option.br.acc = 1;
+  conv_option = matrix_conv_set_pad(conv_option, layer->pad_options.br.num_rowd, layer->pad_options.br.mode);
   conv_option.br.stride_m1 = layer->stride - 1;
 
   for (int i = 0; i < timesteps; i++)
@@ -115,17 +113,29 @@ static void _forward_conv2d_layer_matrix_sharedoutput(npx_conv2d_layer_t *layer,
     assert(input_tensor3d);
     assert(output_tensor3d);
 
-    ErvpMatrixInfo **input_matrix_info_list = npx_tensor_to_matrix_info_list(input_tensor3d, 1, layer->iodata.in_channels);
-    ErvpMatrixInfo *output_matrix = NULL;
-    for (int j = 0; j < layer->iodata.out_channels; j++)
+    if ((i == 0) || (input_tensor3d != state->input_tsseq->sequence[0]))
     {
-      output_matrix = npx_tensor_to_iterative_matrix_info(output_tensor3d, 1, output_matrix);
-      hwtask_busy_fx = mop_mapping->matrix_conv_sharedoutput(mop_mapping, layer->iodata.in_channels, input_matrix_info_list, &(layer->weight_matrix_info_list_for_output_reuse[j * layer->iodata.in_channels]), output_matrix, conv_option.value, 1);
+      ErvpMatrixInfo **input_matrix_info_list = npx_tensor_generate_matrix_info_list(input_tensor3d, 1, layer->iodata.in_channels);
+      ErvpMatrixInfo *output_matrix = NULL;
+      for (int j = 0; j < layer->iodata.out_channels; j++)
+      {
+        const int group_index = j / layer->out_channels_per_group;
+        output_matrix = npx_tensor_iterate_using_matrix_info(output_tensor3d, 1, output_matrix);
+        hwtask_busy_fx = mop_mapping->matrix_conv_sharedoutput(mop_mapping, layer->in_channels_per_group, (const ErvpMatrixInfo **)(&(input_matrix_info_list[group_index * layer->in_channels_per_group])), (const ErvpMatrixInfo **)(&(layer->weight_matrix_info_list_for_output_reuse[j * layer->in_channels_per_group])), output_matrix, conv_option.value);
+      }
+      hwtask_wait_complete(hwtask_busy_fx);
+      hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+      matrix_list_free(input_matrix_info_list, layer->iodata.in_channels);
+      matrix_free(output_matrix);
     }
-    hwtask_wait_complete(hwtask_busy_fx);
-    hwtask_busy_fx = NULL;
-    matrix_list_free(input_matrix_info_list, layer->iodata.in_channels);
-    matrix_free(output_matrix);
+    else
+    {
+      npx_tensor_free(output_tensor3d);
+      output_tensor3d = npx_tensor_generate_subtensor_info(state->output_tsseq->sequence[0]);
+      npx_tensor_set_contiguous_layout(output_tensor3d);
+      output_tensor3d->addr = state->output_tsseq->sequence[0]->addr;
+      state->output_tsseq->sequence[i] = output_tensor3d;
+    }
   }
 }
 
@@ -146,14 +156,14 @@ static void _forward_conv2d_layer_matrix_sharedinput(npx_conv2d_layer_t *layer, 
   ervp_matrix_datatype_t datatype = layer->iodata.out_datatype;
   state->output_tsseq = npx_output_tsseq_alloc(timesteps, state->input_tsseq->is_boundary, state->input_tsseq->scaled, datatype, 3, size_array);
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   ervp_mconv_option_t conv_option;
   conv_option.value = 0;
-  conv_option.br.acc = 1;
-  conv_option.value = matrix_conv_set_pad(conv_option.value, layer->pad_options.br.num_rowd, layer->pad_options.br.mode);
+  conv_option.br.mop_option.br.acc = 1;
+  conv_option = matrix_conv_set_pad(conv_option, layer->pad_options.br.num_rowd, layer->pad_options.br.mode);
   conv_option.br.stride_m1 = layer->stride - 1;
 
-  hwtask_busy_fx = npx_tensor_zero(mop_mapping, npx_tensor_get_original_tensor(state->output_tsseq->sequence[0]));
+  // hwtask_busy_fx = npx_tensor_zero(mop_mapping, npx_tensor_get_original_tensor(state->output_tsseq->sequence[0]));
   for (int i = 0; i < timesteps; i++)
   {
     NpxTensorInfo *input_tensor3d = state->input_tsseq->sequence[i];
@@ -161,18 +171,32 @@ static void _forward_conv2d_layer_matrix_sharedinput(npx_conv2d_layer_t *layer, 
     assert(input_tensor3d);
     assert(output_tensor3d);
 
-    ErvpMatrixInfo **output_matrix_info_list = npx_tensor_to_matrix_info_list(output_tensor3d, 1, layer->iodata.out_channels);
-    ErvpMatrixInfo *input_matrix = NULL;
-    for (int k = 0; k < layer->iodata.in_channels; k++)
+    if ((i == 0) || (input_tensor3d != state->input_tsseq->sequence[0]))
     {
-      input_matrix = npx_tensor_to_iterative_matrix_info(input_tensor3d, 1, input_matrix);
+      ErvpMatrixInfo **output_matrix_info_list = npx_tensor_generate_matrix_info_list(output_tensor3d, 1, layer->iodata.out_channels);
+      ErvpMatrixInfo *input_matrix = NULL;
+      for (int k = 0; k < layer->iodata.in_channels; k++)
+      {
+        const int group_index = k / layer->in_channels_per_group;
+        const int index_in_group = k % layer->in_channels_per_group;
+        const int weight_offset = (group_index * layer->out_channels_per_group * layer->in_channels_per_group) + (index_in_group * layer->out_channels_per_group);
+        input_matrix = npx_tensor_iterate_using_matrix_info(input_tensor3d, 1, input_matrix);
+        conv_option.br.mop_option.br.acc = (index_in_group != 0);
+        hwtask_busy_fx = mop_mapping->matrix_conv_sharedinput(mop_mapping, layer->out_channels_per_group, input_matrix, (const ErvpMatrixInfo **)(&(layer->weight_matrix_info_list_for_input_reuse[weight_offset])), &(output_matrix_info_list[group_index * layer->out_channels_per_group]), conv_option.value);
+      }
       hwtask_wait_complete(hwtask_busy_fx);
-      hwtask_busy_fx = mop_mapping->matrix_conv_sharedinput(mop_mapping, layer->iodata.out_channels, input_matrix, &(layer->weight_matrix_info_list_for_input_reuse[k * layer->iodata.out_channels]), output_matrix_info_list, conv_option.value);
+      hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+      matrix_list_free(output_matrix_info_list, layer->iodata.out_channels);
+      matrix_free(input_matrix);
     }
-    hwtask_wait_complete(hwtask_busy_fx);
-    hwtask_busy_fx = NULL;
-    matrix_list_free(output_matrix_info_list, layer->iodata.out_channels);
-    matrix_free(input_matrix);
+    else
+    {
+      npx_tensor_free(output_tensor3d);
+      output_tensor3d = npx_tensor_generate_subtensor_info(state->output_tsseq->sequence[0]);
+      npx_tensor_set_contiguous_layout(output_tensor3d);
+      output_tensor3d->addr = state->output_tsseq->sequence[0]->addr;
+      state->output_tsseq->sequence[i] = output_tensor3d;
+    }
   }
 }
 
@@ -188,8 +212,9 @@ static void _check_conv2d_layer(npx_conv2d_layer_t *layer, ervp_mop_mapping_t *m
   assert(layer->iodata.out_size[1] == (((npx_tensor_get_size(input_tensor, 1) + 2 * layer->pad_options.br.num_rowd - layer->kernel_size) / layer->stride) + 1));
 }
 
-__attribute__((weak)) void npx_forward_conv2d_layer_reuse(npx_conv2d_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state)
+__attribute__((weak)) void npx_forward_conv2d_layer_reuse(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state)
 {
+  npx_conv2d_layer_t *layer = (npx_conv2d_layer_t *)layer_ptr;
   _check_conv2d_layer(layer, mop_mapping, state);
 
   NPX_PROFILING_START();
@@ -201,23 +226,23 @@ __attribute__((weak)) void npx_forward_conv2d_layer_reuse(npx_conv2d_layer_t *la
     if (layer->pad_options.br.num_rowd > 0)
       assert(layer->pad_options.br.mode == PADMODE_ZEROS);
 
-    int use_multi_input = 0;
+    int shares_output = 0;
     if (layer->pad_options.br.num_rowd != 0)
-      use_multi_input = 0;
+      shares_output = 0;
     else if (layer->stride != 1)
-      use_multi_input = 0;
-    else if ((layer->iodata.in_channels == 1) && (layer->iodata.out_channels == 1))
-      use_multi_input = 1;
-    else if (layer->iodata.out_channels == 1)
-      use_multi_input = 1;
-    else if (layer->iodata.in_channels == 1)
-      use_multi_input = 0;
+      shares_output = 0;
+    else if ((layer->in_channels_per_group == 1) && (layer->out_channels_per_group == 1))
+      shares_output = 1;
+    else if (layer->out_channels_per_group == 1)
+      shares_output = 1;
+    else if (layer->in_channels_per_group == 1)
+      shares_output = 0;
     else if (mop_mapping->matrix_conv_sharedoutput != matrix_conv_sharedoutput_tf)
-      use_multi_input = 1;
+      shares_output = 1;
     else
-      use_multi_input = 0;
+      shares_output = 0;
 
-    if (use_multi_input)
+    if (shares_output)
     {
       assert(mop_mapping->matrix_conv_sharedoutput);
       _forward_conv2d_layer_matrix_sharedoutput(layer, mop_mapping, state);

@@ -188,7 +188,7 @@ static int read_matrix_csv_single_integer(FAKEFILE *fp)
 
 static ErvpMatrixInfo *read_matrix_csv_elements(const char *filename, int has_info, int rows, int cols, ervp_matrix_datatype_t datatype, int check_value_range)
 {
-  ErvpMatrixInfo *result = matrix_alloc(datatype, rows, cols, NULL);
+  ErvpMatrixInfo *result = matrix_alloc(datatype, rows, cols);
   FAKEFILE *fp = ffopen(filename, "r");
   assert(fp);
   if (has_info)

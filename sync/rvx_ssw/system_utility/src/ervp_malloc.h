@@ -23,32 +23,6 @@ void free_rvx(void *ptr);
 void *realloc_rvx(void *ptr, size_t new_size);
 
 void print_heap_status();
-int test_memory_leak();
-
-typedef union
-{
-  unsigned int value;
-  struct
-  {
-    unsigned int is_permanent : 1;
-    unsigned int no_access_from_cpu : 1;
-  } br;
-} ervp_malloc_option_t;
-
-static inline void *malloc_ext(size_t size, size_t align_size, unsigned int option_value)
-{
-  ervp_malloc_option_t option;
-  option.value = option_value;
-  int go_to_backpart = 0;
-#ifdef USE_LARGE_RAM
-  go_to_backpart = option.br.is_permanent;
-#endif
-  void *ptr;
-  if (go_to_backpart)
-    ptr = palloc_largeram_backpart(size, align_size);
-  else
-    ptr = malloc_rvx(size);
-  return ptr;
-};
+int has_memory_leak();
 
 #endif

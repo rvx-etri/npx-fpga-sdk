@@ -324,7 +324,7 @@ if __name__ == '__main__':
       if not output_src_dir.is_dir():
         output_src_dir.mkdir(parents=True)
       output_file = output_src_dir / '{0}.v'.format(get_ip_name(dec_ip))
-      output_file.write_text(file_contents)
+      output_file.write_text(file_contents, encoding='utf8')
 
       ## TCL script ##
 
@@ -343,4 +343,4 @@ if __name__ == '__main__':
           if not output_tcl_dir.is_dir():
             output_tcl_dir.mkdir(parents=True)
           output_file = output_tcl_dir / f'generate_{get_library_name(dec_ip)}.tcl'
-          output_file.write_text(file_contents)
+          output_file.write_text(file_contents, encoding='utf8')

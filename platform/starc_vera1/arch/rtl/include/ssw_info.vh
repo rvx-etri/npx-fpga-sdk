@@ -44,11 +44,11 @@
 //`define CACHING_SAFE
 `define CACHING_MOST
 //`define CACHING_ALL
-//`define PROFILE_OFFCHIP_MRAM
 `define USE_IROM
 `define USE_SLOW_DRAM
 //`define USE_FAST_DRAM
 //`define USE_OFFCHIP_MRAM
+//`define USE_OFFCHIP_MRAM_PROFILER
 //`define USE_OFFCHIP_MRAM_OPT
 `define USE_DDR
 `define USE_SMALL_RAM
@@ -120,7 +120,6 @@
 //`define USE_SWITCH_SLIDE_READYMADE
 //`define USE_C2C_MASTER
 //`define USE_C2C_SLAVE
-`define USE_OFFCHIP_MRAM_PROFILER
 `define USE_CORE
 //`define USE_BARRIER
 //`define USE_LOCK

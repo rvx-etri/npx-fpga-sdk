@@ -17,7 +17,7 @@ void vom_init_param(sVOM *vom, int width, int height, int type)
 	vom->type    = type;
 
 
-	vom->addr   = VOM_FRAME0;
+	vom->addr   = (void*)VOM_FRAME0;
 
 	if(type == VIO_FMT_YUVPLANE) { // YUV420 Plane
 		vom->offset0 = vom->stride * vom->vsize; 
@@ -95,9 +95,9 @@ void vom_disable(void)
 	mmio_write_data(VOM_EN, 0);
 }
 
-void vom_set_base(unsigned int addr)
+void vom_set_base(void* addr)
 {
-	mmio_write_data(VOM_ADDR, addr);
+	mmio_write_data(VOM_ADDR, (uintptr_t)addr);
 }
 
 //void vom_set_base1(unsigned int addr)

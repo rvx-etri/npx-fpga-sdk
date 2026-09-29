@@ -15,21 +15,21 @@ typedef union
     uint8_t is_float;
     uint8_t num_bits;
   } br;
-} ErvpMatrixDataType;
+} ErvpMatrixDatatype;
 
 #define GEN_MATRIX_DATATYPE(is_float, is_signed, addr_lsa, num_bits) (((num_bits&0xFF)<<24)|((is_float&0xFF)<<16)|((is_signed&0xFF)<<8)|((addr_lsa&0xFF)<<0))
 #define GET_NUM_BITS(datatype) (datatype>>24)
 
 static inline int matrix_datatype_get_addr_lsa(int datatype)
 {
-  ErvpMatrixDataType temp;
+  ErvpMatrixDatatype temp;
   temp.value = datatype;
   return temp.br.addr_lsa;
 }
 
 static inline int matrix_datatype_get_num_bits(int datatype)
 {
-  ErvpMatrixDataType temp;
+  ErvpMatrixDatatype temp;
   temp.value = datatype;
   int result = temp.br.num_bits;
   return result;
@@ -47,14 +47,14 @@ static inline int matrix_datatype_is_subbyte(int datatype)
 
 static inline int matrix_datatype_is_float(int datatype)
 {
-  ErvpMatrixDataType temp;
+  ErvpMatrixDatatype temp;
   temp.value = datatype;
   return temp.br.is_float;
 }
 
 static inline int matrix_datatype_is_signed(int datatype)
 {
-  ErvpMatrixDataType temp;
+  ErvpMatrixDatatype temp;
   temp.value = datatype;
   return temp.br.is_signed;
 }

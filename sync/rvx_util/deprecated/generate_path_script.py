@@ -30,7 +30,7 @@ if __name__ == '__main__':
 	base_path = Path(args.path).resolve()
 
 	for path in base_path.glob('**/Makefile'):
-		makefile_contents = path.read_text()
+		makefile_contents = path.read_text(encoding='utf8')
 		if 'template_makefile.mh' in makefile_contents:
 			print(path)
 			update_makefile(path.parent)

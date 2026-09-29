@@ -18,7 +18,7 @@ typedef struct {
 
 	//unsigned int addr0;
 	//unsigned int addr1;
-	unsigned int addr;
+	void* addr;
 	unsigned int offset0;
 	unsigned int offset1;
 

@@ -19,7 +19,7 @@ if __name__ == '__main__':
       verilog_compile_log_path = input_path / get_hdlsim_filename(args.tool, 'compile.log')
       if not verilog_compile_log_path.is_file():
         break
-      verilog_compile_log = verilog_compile_log_path.read_text()
+      verilog_compile_log = verilog_compile_log_path.read_text(encoding='utf8')
       reexp_error = memorize(r'^' + reexp_anything) + r'$\n' + \
           memorize(r'^' + reexp_anything) + r'$\n' + \
           r'^xmvlog:' + reexp_blank_or_not + '\*E,' + memorize(reexp_identifier) + reexp_blank_or_not + r'\(' + \
@@ -40,7 +40,7 @@ if __name__ == '__main__':
       elab_log_path = input_path / get_hdlsim_filename(args.tool, 'elaborate.log')
       if not elab_log_path.is_file():
         assert 0, 'Bug?'
-      elab_log = elab_log_path.read_text()
+      elab_log = elab_log_path.read_text(encoding='utf8')
       reexp_warning = memorize(r'^' + reexp_anything) + r'$\n' + \
           memorize(r'^' + reexp_anything) + r'$\n' + \
           r'^xmelab:' + reexp_blank_or_not + '\*[EW],' + memorize(reexp_identifier) + reexp_blank_or_not + r'\(' + \

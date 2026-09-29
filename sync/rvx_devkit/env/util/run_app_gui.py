@@ -66,10 +66,12 @@ if __name__ == '__main__':
   row_index += 1
 
   #
+  app_labels = []
   vline_start_index = row_index
   for i, app_name in enumerate(app_name_list):
     label = tk.Label(main_window, text=app_name, font=font_style)
     label.grid(row=row_index, column=(2*i)+col_index_for_app, padx=5, pady=1)
+    app_labels.append(label)
   row_index += 1
   
   #
@@ -81,9 +83,11 @@ if __name__ == '__main__':
   dev_command_list = ('reimport_app','backup_app')
   if is_dev_mode:
     command_list += dev_command_list
+  command_labels = []
   for i, command in enumerate(command_list):
     label = tk.Label(main_window, text=command, font=font_style)
     label.grid(row=row_index+i, column=0, padx=5, pady=1)
+    command_labels.append(label)
   row_end_index = row_index + len(command_list)
 
   #
@@ -108,10 +112,42 @@ if __name__ == '__main__':
     return execute
 
   #
+  highlight_bg = '#cce5ff'  # light blue shading on hover
+  buttons = [[None for _ in app_name_list] for _ in command_list]
+
+  def generate_hover_handlers(app_index:int, command_index:int):
+    def on_enter(event):
+      # highlight the app (column) header and command (row) header
+      app_labels[app_index].configure(bg=highlight_bg)
+      command_labels[command_index].configure(bg=highlight_bg)
+      # shade the whole column of buttons (same app)
+      for row in buttons:
+        row[app_index].configure(bg=highlight_bg)
+      # shade the whole row of buttons (same command)
+      for btn in buttons[command_index]:
+        btn.configure(bg=highlight_bg)
+    def on_leave(event):
+      app_labels[app_index].configure(bg=default_label_bg)
+      command_labels[command_index].configure(bg=default_label_bg)
+      for row in buttons:
+        row[app_index].configure(bg=default_button_bg)
+      for btn in buttons[command_index]:
+        btn.configure(bg=default_button_bg)
+    return on_enter, on_leave
+
   for j, command in enumerate(command_list):
     for i, app_name in enumerate(app_name_list):
       button = tk.Button(main_window, text='O', command=generate_button_command(i,j), font=font_style)
       button.grid(row=row_index+j, column=(2*i)+col_index_for_app, padx=5, pady=1)
+      buttons[j][i] = button
+  # capture default background colors before binding hover handlers
+  default_button_bg = buttons[0][0].cget('bg')
+  default_label_bg = app_labels[0].cget('bg')
+  for j, command in enumerate(command_list):
+    for i, app_name in enumerate(app_name_list):
+      on_enter, on_leave = generate_hover_handlers(i, j)
+      buttons[j][i].bind('<Enter>', on_enter)
+      buttons[j][i].bind('<Leave>', on_leave)
   row_index += len(command_list)
   vline_end_index = row_index
   

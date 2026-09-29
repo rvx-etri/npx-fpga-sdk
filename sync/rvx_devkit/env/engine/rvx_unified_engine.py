@@ -266,7 +266,7 @@ if __name__ == '__main__':
             for i in range(0,4):
               usb_name = f'USB{i}'
               home_minirc_path = config.home_path / f'minirc.{usb_name}'
-              home_minirc_path.write_text(f'pu port /dev/tty{usb_name}\npu rtscts No')
+              home_minirc_path.write_text(f'pu port /dev/tty{usb_name}\npu rtscts No', encoding='utf8')
               execute_shell_cmd(make_cmd_sudo(f'mv -f {home_minirc_path} {minirc_dir}/', devkit.get_sudo_passwd()), config.home_path)
           '''
 

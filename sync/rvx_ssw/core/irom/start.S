@@ -21,13 +21,13 @@ _start:
 
 	GET_AUTO_ID
 	SET_STACK_POINTER
+	INIT_EACH_CORE
 	
 	jal wait_or_initialize
 	bnez a0, _init
 	INIT_ONCE
 
 _init:
-	INIT_EACH_CORE
 	INIT_PLATFORM
 
 	li a0, 0 # argc = 0

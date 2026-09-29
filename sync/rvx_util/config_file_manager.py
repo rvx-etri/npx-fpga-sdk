@@ -200,7 +200,7 @@ class ConfigFileManager():
       remove_file(output_path)
       xml_root = self.__export_as_xml()
       xml_str = convert_xml_to_text(xml_root)
-      output_path.write_text(xml_str)
+      output_path.write_text(xml_str, encoding='utf8')
       self.equal_to_file = True
 
   def check(self, allowed_set, exact=False):
@@ -256,12 +256,12 @@ if __name__ == '__main__':
         result_list.append(f'{name}:{config.get_attr(name)}')
       result = '\n'.join(result_list)
       if args.result:
-        Path(args.result).write_text(result)
+        Path(args.result).write_text(result, encoding='utf8')
       else:
         print(result)
     elif args.cmd=='print':
       if args.result:
-        Path(args.result).write_text(config)
+        Path(args.result).write_text(config, encoding='utf8')
       else:
         print(config)
     else:

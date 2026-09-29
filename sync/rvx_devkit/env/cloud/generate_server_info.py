@@ -33,7 +33,7 @@ if __name__ == '__main__':
   if not args.cmd:
     assert 0
   elif args.cmd=='check':
-    common_info_list = [ x.split(':') if ':' in x else ['',x] for x in common_info_path.read_text().split('\n') ]
+    common_info_list = [ x.split(':') if ':' in x else ['',x] for x in common_info_path.read_text(encoding='utf8').split('\n') ]
     common_info_name_list = ('rvx_version','rvx_server_manager','rvx_platform_example','rvx_binary','rvx_install')
     for i, common_info_name in enumerate(common_info_name_list):
       if len(common_info_list) > i and (not common_info_list[i][0]):
@@ -50,7 +50,7 @@ if __name__ == '__main__':
       private_info_list.append(['synced_before','false'])
     
     line_list = [ ':'.join(x) for x in private_info_list ]
-    private_info_path.write_text('\n'.join(line_list))
+    private_info_path.write_text('\n'.join(line_list), encoding='utf8')
   else:
     assert 0, args.cmd
     

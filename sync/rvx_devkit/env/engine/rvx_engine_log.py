@@ -32,7 +32,7 @@ class RvxEngineJob():
     self.is_file = xml_element.attrib['is_file']=='True'
     self.is_user = xml_element.attrib['is_user']=='True'
     if self.is_file:
-      self.log = (log_path/xml_element.text).read_text()
+      self.log = (log_path/xml_element.text).read_text(encoding='utf8')
     else:
       self.log = xml_element.text
   
@@ -132,11 +132,11 @@ class RvxEngineLog():
       if job.is_file:
         specific_log_file = self.log_path / job.log_filename
         remove_file(specific_log_file)
-        specific_log_file.write_text(job.log)
+        specific_log_file.write_text(job.log, encoding='utf8')
     
     xml_root = self.export_as_xml()
     xml_str = convert_xml_to_text(xml_root)
-    self.log_file.write_text(xml_str)
+    self.log_file.write_text(xml_str, encoding='utf8')
 
     if compress:
       execute_shell_cmd(f'tar -czf {self.log_tar_file} ./rvx_*.log', self.log_path)

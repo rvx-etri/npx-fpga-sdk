@@ -41,8 +41,8 @@ int main()
     ervp_mconv_option_t conv_option;
     conv_option.value = 0;
 
-    input_info = matrix_alloc(MATRIX_DATATYPE, INPUT_MATRIX_SIZE, INPUT_MATRIX_SIZE, NULL);
-    kernel_info = matrix_alloc(MATRIX_DATATYPE, KERNEL_MATRIX_SIZE, KERNEL_MATRIX_SIZE, NULL);
+    input_info = matrix_alloc(MATRIX_DATATYPE, INPUT_MATRIX_SIZE, INPUT_MATRIX_SIZE);
+    kernel_info = matrix_alloc(MATRIX_DATATYPE, KERNEL_MATRIX_SIZE, KERNEL_MATRIX_SIZE);
     output_info = matrix_conv_alloc_output(input_info, kernel_info, conv_option.value);
     ref_info = matrix_conv_alloc_output(input_info, kernel_info, conv_option.value);
 
@@ -53,8 +53,8 @@ int main()
       generate_test_matrix(kernel_info, i);
       
       // with init
-      conv_option.br.acc = 0;
-      conv_option.br.rshift = 0;
+      conv_option.br.mop_option.br.acc = 0;
+      conv_option.br.mop_option.br.rshift = 0;
       matrix_conv_sw(input_info, kernel_info, ref_info, conv_option.value);
       hwtask_busy_fx = mop_mapping->matrix_conv(mop_mapping, input_info, kernel_info, output_info, conv_option.value);
       hwtask_wait_complete(hwtask_busy_fx);
@@ -74,8 +74,8 @@ int main()
       }
 
       // with acc
-      conv_option.br.acc = 1;
-      conv_option.br.rshift = 0;
+      conv_option.br.mop_option.br.acc = 1;
+      conv_option.br.mop_option.br.rshift = 0;
       matrix_conv_sw(input_info, kernel_info, ref_info, conv_option.value);
       hwtask_busy_fx = mop_mapping->matrix_conv(mop_mapping, input_info, kernel_info, output_info, conv_option.value);
       hwtask_wait_complete(hwtask_busy_fx);

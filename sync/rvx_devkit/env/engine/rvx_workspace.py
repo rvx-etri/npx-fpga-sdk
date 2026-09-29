@@ -151,7 +151,8 @@ class RvxWorkspace():
   
   @staticmethod
   def _get_program_flash_image_script_path(imp_instance_path:Path):
-    return imp_instance_path / f'program_flash_image_wo_rvx.tcl'
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    return imp_instance_path / f'program_flash_image_wo_rvx.{today}.tcl'
   
   def _get_build_path(self, platform_name:str, app_name:str, target_imp_class:str, build_mode:str):
     build_target = RvxWorkspace._get_build_target(target_imp_class,build_mode)
@@ -182,7 +183,7 @@ class RvxWorkspace():
   def _get_memory_info(self, platform_name:str):
     set_memory_path = self._get_arch_path(platform_name) / 'ssw' / 'env'
     set_memory_file = set_memory_path / 'set_memory.mh'
-    file_contents = set_memory_file.read_text()
+    file_contents = set_memory_file.read_text(encoding='utf8')
     line_list = [x.split('-')[1].split(' ') for x in file_contents.split('\n')]
     return line_list
 
@@ -253,7 +254,7 @@ class RvxWorkspace():
       line_list.append('all:./src')
       line_list.append('all:./include')
       line_list.append('all:../../user/api')
-      compile_list_file.write_text('\n'.join(line_list))
+      compile_list_file.write_text('\n'.join(line_list), encoding='utf8')
 
   def app_build_dir(self, platform_name:str, app_name:str, target_imp_class:str, build_mode:str):
     build_path = self._get_build_path(platform_name, app_name, target_imp_class, build_mode)
@@ -264,7 +265,7 @@ class RvxWorkspace():
   def __generate_system_compile_list(self, build_path:Path):
     system_compile_list = self._get_env_file('makefile', 'system_compile_list')
     compile_list = []
-    for compile_target_with_var in system_compile_list.read_text().split('\n'):
+    for compile_target_with_var in system_compile_list.read_text(encoding='utf8').split('\n'):
       if compile_target_with_var:
         var, compile_target = compile_target_with_var.split(',')
         if get_makefile_var(var, build_path)=='true':
@@ -288,7 +289,7 @@ class RvxWorkspace():
       remove_directory(previous_success_file_path)
 
     compile_list = self.__generate_system_compile_list(build_path)
-    compile_list += compile_list_path.read_text().split('\n')
+    compile_list += compile_list_path.read_text(encoding='utf8').split('\n')
 
     compile_dir_list = []
     for compile_target in compile_list:
@@ -381,7 +382,6 @@ class RvxWorkspace():
       # compile
       elf_path = self._get_elf_path(platform_name, app_name, target_imp_class, build_mode)
       if self.config.build_local:
-        assert is_linux
         self.devkit.add_new_job('app_build', self.config.is_local, 'start')
         shell_result = log_shell_cmd('make --no-print-directory _build', build_path, stderr_as_stdout=True)
         self.devkit.add_process_log(shell_result, is_user=True)
@@ -410,7 +410,7 @@ class RvxWorkspace():
         cmd = f'{self.config.python3_cmd} {elf_analysis_file} -elf {elf_path} -e {error_function_list_file} -o {output_file}'
         run_shell_cmd(cmd, elf_path.parent)
         assert output_file.is_file, output_file
-        error_contents = output_file.read_text()
+        error_contents = output_file.read_text(encoding='utf8')
         if error_contents:
           # elf_path.unlink()
           self.devkit.handle_output(error_contents)
@@ -625,12 +625,12 @@ class RvxWorkspace():
       line_list = []
       line_list.append(gen_copyright_in_c())
       template_file = self.devkit.get_env_path('local_ssw','ervp_wifi_info.h.template')
-      template_text = template_file.read_text()
+      template_text = template_file.read_text(encoding='utf8')
       config_list = (('WIFI_SSID', wifi_config.wifi_ssid),
                      ('WIFI_PASSWD', wifi_config.wifi_passwd))
       configured_text = configure_template_text(template_text, config_list)
       line_list.append(configured_text)
-      wifi_info_path.write_text('\n'.join(line_list))
+      wifi_info_path.write_text('\n'.join(line_list), encoding='utf8')
     else:
       remove_file(wifi_info_path)
 
@@ -1022,7 +1022,7 @@ class RvxWorkspace():
     if self.config.is_client:
       #log_file = self.devkit.output_file if self.devkit.output_file else self.temp_log_file
       self.devkit.make_at_server(f'app.run PLATFORM_NAME={platform_name} APP_NAME={app_name} BUILD_MODE={build_mode}')
-      #self.devkit.handle_output(log_file.read_text())
+      #self.devkit.handle_output(log_file.read_text(encoding='utf8'))
     else:
       # Linux
       elf_file = self._get_elf_path(platform_name, app_name, target_imp_class, build_mode)
@@ -1103,7 +1103,7 @@ class RvxWorkspace():
         contents += 'set NumericStdNoWarnings 1'
         contents += '\n'
         contents += 'run -all'
-        run_script.write_text(contents)
+        run_script.write_text(contents, encoding='utf8')
       debug_script = sim_path / 'debug.do'
       if not debug_script.is_file():
         contents = ''
@@ -1112,7 +1112,7 @@ class RvxWorkspace():
         contents += 'add log -r /*'
         contents += '\n'
         contents += 'run -all'
-        debug_script.write_text(contents)
+        debug_script.write_text(contents, encoding='utf8')
     elif self.config.rtl_simulator=='ncsim' or self.config.rtl_simulator=='xcelium':
       run_script = sim_path / 'run.tcl'
       if not run_script.is_file():
@@ -1316,7 +1316,7 @@ class RvxWorkspace():
     design_info_text = RvxWorkspace.generate_design_info(devkit_git_version,home_git_version,username,home_git_name)
     design_info_path = imp_instance_path / 'include' / 'ervp_design_info.vh'
     design_info_path.parent.mkdir(parents=True, exist_ok=True)
-    design_info_path.write_text(design_info_text)
+    design_info_path.write_text(design_info_text, encoding='utf8')
 
   def imp_fpga_module(self, platform_name:str, target_imp_class:str, imp_instance_path:Path):
     assert imp_instance_path.is_dir(), imp_instance_path
@@ -1492,9 +1492,9 @@ class RvxWorkspace():
         line = f'set_false_path -through [get_pins {{{source}}}]'
         false_path_list.append(line)
     generated_clock_tcl_file = imp_instance_path / 'create_generated_clock.tcl'
-    generated_clock_tcl_file.write_text('\n'.join(generated_clock_list))
+    generated_clock_tcl_file.write_text('\n'.join(generated_clock_list), encoding='utf8')
     set_false_path_tcl_file = imp_instance_path / 'set_false_path.tcl'
-    set_false_path_tcl_file.write_text('\n'.join(false_path_list))
+    set_false_path_tcl_file.write_text('\n'.join(false_path_list), encoding='utf8')
 
     # set_ocd_env
     template_file = self._get_env_file('ocd', 'set_ocd_env.tcl.template')
@@ -1612,7 +1612,7 @@ class RvxWorkspace():
     self.imp_fpga_build(platform_name, app_name, target_imp_class, build_mode)
     self.imp_fpga_after_build(platform_name, app_name, target_imp_class, build_mode, imp_instance_path)
     #
-    if is_linux and (not is_process_running('minicom')):
+    if not self.is_printf_running():
       self.imp_fpga_printf(target_imp_class, imp_instance_path, asserts_when_error=False)
     #
     script = imp_instance_path / f'run_{app_name}.tcl'
@@ -1722,7 +1722,6 @@ class RvxWorkspace():
     copy_file(general_log_path, RvxWorkspace.get_app_log_path(general_log_path, app_name))
   
   def _imp_fpga_run_verify(self, platform_name:str, app_name:str, target_imp_class:str, build_mode:str, imp_instance_path:Path, printf_dump_path:Path) -> bool:
-    self.kill_minicom_if_exsit()
     printf_dump_path.unlink(missing_ok=True)
     self.imp_fpga_printf(target_imp_class, imp_instance_path)
     self.imp_fpga_run(platform_name, app_name, target_imp_class, build_mode, imp_instance_path)
@@ -1766,7 +1765,7 @@ class RvxWorkspace():
       if not result:
         break
     
-    self.kill_minicom_if_exsit()
+    self.kill_printf_if_exsit()
     if result:
       print ('All apps are verified')
   
@@ -1774,19 +1773,45 @@ class RvxWorkspace():
     assert self.config.minicom_as_file, f'Please set \`minicom_as_file\' in {self.config.tool_config_path}'
     printf_dump_path = Path(self.config.minicom_as_file)
     self.wait_app_finish_on_fpga(printf_dump_path)
-  
-  def kill_process_if_exsit(self, process_name:str) -> None:
-    assert is_linux
-    if is_process_running(process_name):
+
+  def kill_process_on_linux(self, process_name:str) -> None:
+      assert is_linux
       cmd = make_cmd_sudo(f'pkill -9 {process_name}', self.devkit.get_sudo_passwd())
       run_shell_cmd(cmd, self.devkit_path)
-    while is_process_running(process_name): pass
+      while is_process_running(process_name): time.sleep(1)
   
-  def kill_minicom_if_exsit(self) -> None:
-    self.kill_process_if_exsit('minicom')
+  def kill_process_if_exsit_on_linux(self, process_name:str) -> None:
+    assert is_linux
+    if is_process_running(process_name):
+      kill_process_on_linux(process_name)
+
+  def is_printf_running(self) -> bool:
+    if is_linux:
+      return is_process_running('minicom')
+    # putty opened with -serial, same condition as kill_printf_if_exsit
+    import base64
+    ps_script = "$ProgressPreference='SilentlyContinue'; " \
+                "@(Get-CimInstance Win32_Process -Filter \"Name='putty.exe'\" | Where-Object { $_.CommandLine -match '-serial' }).Count"
+    encoded = base64.b64encode(ps_script.encode('utf-16-le')).decode()
+    result = subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-EncodedCommand', encoded], stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True, errors='replace')
+    return result.stdout.strip() not in ('', '0')
+  
+  def kill_printf_if_exsit(self) -> None:
+    if self.is_printf_running():
+      if is_linux:
+        self.kill_process_on_linux('minicom')
+      else:
+        # kill only putty opened with -serial (keeps ssh sessions), then wait until the COM port is released
+        import base64
+        ps_script = "$ProgressPreference='SilentlyContinue'; " \
+                    "Get-CimInstance Win32_Process -Filter \"Name='putty.exe'\" | Where-Object { $_.CommandLine -match '-serial' } | " \
+                    "ForEach-Object { Stop-Process -Id $_.ProcessId -Force; Wait-Process -Id $_.ProcessId -ErrorAction SilentlyContinue }"
+        encoded = base64.b64encode(ps_script.encode('utf-16-le')).decode()
+        subprocess.run(['powershell', '-NoProfile', '-NonInteractive', '-EncodedCommand', encoded], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        time.sleep(1)
   
   def kill_openocd_if_exsit(self) -> None:
-    self.kill_process_if_exsit('openocd_rvp')
+    self.kill_process_if_exsit_on_linux('openocd_rvp')
   
   @staticmethod
   def wait_app_finish_on_fpga(log_path:Path) -> None:
@@ -1794,7 +1819,7 @@ class RvxWorkspace():
       time.sleep(1)
       if not log_path.is_file():
         continue
-      contents = log_path.read_text()
+      contents = log_path.read_text(encoding='utf8')
       if 'Assert Failed:' in contents:
         break
       elif '[RVX/END]'in contents:
@@ -1804,7 +1829,7 @@ class RvxWorkspace():
   def get_app_return_from_log(log_path:Path) -> bool:
     result = None
     assert log_path.is_file()
-    contents = log_path.read_text()
+    contents = log_path.read_text(encoding='utf8')
     if 'Assert Failed:' in contents:
       result = False
     else:
@@ -1879,7 +1904,7 @@ class RvxWorkspace():
     elif not timing_report_file.is_file():
       timing_result = f'Bug (Absence of {timing_report_file.relative_to(imp_instance_path)})'
     else:
-      contents = timing_report_file.read_text()
+      contents = timing_report_file.read_text(encoding='utf8')
       if 'Slack (VIOLATED)' in contents:
         timing_result = f'Fail (VIOLATED in {timing_report_file.relative_to(imp_instance_path)})'
       else:
@@ -1887,7 +1912,7 @@ class RvxWorkspace():
     log_list.append(f'Timing: {timing_result}')
     
     if vivado_imp_log.is_file():
-      contents = vivado_imp_log.read_text()
+      contents = vivado_imp_log.read_text(encoding='utf8')
       check_phrase_list = ['DRC RTSTAT-10']
       for phrase in check_phrase_list:
         if phrase in contents:
@@ -1903,12 +1928,14 @@ class RvxWorkspace():
   def imp_fpga_program(self, platform_name:str, target_imp_class:str, imp_instance_path:Path):
     if not self.imp_fpga_set_path_path(imp_instance_path).is_file():
       self.imp_fpga_path(platform_name, target_imp_class, imp_instance_path)
+    self.kill_printf_if_exsit()
     execute_shell_cmd('vivado -mode batch -source {0}'.format(self.devkit.get_env_path('xilinx','program_fpga.tcl')),imp_instance_path)
   def imp_fpga_mcs(self, imp_instance_path:Path):
     execute_shell_cmd('vivado -mode batch -source ./gen_mcs.tcl',imp_instance_path)
   def imp_fpga_program_flash(self, platform_name:str, target_imp_class:str, imp_instance_path:Path):
     if not self.imp_fpga_set_path_path(imp_instance_path).is_file():
       self.imp_fpga_path(platform_name, target_imp_class, imp_instance_path)
+    self.kill_printf_if_exsit()
     execute_shell_cmd('vivado -mode batch -source {0}'.format(self.devkit.get_env_path('xilinx','program_fpga_flash.tcl')),imp_instance_path)
 
   def __get_ila_result_path(self, imp_instance_path:Path):
@@ -1937,18 +1964,18 @@ class RvxWorkspace():
         tcl_text += ila.generate_tcl(ila_result_path, fpga_info_dict['part'])
 
     ila_output_file = ila_result_path / 'ila_description.vh'
-    ila_output_file.write_text(verilog_text)
+    ila_output_file.write_text(verilog_text, encoding='utf8')
     ila_generating_file = ila_result_path / 'generate_ila.tcl'
-    ila_generating_file.write_text(tcl_text)
+    ila_generating_file.write_text(tcl_text, encoding='utf8')
 
   def imp_fpga_ila_clean(self, imp_instance_path:Path):
     ila_result_path = self.__get_ila_result_path(imp_instance_path)
     remove_directory(ila_result_path)
 
   def imp_fpga_printf(self, target_imp_class:str, imp_instance_path:Path, asserts_when_error=True):
+    self.kill_printf_if_exsit()
     imp_dict = self.imp_class_info.get_imp_class_info(target_imp_class)
     if is_linux:
-      self.kill_minicom_if_exsit()
       usb2uart = imp_dict['usb2uart']
       vendor, product, interface_number = usb2uart.split(':')
       target_ttyusb = None
@@ -1969,6 +1996,7 @@ class RvxWorkspace():
         assert target_ttyusb
       if self.config.minicom_as_file:
         minicom_output_path = Path(self.config.minicom_as_file).absolute()
+        minicom_output_path.unlink(missing_ok=True)
         cmd = f'minicom -D {target_ttyusb} -C {minicom_output_path}'
       else:
         cmd = f'minicom -D {target_ttyusb}'
@@ -1978,8 +2006,95 @@ class RvxWorkspace():
       else:
         run_shell_cmd(cmd, imp_instance_path, asserts_when_error=asserts_when_error)
     else:
-      execute_shell_cmd('devmgmt.msc', background=True)
-      execute_shell_cmd('putty.exe', background=True)
+      com_port = os.environ.get('RVX_UART_PORT')
+      if not com_port:
+        vendor, product, interface_number = imp_dict['usb2uart'].split(':')
+        candidates = self.find_windows_com_ports(vendor, product, int(interface_number, 16))
+        if candidates:
+          com_port = candidates[0]
+          if len(candidates) > 1:
+            print(f'[RVX] multiple usb2uart ports found: {candidates}, using {com_port} (set RVX_UART_PORT to override)')
+        else:
+          print(f'[RVX] no COM port for usb2uart {imp_dict["usb2uart"]}. available: {self.find_windows_com_ports()}')
+          print('[RVX] set RVX_UART_PORT (e.g. COM6) to select the port manually')
+          if asserts_when_error:
+            assert com_port, 'usb2uart not found'
+          execute_shell_cmd('devmgmt.msc', background=True)
+          execute_shell_cmd('putty.exe', background=True)
+          return
+      print(f'[RVX] usb2uart -> {com_port}')
+      cmd = f'putty.exe -serial {com_port} -sercfg 115200,8,n,1,N'
+      if self.config.minicom_as_file:
+        cmd += f' -sessionlog "{Path(self.config.minicom_as_file).absolute()}" -logoverwrite'
+      # detach putty without inheriting stdout/stderr, otherwise a caller reading make's output waits until putty closes
+      subprocess.Popen(cmd, cwd=imp_instance_path, stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                       close_fds=True, creationflags=subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP)
+
+  @staticmethod
+  def find_windows_com_ports(vendor:str=None, product:str=None, interface_number:int=None) -> list:
+    # returns active COM ports matching the given USB vid/pid/interface (all active ports if vendor is None)
+    import winreg
+    import re
+    def subkeys(key):
+      i = 0
+      while True:
+        try:
+          yield winreg.EnumKey(key, i)
+        except OSError:
+          return
+        i += 1
+    def read_value(path, name):
+      try:
+        with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, path) as key:
+          return winreg.QueryValueEx(key, name)[0]
+      except OSError:
+        return None
+    active_ports = set()
+    try:
+      with winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r'HARDWARE\DEVICEMAP\SERIALCOMM') as key:
+        i = 0
+        while True:
+          try:
+            active_ports.add(winreg.EnumValue(key, i)[1])
+          except OSError:
+            break
+          i += 1
+    except OSError:
+      return []
+    if vendor is None:
+      return sorted(active_ports)
+    matched = []
+    # FTDI VCP driver: FTDIBUS\VID_0403+PID_6011+<serial><A|B|C|D>, suffix letter gives the interface
+    # USB CDC/other: USB\VID_xxxx&PID_xxxx&MI_xx
+    for bus in ('FTDIBUS', 'USB'):
+      bus_path = rf'SYSTEM\CurrentControlSet\Enum\{bus}'
+      try:
+        bus_key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, bus_path)
+      except OSError:
+        continue
+      with bus_key:
+        for dev_id in subkeys(bus_key):
+          m = re.match(r'VID_([0-9A-Fa-f]{4})[+&]PID_([0-9A-Fa-f]{4})(?:[+&](.*))?$', dev_id)
+          if not m or m.group(1).lower()!=vendor.lower() or m.group(2).lower()!=product.lower():
+            continue
+          rest = m.group(3) or ''
+          if bus=='FTDIBUS':
+            # only multi-interface chips (FT2232/FT4232) get the A~D suffix
+            serial = rest.split('+')[0]
+            suffix = serial[-1:]
+            is_multi_interface = product.lower() in ('6010', '6011', '6048')
+            dev_interface = ord(suffix)-ord('A') if is_multi_interface and suffix and suffix in 'ABCD' else 0
+          else:
+            mi = re.match(r'MI_([0-9A-Fa-f]{2})', rest)
+            dev_interface = int(mi.group(1), 16) if mi else 0
+          if interface_number is not None and dev_interface!=interface_number:
+            continue
+          with winreg.OpenKey(bus_key, dev_id) as dev_key:
+            for inst in subkeys(dev_key):
+              port = read_value(rf'{bus_path}\{dev_id}\{inst}\Device Parameters', 'PortName')
+              if port and port in active_ports and port not in matched:
+                matched.append(port)
+    return sorted(matched, key=lambda x: int(re.sub(r'\D', '', x) or 0))
 
   def imp_fpga_manual_top(self, platform_name:str, target_imp_class:str, imp_instance_path:Path):
     self.platform_user(platform_name)
@@ -2036,7 +2151,7 @@ class RvxWorkspace():
       assert dump_data_path.is_file(), dump_data_path
 
       # read dump_type
-      dump_type = int(dump_type_path.read_text())
+      dump_type = int(dump_type_path.read_text(encoding='utf8'))
       dump_type_dict = {0:'MEMORY_DUMP_NONE',
                         1:'MEMORY_DUMP_FAKEFILE',
                         2:'MEMORY_DUMP_IMAGE'}

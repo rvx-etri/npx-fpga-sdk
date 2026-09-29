@@ -48,8 +48,8 @@ static ervp_hwtask_busy_fx_t dca_neugemm_start_wo_postprocess(ervp_mop_mapping_t
 	ervp_mop_option_t mop_option;
 	mop_option.value = option_value;
 
-	ErvpMatrixInfo *mb_info_modified;
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+	const ErvpMatrixInfo *mb_info_modified;
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
 	unsigned int opcode_modified = opcode;
 	if (mop_option.br.acc)
 	{
@@ -73,19 +73,15 @@ ervp_hwtask_busy_fx_t dca_neugemm_start(ervp_mop_mapping_t *mop_mapping, const d
 	ervp_mop_option_t mop_option;
 	mop_option.value = option_value;
 
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-	if (mop_option_has_postprocess(option_value))
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+	if (mop_option_has_postprocess(mop_option_set(option_value)))
 	{
-		const int stride = mop_option.br.stride_m1 + 1;
-		ErvpMatrixInfo *temp_info = matrix_alloc(MATRIX_DATATYPE_SINT32, mc_info->num_row * stride, mc_info->num_col * stride, NULL);
-		hwtask_busy_fx = dca_neugemm_start_wo_postprocess(mop_mapping, hwinfo, opcode, ma_info, mb_info, mc_info, 0);
+		ErvpMatrixInfo *temp_info = matrix_alloc(MATRIX_DATATYPE_SINT32, mc_info->num_row, mc_info->num_col);
+		hwtask_busy_fx = dca_neugemm_start_wo_postprocess(mop_mapping, hwinfo, opcode, ma_info, mb_info, temp_info, 0);
 		hwtask_wait_complete(hwtask_busy_fx);
 		hwtask_busy_fx = matrix_perform_postprocess_tf(mop_mapping, temp_info, mc_info, option_value);
-		if (hwtask_busy_fx)
-		{
-			hwtask_wait_complete(hwtask_busy_fx);
-			hwtask_busy_fx = NULL;
-		}
+		hwtask_wait_complete(hwtask_busy_fx);
+		hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
 		matrix_free(temp_info);
 	}
 	else
@@ -96,19 +92,19 @@ ervp_hwtask_busy_fx_t dca_neugemm_start(ervp_mop_mapping_t *mop_mapping, const d
 ervp_hwtask_busy_fx_t dca_neugemm_conv_oneblock(ervp_mop_mapping_t *mop_mapping, const dca_neugemm_hwinfo_t *const hwinfo, const ErvpMatrixInfo *ma_info, const ErvpMatrixInfo *mb_info, ErvpMatrixInfo *mc_info, unsigned int conv_option_value)
 {
 	assert(matrix_conv_check_size(ma_info, mb_info, mc_info, conv_option_value));
-	assert(!mconv_option_has_postprocess(conv_option_value));
+	assert(!mconv_option_has_postprocess(mconv_option_set(conv_option_value)));
 
 	ervp_mconv_option_t conv_option;
 	conv_option.value = conv_option_value;
 
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-	if (matrix_conv_has_pad(conv_option_value))
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+	if (matrix_conv_has_pad(mconv_option_set(conv_option_value)))
 		matrix_conv_sw(ma_info, mb_info, mc_info, conv_option_value);
 	else
 	{
 		ervp_mop_option_t mop_option;
 		mop_option.value = 0;
-		mop_option.br.acc = conv_option.br.acc;
+		mop_option.br.acc = conv_option.br.mop_option.br.acc;
 		hwtask_busy_fx = dca_neugemm_start(mop_mapping, hwinfo, DCA_NEUGEMM_CONV, ma_info, mb_info, mc_info, mop_option.value);
 	}
 	return hwtask_busy_fx;
@@ -119,21 +115,21 @@ ervp_hwtask_busy_fx_t dca_neugemm_conv_oneblock_sharedinput(ervp_mop_mapping_t *
 {
 	assert(num_output);
 	assert(matrix_conv_check_size(input_info, kernel_info_list[0], output_info_list[0], conv_option_value));
-	assert(!mconv_option_has_postprocess(conv_option_value));
+	assert(!mconv_option_has_postprocess(mconv_option_set(conv_option_value)));
 
 	ervp_mconv_option_t conv_option;
 	conv_option.value = conv_option_value;
-	assert(conv_option.br.pad_amount == 0);
+	assert(conv_option.br.pad_option.value == 0);
 
 	ErvpMatrixInfo *padded_input_info = input_info;
 
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-	if (matrix_conv_has_pad(conv_option_value))
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+	if (matrix_conv_has_pad(mconv_option_set(conv_option_value)))
 		hwtask_busy_fx = matrix_conv_sharedinput_tf(mop_mapping, num_output, input_info, kernel_info_list, output_info_list, conv_option_value);
 	else
 	{
 		unsigned int opcode;
-		if (conv_option.br.acc)
+		if (conv_option.br.mop_option.br.acc)
 			opcode = DCA_NEUGEMM_CONV_COND | DCA_NEUGEMM_OPCODE_LOAD_ACC;
 		else
 			opcode = DCA_NEUGEMM_CONV_COND | DCA_NEUGEMM_OPCODE_INIT_ACC;
@@ -146,14 +142,14 @@ ervp_hwtask_busy_fx_t dca_neugemm_conv_oneblock_sharedinput(ervp_mop_mapping_t *
 	return hwtask_busy_fx;
 }
 
-static ervp_hwtask_busy_fx_t _dca_neugemm_conv_oneblock_sharedoutput_nopad_nostride(const dca_neugemm_hwinfo_t *const hwinfo, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, int init_ouptut)
+static ervp_hwtask_busy_fx_t _dca_neugemm_conv_oneblock_sharedoutput_nopad_nostride(const dca_neugemm_hwinfo_t *const hwinfo, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, int acc)
 {
 	unsigned int opcode;
 	opcode = DCA_NEUGEMM_OPCODE_CONV_COND | DCA_NEUGEMM_OPCODE_RSRC_CONSTANT | DCA_NEUGEMM_OPCODE_LSU0_REQ | DCA_NEUGEMM_OPCODE_LSU1_REQ;
-	if (init_ouptut)
-		opcode |= DCA_NEUGEMM_OPCODE_INIT_ACC;
-	else
+	if (acc)
 		opcode |= DCA_NEUGEMM_OPCODE_LOAD_ACC;
+	else
+		opcode |= DCA_NEUGEMM_OPCODE_INIT_ACC;
 	_dca_neugemm_request(hwinfo, opcode, input_info_list[0], kernel_info_list[0], output_info);
 
 	opcode = DCA_NEUGEMM_OPCODE_CONV_COND | DCA_NEUGEMM_OPCODE_RSRC_CONSTANT | DCA_NEUGEMM_OPCODE_LSU0_REQ | DCA_NEUGEMM_OPCODE_LSU1_REQ;
@@ -169,26 +165,23 @@ static ervp_hwtask_busy_fx_t _dca_neugemm_conv_oneblock_sharedoutput_nopad_nostr
 }
 
 // IMPOSSILE to make dca_matrix_conv_sharedoutput
-ervp_hwtask_busy_fx_t dca_neugemm_conv_oneblock_sharedoutput(ervp_mop_mapping_t *mop_mapping, const dca_neugemm_hwinfo_t *const hwinfo, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, unsigned int conv_option_value, int init_ouptut)
+ervp_hwtask_busy_fx_t dca_neugemm_conv_oneblock_sharedoutput(ervp_mop_mapping_t *mop_mapping, const dca_neugemm_hwinfo_t *const hwinfo, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, unsigned int conv_option_value)
 {
 	assert(num_input);
 	assert(matrix_conv_check_size(input_info_list[0], kernel_info_list[0], output_info, conv_option_value));
-	assert(!mconv_option_has_postprocess(conv_option_value));
+	assert(!mconv_option_has_postprocess(mconv_option_set(conv_option_value)));
 
 	ervp_mconv_option_t conv_option;
 	conv_option.value = conv_option_value;
-	assert(conv_option.br.acc);
-	assert(conv_option.br.pad_amount == 0);
+	assert(conv_option.br.pad_option.value == 0);
 
-	ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+	ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
 	if (num_input == 1)
 	{
-		if (init_ouptut)
-			conv_option.br.acc = 0;
 		hwtask_busy_fx = dca_neugemm_conv_oneblock(mop_mapping, hwinfo, input_info_list[0], kernel_info_list[0], output_info, conv_option.value);
 	}
 	else
-		hwtask_busy_fx = _dca_neugemm_conv_oneblock_sharedoutput_nopad_nostride(hwinfo, num_input, input_info_list, kernel_info_list, output_info, init_ouptut);
+		hwtask_busy_fx = _dca_neugemm_conv_oneblock_sharedoutput_nopad_nostride(hwinfo, num_input, input_info_list, kernel_info_list, output_info, conv_option.br.mop_option.br.acc);
 
 	return hwtask_busy_fx;
 }

@@ -47,7 +47,7 @@ PARA_DIR=${CURDIR}/result
 endif
 PARA_DIR_ABS = $(call absolute_path,${PARA_DIR})
 
-XARVIS_GIT_VERSION_STABLE=a190ffa
+XARVIS_GIT_VERSION_STABLE=915c1b
 XARVIS_GIT_VERSION?=${XARVIS_GIT_VERSION_STABLE}
 
 check:
@@ -80,11 +80,18 @@ app_list:
 
 all: ${ALL_APP_CFG_NAME_LIST}
 
-${ALL_APP_CFG_NAME_LIST}:%: check_train_home %.train %.riscv %.sample %.opt %.gen_file
+${ALL_APP_CFG_NAME_LIST}:%: check_train_home %.train %.after_train
+
+$(addsuffix .after_train, ${ALL_APP_CFG_NAME_LIST}):%.after_train: %.riscv %.sample %.opt %.gen_file
 
 $(addsuffix .train, ${ALL_APP_CFG_NAME_LIST}):%.train:
 ifdef XARVIS_NPX_TRANIER_HOME
 	cd ${XARVIS_NPX_TRANIER_HOME} && make --no-print-directory train CFG_FILE="${APP_CFG_DIR_ABS}/$(*).cfg" RESULT_DIR=${PARA_DIR_ABS}
+endif
+
+$(addsuffix .reset, ${ALL_APP_CFG_NAME_LIST}):%.reset:
+ifdef XARVIS_NPX_TRANIER_HOME
+	cd ${XARVIS_NPX_TRANIER_HOME} && make --no-print-directory reset CFG_FILE="${APP_CFG_DIR_ABS}/$(*).cfg" RESULT_DIR=${PARA_DIR_ABS}
 endif
 
 $(addsuffix .riscv, ${ALL_APP_CFG_NAME_LIST}):%.riscv:
@@ -120,13 +127,18 @@ $(addsuffix .gen_file, ${ALL_APP_CFG_NAME_LIST}):%.gen_file: %.clean_generated
 $(addsuffix .clean_generated, ${ALL_APP_CFG_NAME_LIST}):%.clean_generated:
 	@${PYTHON3_CMD} ${RVX_UTIL_HOME}/os_util.py rm_files ${RESULT_DIR} $(*)_*_file.*
 
-clean_generated: $(addsuffix .clean_generated, ${ALL_APP_CFG_NAME_LIST})
+clean_generated:
+	@cd ${RESULT_DIR}/.. && rm -rf npx
 
 $(addsuffix .only, ${ALL_APP_CFG_NAME_LIST}):%.only: clean_generated %.train %.riscv %.sample %.opt %.gen_file
 
 $(addsuffix .verify, ${ALL_APP_CFG_NAME_LIST}):%.verify: %.clean_generated %.train %.riscv %.tv %.opt %.gen_file
 
 $(addsuffix .verify_only, ${ALL_APP_CFG_NAME_LIST}):%.verify_only: clean_generated %.train %.riscv %.tv %.opt %.gen_file
+
+$(addsuffix .train_new, ${ALL_APP_CFG_NAME_LIST}):%.train_new: %.reset %.train
+
+$(addsuffix .all, ${ALL_APP_CFG_NAME_LIST}):%.all: %.reset %
 
 verify:
 	make verify_app.verify NUM_SAMPLE=3

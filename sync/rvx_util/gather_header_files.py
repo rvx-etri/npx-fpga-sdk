@@ -31,7 +31,7 @@ if __name__ == '__main__':
 
 	header_list_file = Path('./header_list.txt').resolve()
 	os.system('make header_list HEADER_LIST_FILE={0}'.format(header_list_file))
-	include_path_list = header_list_file.read_text().split(' ')
+	include_path_list = header_list_file.read_text(encoding='utf8').split(' ')
 	header_file_list = []
 	for include_path in include_path_list:
 		for (path, dir_list, file_list) in os.walk(include_path[2:]):

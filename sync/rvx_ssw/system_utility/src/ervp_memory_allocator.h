@@ -22,7 +22,7 @@ typedef struct memory_block_list_info
 
 typedef memory_block_head_info_t *memory_allocator_t;
 
-#define MEMORY_BLOCK_INFO_SIZE sizeof(size_t)
+#define MEMORY_BLOCK_INFO_SIZE sizeof(memory_block_info_t)
 
 // needs a lock for allocator
 memory_block_info_t *memory_allocator_pop(memory_allocator_t *allocator, size_t size);

@@ -25,17 +25,16 @@ from re_util import *
 from pathlib import *
 
 is_linux = (platform.system()=='Linux')
-encoding = 'utf8' if is_linux else 'cp949'
 
 def get_git_version(path:Path):
   assert path.is_dir(), path
-  result = subprocess.run('git show', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encoding, errors='ignore')
+  result = subprocess.run('git show', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encoding='utf8', errors='ignore')
   git_version = result.split('\n')[0].split(' ')[1]
   return git_version[0:7]
 
 def get_git_url(path:Path):
   assert path.is_dir(), path
-  result = subprocess.run('git config --get remote.origin.url', cwd=path, shell=True, stdout=subprocess.PIPE, encoding=encoding).stdout
+  result = subprocess.run('git config --get remote.origin.url', cwd=path, shell=True, stdout=subprocess.PIPE, encoding='utf8').stdout
   return result[:-1]
 
 def get_git_name(path:Path):
@@ -51,13 +50,13 @@ def get_git_name(path:Path):
 
 def get_git_date(path:Path):
   assert path.is_dir(), path
-  result = subprocess.run('git log -1 --date=iso-strict --date=format:\'%Y-%m-%d-%H-%M\' --format=%cd', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encoding, errors='ignore')
+  result = subprocess.run('git log -1 --date=iso-strict --date=format:\'%Y-%m-%d-%H-%M\' --format=%cd', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encoding='utf8', errors='ignore')
   git_date = result.split('\n')[0]
   return git_date
 
 def get_git_date_full(path:Path):
   assert path.is_dir(), path
-  result = subprocess.run('git log -1 --date=iso-strict --date=format:\'%Y-%m-%d-%H-%M-%S-%z\' --format=%cd', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encoding, errors='ignore')
+  result = subprocess.run('git log -1 --date=iso-strict --date=format:\'%Y-%m-%d-%H-%M-%S-%z\' --format=%cd', cwd=path, shell=True, stdout=subprocess.PIPE).stdout.decode(encodin='utf8', errors='ignore')
   git_date = result.split('\n')[0]
   return git_date
 
@@ -74,7 +73,7 @@ def check_if_path_is_tracked_by_git(git_repo:Path, path:Path):
   else:
     try:
       relative_path = path_abs.relative_to(git_repo_abs)
-      result = subprocess.run(f'git ls-files {relative_path}', cwd=git_repo_abs, shell=True, stdout=subprocess.PIPE, encoding=encoding).stdout
+      result = subprocess.run(f'git ls-files {relative_path}', cwd=git_repo_abs, shell=True, stdout=subprocess.PIPE, encoding='utf8').stdout
       if result:
         exist = True 
     except:
@@ -116,10 +115,10 @@ if __name__ == "__main__":
     output_file = Path(args.output)
     if args.append:
       assert(output_file.is_file())
-      contents = output_file.read_text()+'\n'
+      contents = output_file.read_text(encoding='utf8')+'\n'
     else:
       contents = ''
     contents += info_text
-    output_file.write_text(contents)
+    output_file.write_text(contents, encoding='utf8')
   else:
     print(info_text)

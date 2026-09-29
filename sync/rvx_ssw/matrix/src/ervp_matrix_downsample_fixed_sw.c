@@ -10,6 +10,7 @@ static inline void _matrix_downsample_fixed_each_sw(const ErvpMatrixInfo *input_
   const int row_index_dd = _matrix_downsample_cal_start_row_index_of_input_matrix(o_row_index, downsample_option);
   const int col_index_dd = _matrix_downsample_cal_start_col_index_of_input_matrix(o_col_index, downsample_option);
   const int stride = downsample_option.br.stride_m1 + 1;
+  const ervp_mpad_option_t pad_option = downsample_option.br.pad_option;
 
   switch(downsample_option.br.downsample_mode)
   {
@@ -32,27 +33,27 @@ static inline void _matrix_downsample_fixed_each_sw(const ErvpMatrixInfo *input_
 
             if(i_row_index < 0)
             {
-              assert(downsample_option.br.pad_has_rowd);
-              assert(i_row_index >= (0- downsample_option.br.pad_amount));
+              assert(pad_option.br.num_rowd);
+              assert(i_row_index >= (0 - pad_option.br.num_rowd));
               is_pad = 1;
             }
             else if(i_row_index >= input_info->num_row)
             {
-              assert(downsample_option.br.pad_has_rowu);
-              assert(i_row_index < (input_info->num_row + downsample_option.br.pad_amount));
+              assert(pad_option.br.num_rowu);
+              assert(i_row_index < (input_info->num_row + pad_option.br.num_rowu));
               is_pad = 1;
             }
 
             if(i_col_index < 0)
             {
-              assert(downsample_option.br.pad_has_cold);
-              assert(i_col_index >= (0- downsample_option.br.pad_amount));
+              assert(pad_option.br.num_cold);
+              assert(i_col_index >= (0 - pad_option.br.num_cold));
               is_pad = 1;
             }
             else if(i_col_index >= input_info->num_col)
             {
-              assert(downsample_option.br.pad_has_colu);
-              assert(i_col_index < (input_info->num_col + downsample_option.br.pad_amount));
+              assert(pad_option.br.num_colu);
+              assert(i_col_index < (input_info->num_col + pad_option.br.num_colu));
               is_pad = 1;
             }
 
@@ -80,30 +81,30 @@ static inline void _matrix_downsample_fixed_each_sw(const ErvpMatrixInfo *input_
 
             if(i_row_index < 0)
             {
-              assert(downsample_option.br.pad_has_rowd);
-              assert(i_row_index >= (0- downsample_option.br.pad_amount));
+              assert(pad_option.br.num_rowd);
+              assert(i_row_index >= (0 - pad_option.br.num_rowd));
               i_row_index = 0;
               is_pad = 1;
             }
             else if(i_row_index >= input_info->num_row)
             {
-              assert(downsample_option.br.pad_has_rowu);
-              assert(i_row_index < (input_info->num_row + downsample_option.br.pad_amount));
+              assert(pad_option.br.num_rowu);
+              assert(i_row_index < (input_info->num_row + pad_option.br.num_rowu));
               i_row_index = input_info->num_row - 1;
               is_pad = 1;
             }
 
             if(i_col_index < 0)
             {
-              assert(downsample_option.br.pad_has_cold);
-              assert(i_col_index >= (0- downsample_option.br.pad_amount));
+              assert(pad_option.br.num_cold);
+              assert(i_col_index >= (0 - pad_option.br.num_cold));
               i_col_index = 0;
               is_pad = 1;
             }
             else if(i_col_index >= input_info->num_col)
             {
-              assert(downsample_option.br.pad_has_colu);
-              assert(i_col_index < (input_info->num_col + downsample_option.br.pad_amount));
+              assert(pad_option.br.num_colu);
+              assert(i_col_index < (input_info->num_col + pad_option.br.num_colu));
               i_col_index = input_info->num_col - 1;
               is_pad = 1;
             }
@@ -144,6 +145,6 @@ ervp_hwtask_busy_fx_t _matrix_downsample_fixed_sw(ervp_mop_mapping_t *mop_mappin
   //
   trackedvar_add(input_info->addr, 0);
   trackedvar_add(output_info->addr, 1);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 

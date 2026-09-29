@@ -12,19 +12,8 @@ NpxTensorInfo *npx_tensor_alloc_wo_data(int num_dim)
   assert(num_dim <= NPX_TENSOR_MAX_DIM);
   NpxTensorInfo *a = (NpxTensorInfo *)malloc(sizeof(NpxTensorInfo));
   assert(a);
-
-  a->addr = NULL;
-  for (int i = 0; i < NPX_TENSOR_MAX_DIM; i++)
-    a->_size_array[i] = 0;
-  for (int i = 0; i < NPX_TENSOR_MAX_DIM - 1; i++)
-    a->_stride_array[i] = 0;
-  a->datatype = 0;
+  npx_tensor_init(a);
   a->num_dim = num_dim;
-  a->is_binary = 0;
-  a->is_array_allocated = 0;
-  a->is_sub = 0;
-  a->refcount = NULL;
-
   return a;
 }
 
@@ -49,7 +38,7 @@ void npx_tensor_set_contiguous_layout(NpxTensorInfo *a)
   npx_tensor_set_stride(a, 1, npx_tensor_row_size(a));
   for (int i = 2; i < a->num_dim; i++)
   {
-    assert(npx_tensor_get_stride(a, i) == 0);
+    // assert(npx_tensor_get_stride(a, i) == 0);
     npx_tensor_set_stride(a, i, npx_tensor_get_stride(a, i - 1) * npx_tensor_get_size(a, i - 1));
   }
 }
@@ -61,7 +50,7 @@ void npx_tensor_alloc_data(NpxTensorInfo *a)
   int alloc_size = npx_tensor_sizes(a);
   a->addr = npx_malloc(alloc_size);
   assert(a->addr);
-  a->is_array_allocated = 1;
+  a->array_needs_free = 1;
 }
 
 void npx_tensor_set_size_array(NpxTensorInfo *a, npx_tensor_dim_size_t *size_array)
@@ -85,7 +74,7 @@ NpxTensorInfo *npx_tensor_alloc(ervp_matrix_datatype_t datatype, int num_dim, np
 static void __npx_tensor_free_except_refcount(NpxTensorInfo *a)
 {
   assert(a);
-  if (a->is_array_allocated)
+  if (a->array_needs_free)
     npx_free(a->addr);
   free(a);
 }
@@ -102,25 +91,15 @@ void npx_tensor_free(NpxTensorInfo *a)
 NpxTensorInfo *npx_tensor_generate_subtensor_info(NpxTensorInfo *a)
 {
   assert(a);
-  NpxTensorInfo *result = npx_tensor_alloc_wo_data(a->num_dim);
-  npx_tensor_set_size_array(result, npx_tensor_get_size_array(a));
-  npx_tensor_set_datatype(result, a->datatype);
-  for (int i = 1; i < a->num_dim; i++)
-    npx_tensor_set_stride(result, i, 0); // MUST be set separately
-  result->addr = a->addr;
-  result->is_binary = a->is_binary;
-  result->is_array_allocated = 0;
+  sharedpointer_increase_refcount(a, (void (*)(void *))__npx_tensor_free_except_refcount);
+
+  NpxTensorInfo *result = malloc(sizeof(NpxTensorInfo));
+  assert(result);
+  *result = *a;
+  result->addr = 0;
+  result->array_needs_free = 0;
   result->is_sub = 1;
 
-  if (a->refcount)
-    a->refcount->count++;
-  else
-  {
-    refcount_t *refcount = refcount_alloc(a, __npx_tensor_free_except_refcount);
-    refcount->count = 2;
-    a->refcount = refcount;
-  }
-  result->refcount = a->refcount;
   return result;
 }
 
@@ -210,8 +189,8 @@ void npx_tensor_reshape(ervp_mop_mapping_t *mop_mapping, NpxTensorInfo *src, Npx
   {
     ErvpMatrixInfo contiguous_src;
     ErvpMatrixInfo contiguous_dst;
-    matrix_generate_info(src->datatype, 1, num_value_src, src->addr, &contiguous_src);
-    matrix_generate_info(dst->datatype, 1, num_value_dst, dst->addr, &contiguous_dst);
+    matrix_init_info(src->datatype, 1, num_value_src, src->addr, &contiguous_src);
+    matrix_init_info(dst->datatype, 1, num_value_dst, dst->addr, &contiguous_dst);
     ervp_hwtask_busy_fx_t hwtask_busy_fx;
     hwtask_busy_fx = mop_mapping->matrix_copy(mop_mapping, &contiguous_src, &contiguous_dst, 0);
     hwtask_wait_complete(hwtask_busy_fx);
@@ -334,8 +313,8 @@ NpxTensorInfo *npx_tensor_permute(const NpxTensorInfo *a, NpxTensorInfo *b, int 
 
 static void resize_nearest_int8(char *a, int a_h, int a_w, char *b, int b_h, int b_w)
 {
-  char (*a_2d)[a_w] = a;
-  char (*b_2d)[b_w] = b;
+  char (*a_2d)[a_w] = (char (*)[a_w])a;
+  char (*b_2d)[b_w] = (char (*)[b_w])b;
 
   float w_ratio = (float)a_w / b_w;
   float h_ratio = (float)a_h / b_h;
@@ -403,42 +382,55 @@ NpxTensorInfo *npx_tensor_resize(const NpxTensorInfo *a, NpxTensorInfo *b, int h
   npx_resize_recursive(&tmp_a, &tmp_result, a->num_dim);
 
   trackedvar_add(a->addr, 0);
-  trackedvar_add(b->addr, 1);
+  trackedvar_add(result->addr, 1);
 
   return result;
 }
 
-static inline ErvpMatrixInfo *_convert_to_matrix_info(const NpxTensorInfo *tensor, int size1, ErvpMatrixInfo *preallocated)
+static inline ErvpMatrixInfo *_convert_to_matrix_info(NpxTensorInfo *tensor, int size1, ErvpMatrixInfo *preallocated)
 {
-  ErvpMatrixInfo *result = matrix_generate_info(tensor->datatype, size1, npx_tensor_get_size(tensor, 0), tensor->addr, preallocated);
+  //sharedpointer_increase_refcount(tensor, __npx_tensor_free_except_refcount);
+  ErvpMatrixInfo *result;
+  if(preallocated == NULL)
+  {
+    result = matrix_alloc_wo_data(tensor->datatype, size1, npx_tensor_get_size(tensor, 0), tensor->addr);
+  }
+  else
+  {
+    result = preallocated;
+    matrix_init_info(tensor->datatype, size1, npx_tensor_get_size(tensor, 0), tensor->addr, result);
+  }
   matrix_set_stride(result, npx_tensor_get_stride(tensor, 1));
   result->is_binary = tensor->is_binary;
   result->is_sub = tensor->is_sub;
+  //result->refcount = tensor->refcount;
   return result;
 }
 
-static inline ErvpMatrixInfo *_convert_2dim_to_matrix_info(const NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
+static inline ErvpMatrixInfo *_convert_2dim_to_matrix_info(NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
 {
   return _convert_to_matrix_info(tensor, npx_tensor_get_size(tensor, 1), preallocated);
 }
 
-ErvpMatrixInfo *npx_tensor_to_matrix_info(const NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
+void npx_tensor_to_matrix_info(NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
 {
+  assert(preallocated);
   assert(tensor->num_dim == 2);
-  return _convert_2dim_to_matrix_info(tensor, preallocated);
+  _convert_2dim_to_matrix_info(tensor, preallocated);
 }
 
-ErvpMatrixInfo *npx_tensor_to_flattened_matrix_info(const NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
+void npx_tensor_to_flattened_matrix_info(NpxTensorInfo *tensor, ErvpMatrixInfo *preallocated)
 {
+  assert(preallocated);
   assert(npx_tensor_has_contiguous_layout(tensor));
   assert(tensor->num_dim >= 2);
   int size1 = 1;
   for (int i = 1; i < tensor->num_dim; i++)
     size1 *= npx_tensor_get_size(tensor, i);
-  return _convert_to_matrix_info(tensor, size1, preallocated);
+  _convert_to_matrix_info(tensor, size1, preallocated);
 }
 
-ErvpMatrixInfo *npx_tensor_to_iterative_matrix_info(const NpxTensorInfo *tensor, int num_channel, ErvpMatrixInfo *preallocated)
+ErvpMatrixInfo *npx_tensor_iterate_using_matrix_info(NpxTensorInfo *tensor, int num_channel, ErvpMatrixInfo *preallocated)
 {
   ErvpMatrixInfo *result;
   assert(tensor);
@@ -460,7 +452,7 @@ ErvpMatrixInfo *npx_tensor_to_iterative_matrix_info(const NpxTensorInfo *tensor,
   return result;
 }
 
-ErvpMatrixInfo **npx_tensor_to_matrix_info_list(const NpxTensorInfo *tensor, int num_channel, int num_info)
+ErvpMatrixInfo **npx_tensor_generate_matrix_info_list(NpxTensorInfo *tensor, int num_channel, int num_info)
 {
   assert(tensor);
   assert(num_info | num_channel);
@@ -495,7 +487,7 @@ void npx_tensor_print(const NpxTensorInfo *tensor, int num_elements)
   ErvpMatrixInfo *minfo = NULL;
   while (num_print > 0)
   {
-    minfo = npx_tensor_to_iterative_matrix_info(tensor, 1, minfo);
+    minfo = npx_tensor_iterate_using_matrix_info(tensor, 1, minfo);
     matrix_print(minfo);
     num_print -= matrix_num_elements(minfo);
   }

@@ -1,5 +1,6 @@
 #include "ervp_uart.h"
 #include "ervp_printf.h"
+#include "ervp_delay.h"
 #include "orvp_i2c.h"
 #include "ervp_external_peri_group_api.h"
 #include "platform_info.h"

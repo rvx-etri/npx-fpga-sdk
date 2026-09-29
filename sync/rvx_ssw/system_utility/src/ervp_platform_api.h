@@ -1,11 +1,13 @@
 #ifndef __ERVP_PLATFORM_API_H__
 #define __ERVP_PLATFORM_API_H__
 
+#include <stdint.h>
+
 #include "ervp_error_code.h"
 #include "ervp_printf.h"
 
-typedef unsigned int* linker_var_t;
-#define GET_LINKER_VAR(x) ((unsigned int)(&x))
+typedef uintptr_t linker_var_t;
+#define GET_LINKER_VAR(x) ((linker_var_t)(&x))
 
 extern int num_restart;
 
@@ -24,7 +26,7 @@ void worker_core_entry();
 void exit_platform();
 
 #define exit exit_rvx
-void exit_rvx(unsigned int status);
+__attribute__((noreturn)) void exit_rvx(unsigned int status);
 
 void print_linker_var();
 

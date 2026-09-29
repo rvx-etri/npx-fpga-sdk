@@ -4,7 +4,7 @@
 
 // 0xBE0 is NOT readable
 
-void init_cache(unsigned int cacheable_start, unsigned int cacheable_last)
+void init_cache(uintptr_t cacheable_start, uintptr_t cacheable_last)
 {
 #if defined(CACHING_SAFE)
 	write_csr(0xBE0, cacheable_start);
@@ -18,7 +18,7 @@ void init_cache(unsigned int cacheable_start, unsigned int cacheable_last)
 #endif
 }
 
-void set_cacheable_region(int index, unsigned int cacheable_start, unsigned int cacheable_last)
+void set_cacheable_region(int index, uintptr_t cacheable_start, uintptr_t cacheable_last)
 {
 	if (index == 0)
 	{

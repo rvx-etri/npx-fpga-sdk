@@ -13,6 +13,8 @@
 
 #include <string.h>
 #include <stdint.h>
+#include <math.h>
+
 #include "npx_network.h"
 #include "npx_layer.h"
 #include "npx_parser.h"
@@ -65,7 +67,13 @@ void npx_network_load_parameters(const npx_network_t *net, const char *filename)
       load_leaky_threshold(net->layer_compute_seq[i]->layer, fp);
       load_leaky_beta(net->layer_compute_seq[i]->layer, fp);
     }
-    else if ((layer_type == NPXL_MAXPOOL2D) || (layer_type == NPXL_AVGPOOL2D) || (layer_type == NPXL_FLATTEN))
+    else if (layer_type == NPXL_SHORTCUT)
+    {
+      npx_shortcut_layer_t *shortcut_layer = (npx_shortcut_layer_t *)(net->layer_compute_seq[i]->layer);
+      if (shortcut_layer->shortcut_type == NPXL_CONV2D)
+        load_conv2d_weights((npx_conv2d_layer_t *)(shortcut_layer->layer), fp);
+    }
+    else if ((layer_type == NPXL_MAXPOOL2D) || (layer_type == NPXL_AVGPOOL2D) || (layer_type == NPXL_SUMPOOL2D) || (layer_type == NPXL_FLATTEN))
       ;
     else
       assert(0);
@@ -113,10 +121,10 @@ static void load_leaky_beta(npx_leaky_layer_t *layer, FAKEFILE *fp)
   debug_printx(layer->beta);
   debug_printf(layer->beta);
 #endif
+  layer->does_decay = (layer->beta != 1.0f);
   layer->beta_denominator_rsa = 8;
   layer->beta_denominator = pow(2, layer->beta_denominator_rsa);
   layer->beta_numerator = layer->beta * layer->beta_denominator;
-  // assert(layer->beta == (((float)(layer->beta_numerator) / layer->beta_denominator)));
 }
 
 void npx_layerio_tsseq_print(npx_layerio_tsseq_t *tsseq)
@@ -156,30 +164,65 @@ void npx_network_print(const npx_network_t *net)
   free(net_type_seq);
 }
 
-// state.output_tsseq is newly allocated but is not free
+void _npx_layer_output_release(npx_layer_compute_t *layer_compute)
+{
+  assert(layer_compute);
+  assert(layer_compute->output_tsseq != NULL);
+  assert(layer_compute->output_usage_count > 0);
+  layer_compute->output_usage_count--;
+  if (layer_compute->output_usage_count == 0)
+  {
+    npx_layerio_tsseq_free(layer_compute->output_tsseq);
+    layer_compute->output_tsseq = NULL;
+  }
+}
+
 __attribute__((weak))
 npx_layerio_tsseq_t *
-npx_foward_layers(npx_layer_compute_t **layer_compute_seq, const npx_layerio_tsseq_t *input_tsseq, int layer_start_index, int layer_end_index)
+_npx_foward_layer_sequence(npx_layer_compute_t **layer_compute_seq, const npx_layerio_tsseq_t *input_tsseq, int layer_start_index, int layer_end_index, int top)
 {
+  profile_t *section;
   npx_layerio_state_t state;
   state.input_tsseq = input_tsseq;
   state.output_tsseq = NULL;
+  int profile_each_layer = top;
+#ifndef PROFILE_NPX_DETAIL
+  profile_each_layer = 0;
+#endif
 
-  trackedvar_track_start();
   for (int i = layer_start_index; i < layer_end_index; i++)
   {
+    static char section_name[] = "npx_layer_00_0";
+    if (profile_each_layer)
+    {
+      const int len_section_name = strlen(section_name);
+      section_name[len_section_name - 3] = '0' + (i % 10);
+      section_name[len_section_name - 4] = '0' + (i / 10);
+      section_name[len_section_name - 1] = npx_layer_type_to_char(layer_compute_seq[i]->layer_type);
+      section = profiling_start_by_name(section_name);
+    }
     npx_layer_compute_t *layer_compute = layer_compute_seq[i];
     assert_pointer(1, layer_compute);
     assert_pointer(1, layer_compute->forward);
     layer_compute->forward(layer_compute->layer, layer_compute->mop_mapping, &state);
     assert(state.output_tsseq != NULL);
     assert(state.output_tsseq->scaled > 0.0f);
-    if (i > layer_start_index)
-      npx_layerio_tsseq_free(state.input_tsseq);
+    layer_compute->output_tsseq = state.output_tsseq;
+
+    if (i > 0)
+      _npx_layer_output_release(layer_compute_seq[i - 1]);
+    if (layer_compute->layer_type == NPXL_SHORTCUT)
+    {
+      npx_shortcut_layer_t *shortcut_layer = (npx_shortcut_layer_t *)(layer_compute->layer);
+      const int source_index = i + shortcut_layer->skip_from;
+      _npx_layer_output_release(layer_compute_seq[source_index]);
+    }
+
     state.input_tsseq = state.output_tsseq;
     state.output_tsseq = NULL;
+    if (profile_each_layer)
+      profiling_end_by_section(section);
   }
-  trackedvar_track_end();
   return state.input_tsseq;
 }
 
@@ -199,7 +242,10 @@ npx_inference(npx_network_t *net, const npx_layerio_tsseq_t *input_tsseq, int la
   {
     printf_subsubsection(SKIP_SIM, "Layer %d ~ %d", layer_start_index, layer_end_index - 1);
   }
-  result = npx_foward_layers(net->layer_compute_seq, input_tsseq, layer_start_index, layer_end_index);
+  trackedvar_track_start();
+  result = _npx_foward_layer_sequence(net->layer_compute_seq, input_tsseq, layer_start_index, layer_end_index, 1);
+  trackedvar_track_end();
+  net->layer_compute_seq[layer_end_index - 1]->output_usage_count++; // external usage
   NPX_PROFILING_END();
   return result;
 }
@@ -256,6 +302,8 @@ static void _npx_layer_compute_seq_reset(npx_layer_compute_t **layer_compute_seq
   for (int i = 0; i < num_layer; i++)
   {
     npx_layer_compute_t *layer_compute = layer_compute_seq[i];
+    layer_compute->output_tsseq = NULL;
+    layer_compute->output_usage_count = (i != (num_layer - 1)); // set only internal usage
     if (layer_compute->layer_type == NPXL_LEAKY)
     {
       npx_leaky_layer_t *leaky_layer = (npx_leaky_layer_t *)(layer_compute->layer);
@@ -266,6 +314,13 @@ static void _npx_layer_compute_seq_reset(npx_layer_compute_t **layer_compute_seq
     {
       npx_layer_block_t *layer_block = (npx_layer_block_t *)(layer_compute->layer);
       _npx_layer_compute_seq_reset(layer_block->layer_compute_seq, layer_block->num_layer);
+    }
+    else if (layer_compute->layer_type == NPXL_SHORTCUT)
+    {
+      npx_shortcut_layer_t *shortcut_layer = (npx_shortcut_layer_t *)(layer_compute->layer);
+      const int source_index = i + shortcut_layer->skip_from;
+      assert(source_index >= 0);
+      layer_compute_seq[source_index]->output_usage_count++; // set only internal usage
     }
   }
 }
@@ -299,7 +354,7 @@ static ErvpMatrixInfo *generate_output_matrix_info(NpxTensorInfo *output_tensor,
   if (channel_index == 0)
   {
     assert(preallocated == NULL);
-    output_matrix = matrix_generate_info(output_tensor->datatype, npx_tensor_get_size(output_tensor, 1), npx_tensor_get_size(output_tensor, 0), output_tensor->addr, NULL);
+    output_matrix = matrix_alloc_wo_data(output_tensor->datatype, npx_tensor_get_size(output_tensor, 1), npx_tensor_get_size(output_tensor, 0), output_tensor->addr);
   }
   else
   {
@@ -318,7 +373,7 @@ static ErvpMatrixInfo *generate_tv_matrix_info(npx_tensor_dim_size_t size_array[
   if (channel_index == 0)
   {
     assert(preallocated == NULL);
-    ref_matrix = matrix_generate_info(MATRIX_DATATYPE_SINT32, size_array[1], size_array[0], NULL, NULL);
+    ref_matrix = matrix_alloc_wo_data(MATRIX_DATATYPE_SINT32, size_array[1], size_array[0], NULL);
   }
   else
   {
@@ -390,13 +445,13 @@ int npx_classify(npx_network_t *net, const npx_layerio_tsseq_t *output_tsseq, in
   assert(npx_tensor_get_size(output_tsseq->sequence[0], 1) == net->classes);
 
   int *output_acc = (int *)calloc(net->classes, sizeof(int));
-  ErvpMatrixInfo *output_matrix = NULL;
+  ErvpMatrixInfo output_matrix;
   for (int i = 0; i < output_tsseq->timesteps; i++)
   {
     const NpxTensorInfo *const output_tensor = output_tsseq->sequence[i];
-    output_matrix = npx_tensor_to_matrix_info(output_tensor, output_matrix);
+    npx_tensor_to_matrix_info(output_tensor, &output_matrix);
     for (int j = 0; j < net->classes; j++)
-      output_acc[j] += matrix_read_fixed_element(output_matrix, j, 0);
+      output_acc[j] += matrix_read_fixed_element(&output_matrix, j, 0);
   }
   int max_index = -1;
   int max_value = -1;
@@ -420,7 +475,6 @@ int npx_classify(npx_network_t *net, const npx_layerio_tsseq_t *output_tsseq, in
   }
 
   free(output_acc);
-  free(output_matrix);
 
   return max_index;
 }

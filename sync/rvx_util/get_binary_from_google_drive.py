@@ -54,7 +54,7 @@ class RvxBinary():
 		if not current_info.is_file():
 			is_update_required = True
 		else:
-			get_version = lambda x: x.read_text().split('\n')[0]
+			get_version = lambda x: x.read_text(encoding='utf8').split('\n')[0]
 			new_version = get_version(new_info)
 			current_version = get_version(current_info)
 			if new_version!=current_version:
@@ -63,7 +63,7 @@ class RvxBinary():
 		if is_update_required:
 			remove_directory(output_dir)
 			output_dir.mkdir(parents=True)
-			filename, gd_id = new_info.read_text().split('\n')[1:3]
+			filename, gd_id = new_info.read_text(encoding='utf8').split('\n')[1:3]
 			self.__download_google_drive_file(gd_id, output_dir / filename)
 			#
 			if filename.endswith('.tar.xz'):

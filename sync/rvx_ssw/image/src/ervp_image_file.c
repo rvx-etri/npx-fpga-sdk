@@ -86,7 +86,7 @@ static int _rgb888_write_file(const ErvpImage* rgb888, const char *filename, uns
   int len = strlen(filename);
   const char *filename_suffix = &filename[len-4];
   
-  unsigned char *data = (unsigned char *)rgb888->addr[0];
+  void* data = (void*)(rgb888->addr[0]);
   int success = 0;
   if(strcmp(filename_suffix,".bmp")==0)
     success = stbi_write_bmp(filename, w, h, c, data);

@@ -320,8 +320,8 @@ do {                                                                            
 
 #define LL_PREPEND2(head,add,next)                                                             \
 do {                                                                                           \
-  (add)->next = (head);                                                                        \
-  (head) = (add);                                                                              \
+  (add)->next = (void*)(head);                                                                        \
+  (head) = (void*)(add);                                                                              \
 } while (0)
 
 #define LL_CONCAT(head1,head2)                                                                 \
@@ -393,14 +393,14 @@ do {                                                                            
 do {                                                                                           \
   LDECLTYPE(head) _tmp;                                                                        \
   if ((head) == (del)) {                                                                       \
-    (head)=(head)->next;                                                                       \
+    (head)=(void*)((head)->next);                                                                       \
   } else {                                                                                     \
     _tmp = (head);                                                                             \
     while (_tmp->next && (_tmp->next != (del))) {                                              \
-      _tmp = _tmp->next;                                                                       \
+      _tmp = (void*)(_tmp->next);                                                                       \
     }                                                                                          \
     if (_tmp->next) {                                                                          \
-      _tmp->next = (del)->next;                                                                \
+      _tmp->next = (void*)((del)->next);                                                                \
     }                                                                                          \
   }                                                                                            \
 } while (0)

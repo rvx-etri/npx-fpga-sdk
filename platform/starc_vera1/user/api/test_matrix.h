@@ -3,6 +3,6 @@
 
 #include "ervp_matrix.h"
 
-void generate_test_matrix(ErvpMatrixInfo* matrix_info, int index);
+void generate_test_matrix(ErvpMatrixInfo *matrix_info, int seed);
 
 #endif

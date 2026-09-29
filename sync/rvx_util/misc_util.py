@@ -27,3 +27,15 @@ def answer2bool(answer:str):
   else:
     assert 0
   return value
+
+def select_path(candidate_list:list, must:bool):
+  path = None
+  for candidate in candidate_list:
+    if candidate==None:
+      continue
+    if not candidate.is_dir():
+      continue
+    path = candidate
+    break
+  assert (not must) or (path!=None), candidate_list
+  return path

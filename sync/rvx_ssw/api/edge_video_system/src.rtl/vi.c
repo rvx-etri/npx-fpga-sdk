@@ -17,8 +17,8 @@ void vim_init_param(sVIM *vim, int width, int height, int type)
 		
 	vim->type    = type;
 
-	vim->addr0   = VIM_FRAME0;
-	vim->addr1   = VIM_FRAME1;
+	vim->addr0   = (void*)VIM_FRAME0;
+	vim->addr1   = (void*)VIM_FRAME1;
 
 
 	if(type == VIO_FMT_YUVPLANE) { // YUV420 Plane
@@ -77,14 +77,14 @@ void vim_disable(void)
 	mmio_write_data(VIM_EN, 0);
 }
 
-void vim_set_base0(unsigned int addr)
+void vim_set_base0(void* addr)
 {
-	mmio_write_data(VIM_ADDR0, addr);
+	mmio_write_data(VIM_ADDR0, (uintptr_t)addr);
 }
 
-void vim_set_base1(unsigned int addr)
+void vim_set_base1(void* addr)
 {
-	mmio_write_data(VIM_ADDR1, addr);
+	mmio_write_data(VIM_ADDR1, (uintptr_t)addr);
 }
 
 void vim_set_offset(unsigned int offset0, unsigned int offset1)

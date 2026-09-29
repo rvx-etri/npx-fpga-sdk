@@ -25,7 +25,7 @@ __attribute__((weak)) void *malloc_rvx(size_t size)
     block = memory_allocator_pop(&(default_allocator[EXCLUSIVE_ID]), extended_size);
     if (block == NULL)
     {
-      block = _alloc_new_memory_space(extended_size);
+      block = (memory_block_info_t *)_alloc_new_memory_space(extended_size);
       if (block == NULL)
         return NULL;
       block->size = extended_size;
@@ -33,7 +33,7 @@ __attribute__((weak)) void *malloc_rvx(size_t size)
     ptr = (void *)(((unsigned int)block) + MEMORY_BLOCK_INFO_SIZE);
 #else
     size_t extended_size = ALIGN_UP_POW2(size, DATA_ALIGN_SIZE);
-    ptr = _alloc_new_memory_space(extended_size);
+    ptr = (memory_block_info_t *)_alloc_new_memory_space(extended_size);
 #endif
   }
 
@@ -84,10 +84,10 @@ void *realloc_rvx(void *ptr, size_t new_size)
 
 void print_heap_status()
 {
-  printf("\nheap_sram_addr: 0x%x", heap_sram_addr);
-  printf("\nheap_sram_size: 0x%x", heap_sram_size);
-  printf("\nheap_dram_addr: 0x%x", heap_dram_addr);
-  printf("\nheap_dram_size: 0x%x", heap_dram_size);
+  printf_must("\nheap_sram_addr: 0x%x", heap_sram_addr);
+  printf_must("\nheap_sram_size: 0x%x", heap_sram_size);
+  printf_must("\nheap_dram_addr: 0x%x", heap_dram_addr);
+  printf_must("\nheap_dram_size: 0x%x", heap_dram_size);
 }
 
 void *calloc_rvx(size_t elt_count, size_t elt_size)
@@ -98,7 +98,7 @@ void *calloc_rvx(size_t elt_count, size_t elt_size)
   return result;
 }
 
-int test_memory_leak()
+int has_memory_leak()
 {
   int diff = 0;
 #ifdef USE_REUSE_MEMORY_ALLOCATOR

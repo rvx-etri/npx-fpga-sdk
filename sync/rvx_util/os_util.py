@@ -22,6 +22,7 @@ import sys
 import subprocess
 import shutil
 import distro
+import stat
 
 from urllib import request
 from filecmp import cmp
@@ -155,13 +156,23 @@ def make_cmd_sudo(cmd: str, passwd: str):
     return modified_cmd
 
 
+def _remove_readonly(func, path, exc_info):
+    exc = exc_info[1]
+    if (
+        os.name != "nt"
+        or getattr(exc, "winerror", None) != 5
+        or func not in (os.unlink, os.rmdir)
+    ):
+        raise exc.with_traceback(exc_info[2])
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
+
+
 def remove(element: Path):
-    if element.is_file():
-        os.remove(element)
-    elif element.is_dir():
-        shutil.rmtree(element)
+    if element.is_dir():
+        remove_directory(element)
     else:
-        assert 0
+        remove_file(element)
 
 
 def remove_file(file: Path):
@@ -178,7 +189,7 @@ def remove_files(dir: Path, pattern: str):
 
 def remove_directory(dir: Path):
     if dir.is_dir():
-        shutil.rmtree(dir)
+        shutil.rmtree(dir, onerror=_remove_readonly)
 
 
 def copy_directory(src_dir: Path, dst_dir: Path):
@@ -297,9 +308,9 @@ if __name__ == '__main__':
         text_to_append = text_to_append.replace('\\n', '\n')
         path = Path(file).resolve()
         assert path.is_file(), path
-        original_text = path.read_text()
+        original_text = path.read_text(encoding=encoding)
         extended_text = original_text + text_to_append
-        path.write_text(extended_text)
+        path.write_text(extended_text, encoding=encoding)
     elif cmd == 'dir_list':
         check_argument_number(sys.argv, 1)
         dir_list = get_dir_list(Path(sys.argv[2]))

@@ -36,6 +36,7 @@ extern sVIDEO_SYSTEM_CONFIG edge_video_system_config;
 void edge_video_system_init();
 void edge_video_system_register_frame(ErvpImage* out, ErvpImage* in0, ErvpImage* in1);
 void edge_video_system_register_default_frame();
+void edge_video_system_config_default_hw(int enable_camera, int use_cis, int enable_display, int use_lcd);
 int edge_video_system_config_gui(); // return 0 means the exit
 void edge_video_system_display_direct(int with_key_exit);
 
@@ -65,5 +66,6 @@ static inline ErvpImage* edge_video_system_get_vframe_output()
 
 ErvpImage* edge_video_system_capture();
 ErvpImage* edge_video_system_capture_ms(int ms);
+void edge_video_system_change_vframe_out(const ErvpImage *vframe_in);
 
 #endif

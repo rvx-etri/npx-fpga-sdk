@@ -127,7 +127,7 @@ _build: $(TARGET_NAME).elf
 clean_elf:
 	-@rm -rf $(TARGET_NAME).elf
 
-$(TARGET_NAME).elf:%.elf: clean_elf $(C_OBJ) $(CXX_OBJ) $(ASM_OBJ) build_paco
+$(TARGET_NAME).elf:%.elf: clean_elf $(C_OBJ) $(CXX_OBJ) $(ASM_OBJ)
 	$(LINKER) -T $(LD_SCRIPT) *.o ${C_OBJ_PACO} $(LD_FLAGS) $(INCLUDES) ${USE_LIBRARY} -o $(TARGET_DIR)/$@
 	@$(OBJDUMP) -D $(TARGET_DIR)/$@ > $(TARGET_DIR)/$*.dump
 

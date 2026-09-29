@@ -67,7 +67,7 @@ static ErvpMatrixInfo *generate_unrolled_kernel_matrix(const ErvpMatrixInfo *ker
   int line_input_num_col = get_num_col_of_line_input(kernel_size, tile_size);
   int flatten_size = get_flatten_size(kernel_size, tile_size);
 
-  ErvpMatrixInfo *unrolled_kernel_info = matrix_alloc(kernel_info->datatype, flatten_size, tile_size, NULL);
+  ErvpMatrixInfo *unrolled_kernel_info = matrix_alloc(kernel_info->datatype, flatten_size, tile_size);
   matrix_zero_sw(unrolled_kernel_info);
 
   for (int i = 0; i < kernel_size; i++)
@@ -107,7 +107,7 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_im2col(ervp_mop_mapping_t *mop_mapping, c
   void *output_info_list[1];
   kernel_info_list[0] = kernel_info;
   output_info_list[0] = output_info;
-  return matrix_conv_sharedinput_im2col(mop_mapping, 1, input_info, kernel_info_list, output_info_list, conv_option_value);
+  return matrix_conv_sharedinput_im2col_tf(mop_mapping, 1, input_info, (const ErvpMatrixInfo **)kernel_info_list, (ErvpMatrixInfo **)output_info_list, conv_option_value);
 }
 
 /*
@@ -117,10 +117,10 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
 {
   ervp_mconv_option_t conv_option;
   conv_option.value = conv_option_value;
-  if (conv_option.br.performs_cliping || conv_option.br.rshift)
+  if (conv_option.br.mop_option.br.performs_cliping || conv_option.br.mop_option.br.rshift)
   {
     ervp_matrix_datatype_t datatype = matrix_datatype_is_float(output_info->datatype) ? MATRIX_DATATYPE_FLOAT32 : MATRIX_DATATYPE_SINT32;
-    ErvpMatrixInfo *temp_info = matrix_alloc(datatype, output_info->num_row, output_info->num_col, NULL);
+    ErvpMatrixInfo *temp_info = matrix_alloc(datatype, output_info->num_row, output_info->num_col);
 
     ervp_mconv_option_t conv_only_option;
     conv_only_option.value = conv_option_value;
@@ -129,18 +129,18 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
     conv_only_option.br.acc = 0;
     matrix_conv2mult_v1_tf(mop_mapping, input_info, kernel_info, temp_info, conv_only_option.value);
 
-    ervp_mop_option_t mop_option = mop_option_alloc(0);
-    mop_option.br.rshift = conv_option.br.rshift;
-    mop_option.br.performs_cliping = conv_option.br.performs_cliping;
-    mop_option.br.acc = conv_option.br.acc;
+    ervp_mop_option_t mop_option = mop_option_set(0);
+    mop_option.br.rshift = conv_option.br.mop_option.br.rshift;
+    mop_option.br.performs_cliping = conv_option.br.mop_option.br.performs_cliping;
+    mop_option.br.acc = conv_option.br.mop_option.br.acc;
     matrix_perform_postprocess_tf(mop_mapping, temp_info, output_info, mop_option.value);
 
     matrix_free(temp_info);
   }
   else
   {
-    // assert(conv_option.br.rshift == 0);
-    // assert(conv_option.br.performs_cliping == 0);
+    // assert(conv_option.br.mop_option.br.rshift == 0);
+    // assert(conv_option.br.mop_option.br.performs_cliping == 0);
 
     int hw_size = conv_option.br.pretty_to_mult;
     assert(hw_size >= 8);
@@ -149,7 +149,7 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
 
     int flatten_size = get_flatten_size(kernel_size, tile_size);
     ErvpMatrixInfo *unrolled_kernel_info = generate_unrolled_kernel_matrix(kernel_info, hw_size, tile_size);
-    ErvpMatrixInfo *input_buffer_info = matrix_alloc(input_info->datatype, hw_size, flatten_size, NULL);
+    ErvpMatrixInfo *input_buffer_info = matrix_alloc(input_info->datatype, hw_size, flatten_size);
     assert(unrolled_kernel_info != NULL);
     assert(input_buffer_info != NULL);
 
@@ -157,10 +157,10 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
     parted_output_info.datatype = output_info->datatype;
     parted_output_info.stride_ls3 = output_info->stride_ls3;
 
-    ervp_mop_option_t mop_option = mop_option_alloc(0);
-    mop_option.br.acc = conv_option.br.acc;
+    ervp_mop_option_t mop_option = mop_option_set(0);
+    mop_option.br.acc = conv_option.br.mop_option.br.acc;
 
-    if (conv_option.br.acc == 0)
+    if (conv_option.br.mop_option.br.acc == 0)
       mop_mapping->matrix_zero(mop_mapping, output_info);
 
     for (int i = 0; i < output_info->num_row; i += hw_size)
@@ -217,7 +217,6 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
     }
     matrix_free(unrolled_kernel_info);
     matrix_free(input_buffer_info);
-    mop_option_free(mop_option);
   }
   return NULL;
 }
@@ -226,20 +225,19 @@ ervp_hwtask_busy_fx_t matrix_conv2mult_v1_tf(ervp_mop_mapping_t *mop_mapping, co
 ervp_hwtask_busy_fx_t matrix_perform_postprocess_tf(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, ErvpMatrixInfo *c, unsigned int option_value)
 {
   assert(mop_mapping);
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
-  const int stride = mop_option.br.stride_m1 + 1;
-  assert((a->num_row / stride) == c->num_row);
-  assert((a->num_col / stride) == c->num_col);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
+  assert(a->num_row == c->num_row);
+  assert(a->num_col == c->num_col);
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-  if (mop_option_has_postprocess(option_value))
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
+  if (mop_option_has_postprocess(mop_option_set(option_value)))
   {
     assert(!matrix_datatype_is_float(a->datatype));
     for (int i = 0; i < c->num_row; i++)
     {
       for (int j = 0; j < c->num_col; j++)
       {
-        int result = matrix_read_fixed_element(a, i * stride, j * stride);
+        int result = matrix_read_fixed_element(a, i, j);
         result = _melement_perform_rshift_and_clip(result, mop_option.br.rshift, mop_option.br.performs_cliping, c->datatype);
         if (mop_option.br.acc)
           result += matrix_read_fixed_element(c, i, j);
@@ -268,24 +266,31 @@ ervp_hwtask_busy_fx_t matrix_perform_postprocess_tf(ervp_mop_mapping_t *mop_mapp
 
 ervp_hwtask_busy_fx_t matrix_conv_sharedinput_tf(ervp_mop_mapping_t *mop_mapping, int num_output, const ErvpMatrixInfo *input_info, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo **output_info_list, unsigned int conv_option_value)
 {
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   for (int i = 0; i < num_output; i++)
     hwtask_busy_fx = mop_mapping->matrix_conv(mop_mapping, input_info, kernel_info_list[i], output_info_list[i], conv_option_value);
   return hwtask_busy_fx;
 }
 
-ervp_hwtask_busy_fx_t matrix_conv_sharedoutput_tf(ervp_mop_mapping_t *mop_mapping, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, unsigned int conv_option_value, int init_ouptut)
+ervp_hwtask_busy_fx_t matrix_conv_sharedoutput_tf(ervp_mop_mapping_t *mop_mapping, int num_input, const ErvpMatrixInfo **input_info_list, const ErvpMatrixInfo **kernel_info_list, ErvpMatrixInfo *output_info, unsigned int conv_option_value)
 {
+  ervp_matrix_conv_fx_t matrix_conv;
+
+  if (mop_mapping)
+    matrix_conv = mop_mapping->matrix_conv;
+  else
+    matrix_conv = _matrix_conv_sw;
+
   ervp_mconv_option_t conv_option;
   conv_option.value = conv_option_value;
-  assert(conv_option.br.acc);
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
-  if (init_ouptut)
-    hwtask_busy_fx = mop_mapping->matrix_zero(mop_mapping, output_info);
+  const int acc = conv_option.br.mop_option.br.acc;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   for (int i = 0; i < num_input; i++)
   {
     hwtask_wait_complete(hwtask_busy_fx);
-    hwtask_busy_fx = mop_mapping->matrix_conv(mop_mapping, input_info_list[i], kernel_info_list[i], output_info, conv_option_value);
+    // only the first convolution may start the output from zero, the rest accumulate
+    conv_option.br.mop_option.br.acc = (i == 0) ? acc : 1;
+    hwtask_busy_fx = matrix_conv(mop_mapping, input_info_list[i], kernel_info_list[i], output_info, conv_option.value);
   }
   return hwtask_busy_fx;
 }
@@ -340,28 +345,28 @@ ervp_hwtask_busy_fx_t matrix_conv_sharedinput_im2col_tf(ervp_mop_mapping_t *mop_
   assert(matrix_has_contiguous_layout(kernel_info_list[0]));
   assert(matrix_has_contiguous_layout(output_info_list[0]));
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
 
   int flatten_kernel_size = matrix_num_elements(kernel_info_list[0]);
-  ErvpMatrixInfo *flattened_kernel_info = matrix_generate_info(kernel_info_list[0]->datatype, num_output, flatten_kernel_size, kernel_info_list[0]->addr, NULL);
+  ErvpMatrixInfo *flattened_kernel_info = matrix_alloc_wo_data(kernel_info_list[0]->datatype, num_output, flatten_kernel_size, kernel_info_list[0]->addr);
   if (num_output > 1)
     matrix_set_stride(flattened_kernel_info, (kernel_info_list[1]->addr - kernel_info_list[0]->addr));
 
-  ErvpMatrixInfo *merged_output_info = matrix_generate_info(output_info_list[0]->datatype, num_output, matrix_num_elements(output_info_list[0]), output_info_list[0]->addr, NULL);
+  ErvpMatrixInfo *merged_output_info = matrix_alloc_wo_data(output_info_list[0]->datatype, num_output, matrix_num_elements(output_info_list[0]), output_info_list[0]->addr);
   if (num_output > 1)
     matrix_set_stride(merged_output_info, (output_info_list[1]->addr - output_info_list[0]->addr));
 
-  ErvpMatrixInfo *reordered_input_info = matrix_alloc(input_info->datatype, flatten_kernel_size, matrix_num_elements(output_info_list[0]), NULL);
+  ErvpMatrixInfo *reordered_input_info = matrix_alloc(input_info->datatype, flatten_kernel_size, matrix_num_elements(output_info_list[0]));
 
   ervp_mconv_option_t conv_option;
   conv_option.value = conv_option_value;
-  _im2col_reordering(input_info, kernel_info_list[0]->num_row, kernel_info_list[0]->num_col, conv_option.br.pad_amount, conv_option.br.pad_amount, conv_option.br.stride_m1 + 1, conv_option.br.stride_m1 + 1, reordered_input_info);
+  _im2col_reordering(input_info, kernel_info_list[0]->num_row, kernel_info_list[0]->num_col, mconv_option_get_pad_option(conv_option).br.num_rowd, mconv_option_get_pad_option(conv_option).br.num_cold, conv_option.br.stride_m1 + 1, conv_option.br.stride_m1 + 1, reordered_input_info);
 
   ervp_mop_option_t mop_option;
   mop_option.value = 0;
-  mop_option.br.acc = conv_option.br.acc;
-  mop_option.br.performs_cliping = conv_option.br.performs_cliping;
-  mop_option.br.rshift = conv_option.br.rshift;
+  mop_option.br.acc = conv_option.br.mop_option.br.acc;
+  mop_option.br.performs_cliping = conv_option.br.mop_option.br.performs_cliping;
+  mop_option.br.rshift = conv_option.br.mop_option.br.rshift;
 
   // matrix_mult_size_print(flattened_kernel_info, reordered_input_info, merged_output_info);
   hwtask_busy_fx = mop_mapping->matrix_mult(mop_mapping, flattened_kernel_info, reordered_input_info, merged_output_info, mop_option.value);
@@ -384,41 +389,44 @@ ervp_hwtask_busy_fx_t matrix_padfill2copy_tf(ervp_mop_mapping_t *mop_mapping, co
 {
   assert(matrix_pad_check_size(a, c, pad_option_value));
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   ervp_mpad_option_t pad_option;
   pad_option.value = pad_option_value;
 
   if (pad_option.br.mode == PADMODE_ZEROS)
   {
     assert(!matrix_datatype_is_float(a->datatype));
+    ErvpMatrixInfo temp = *c;
     // rowd
+    if (pad_option.br.num_rowd > 0)
     {
-      ErvpMatrixInfo temp = *c;
       temp.num_row = pad_option.br.num_rowd;
+      // temp.num_col = c->num_col;
       // temp.addr = matrix_get_element_addr(c, 0, 0);
       mop_mapping->matrix_fill_fixed(mop_mapping, &temp, 0);
     }
     // rowu
+    if (pad_option.br.num_rowu > 0)
     {
-      ErvpMatrixInfo temp = *c;
       temp.num_row = pad_option.br.num_rowu;
+      // temp.num_col = c->num_col;
       temp.addr = matrix_get_element_addr(c, c->num_row - pad_option.br.num_rowu, 0);
       mop_mapping->matrix_fill_fixed(mop_mapping, &temp, 0);
     }
     // cold
+    if (pad_option.br.num_cold > 0)
     {
-      ErvpMatrixInfo temp = *c;
       temp.num_row = a->num_row;
       temp.num_col = pad_option.br.num_cold;
       temp.addr = matrix_get_element_addr(c, pad_option.br.num_rowd, 0);
       mop_mapping->matrix_fill_fixed(mop_mapping, &temp, 0);
     }
     // colu
+    if (pad_option.br.num_colu > 0)
     {
-      ErvpMatrixInfo temp = *c;
       temp.num_row = a->num_row;
       temp.num_col = pad_option.br.num_colu;
-      temp.addr = matrix_get_element_addr(c, c->num_col - pad_option.br.num_colu, pad_option.br.num_rowd);
+      temp.addr = matrix_get_element_addr(c, pad_option.br.num_rowd, c->num_col - pad_option.br.num_colu);
       hwtask_busy_fx = mop_mapping->matrix_fill_fixed(mop_mapping, &temp, 0);
     }
   }
@@ -433,7 +441,7 @@ ervp_hwtask_busy_fx_t matrix_pad2copy_tf(ervp_mop_mapping_t *mop_mapping, const 
 {
   assert(matrix_pad_check_size(a, c, pad_option_value));
 
-  ervp_hwtask_busy_fx_t hwtask_busy_fx = NULL;
+  ervp_hwtask_busy_fx_t hwtask_busy_fx = HWTASK_BUSY_FX_NULL;
   ervp_mpad_option_t pad_option;
   pad_option.value = pad_option_value;
 

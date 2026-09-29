@@ -18,7 +18,7 @@ void _matrix_max_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixInfo 
       {
         int result;
         int a_value = matrix_read_fixed_element(a, i, j);
-        
+
         result = (a_value >= b_value)? a_value : b_value;
         matrix_write_fixed_element(c, i, j, result);
       }
@@ -33,7 +33,7 @@ void _matrix_max_fixed_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixInfo 
         int result;
         int a_value = matrix_read_fixed_element(a, i, j);
         int b_value = matrix_read_fixed_element(b, i, j);
-        
+
         result = (a_value >= b_value)? a_value : b_value;
         matrix_write_fixed_element(c, i, j, result);
       }

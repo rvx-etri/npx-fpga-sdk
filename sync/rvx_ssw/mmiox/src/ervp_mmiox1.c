@@ -10,7 +10,7 @@ void mmiox1_hwinfo_elaborate(ervp_mmiox1_hwpara_t *hwpara, ervp_mmiox1_hwinfo_t 
   hwinfo->size_of_input = rshift_ru(hwpara->bw_input, 3);
   hwinfo->size_of_output = rshift_ru(hwpara->bw_output, 3);
   hwinfo->baseaddr = 0;
-  hwinfo->busy_fx = NULL;
+  hwinfo->busy_fx = HWTASK_BUSY_FX_NULL;
 }
 
 void mmiox1_print_info(const ervp_mmiox1_hwinfo_t* ip_info)

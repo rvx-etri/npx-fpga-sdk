@@ -11,34 +11,25 @@
 ## IN ANY FORM, BY ANY MEANS, IN WHOLE OR IN PART, WITHOUT THE 
 ## COMPLETE PRIOR WRITTEN PERMISSION OF ETRI.
 ## ****************************************************************************
-## 2023-01-26
+## 2026-08-07
 ## Kyuseung Han (han@etri.re.kr)
 ## ****************************************************************************
 ## ****************************************************************************
 
 ## How to init GIT
-# copy rvx_init.mh
-# make config_python
-# edit "rvx_python_config.mh"
+# source ${RVX_RELEASE_HOME}/rvx_setup.sh
+# make init
 # make check_python
-
-## How to generate GIT
-# write ORIGINAL_GIT into each_test_sw.mh
-# make all
+# make fork_git
+# make platform
 
 ## How to config GIT
 # make config_python
 # edit "rvx_python_config.mh"
 # make check_python
 # make config
-# source ./source
-# make setup
-
-## How to generate GIT 2
-# config first!
-# source ./source
-# make platform
-# add files into GIT manually
+# source ./rvx_setup.sh
+# make install
 
 ifndef RVX_UTIL_HOME
 	RVX_UTIL_HOME=./rvx_util
@@ -46,54 +37,69 @@ endif
 
 TEMPLATE_FILE = ${RVX_ENV}/release/Makefile.test_sw.template
 include ${RVX_UTIL_HOME}/template_makefile.mh
+-include ${RVX_ENV}/makefile/rvx_home.mh
 
 -include ./rvx_config.mh
-include ./rvx_init.mh
--include ./each_test_sw.mh
+-include ./rvx_init.mh
 
-ORIGINAL_FILE_LIST=./README.md ./Makefile ./rvx_init.mh
-include ${RVX_UTIL_HOME}/distclean.mh
+TARGET_LIST=version_info.xml rvx_setup.sh.template rvx_init rvx_util rvx_ssw rvx_binary rvx_platform_example rvx_synthesizer rvx_devkit imp_class_info
 
-TARGET_LIST=.gitignore git_info rvx_export.source imp_class_info rvx_util rvx_ssw rvx_synthesizer_binary rvx_binary rvx_devkit local_setup
+########
+# init #
+########
 
-all: $(addprefix copy., ${TARGET_LIST})
+_check_release_home:
+	$(if $(RVX_RELEASE_HOME), , $(error RVX_RELEASE_HOME is NOT defined))
 
-clean: $(addprefix clean., ${TARGET_LIST})
+init: _check_release_home
+	cp -f ${RVX_RELEASE_HOME}/rvx_init.mh .
+	cp -f ${RVX_RELEASE_HOME}/rvx_python_config.mh .
+	cp -f ${RVX_RELEASE_HOME}/.gitignore .
+	cp -f ${RVX_RELEASE_HOME}/.gitattributes .
+	@make init_makefile
 
-$(addprefix clean., ${TARGET_LIST}):clean.%:
+init_makefile:
+	@cp -f ${TEMPLATE_FILE} Makefile
+
+fork_git: $(addprefix copy., ${TARGET_LIST})
+
+distclean: $(addprefix distclean., ${TARGET_LIST})
+
+$(addprefix distclean., ${TARGET_LIST}):distclean.%:
 	-@git rm -rf ./$(*)
 	-@rm -rf ./$(*)
 
-$(addprefix copy., ${TARGET_LIST}):copy.%: clean.%
-	@if [ -a ${ORIGINAL_GIT}/$(*) ]; \
+$(addprefix copy., ${TARGET_LIST}):copy.%: distclean.%
+	@if [ -a ${RVX_RELEASE_HOME}/$(*) ]; \
 	then \
-		cp -r ${ORIGINAL_GIT}/$(*) .; \
+		cp -r ${RVX_RELEASE_HOME}/$(*) .; \
 		git add -A ./$(*); \
 	fi
-
-copy.local_setup:
-	-git rm -rf ./local_setup/
-	-rm -rf ./local_setup
-	cp -r ${ORIGINAL_GIT}/local_setup .
-	git add -f ./local_setup/Makefile
 
 platform:
 	-@git rm -rf ./platform
 	-@rm -rf ./platform
-	cp -r ${ORIGINAL_GIT}/platform .
+	cp -r ${RVX_RELEASE_HOME}/platform .
 
-config:
-	-rm -f .rvx_*
+########
+# user #
+########
+
+clean: clean_config
+
+clean_config:
+	-rm -f .rvx_path_config .rvx_tool_config
+
+config: clean_config
 	-cd ./rvx_binary && make config
-	${PYTHON3_CMD} ${RVX_UTIL_HOME}/configure_template.py -i ${CURDIR}/rvx_export.source -o ./source -c RVX_EXPORT_HOME=$(CURDIR)
+	${PYTHON3_CMD} ${RVX_UTIL_HOME}/configure_template.py -i ./rvx_setup.sh.template -o ./rvx_setup.sh -c RVX_RELEASE_HOME=$(CURDIR)
 
-setup:
-	@if [ ! -d ./platform ]; \
-	then \
-		mkdir platform; \
-	fi
+install: config
 	cd ./rvx_binary && make compiler
-	cd ./local_setup && make gui ocd
+	make local_setup
+
+customize::
+	@echo "Customization Complete"
 
 .PHONY: ${TARGET_LIST} platform
 

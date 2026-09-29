@@ -45,10 +45,10 @@ def rename_smart(base_path:Path, before:str, after:str):
   for path_object in base_path.glob('**/*'):
     if path_object.is_file():
       try:
-        contents = path_object.read_text()
+        contents = path_object.read_text(encoding='utf8')
         if len(re_conv.findall(contents)) > 0:
           contents = re_conv.sub(lambda x: conv_dict[x.group()], contents)
-          path_object.write_text(contents)
+          path_object.write_text(contents, encoding='utf8')
       except:
         pass
 

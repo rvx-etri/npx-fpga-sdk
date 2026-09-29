@@ -43,7 +43,7 @@ static inline void *matrix_get_row_addr(const ErvpMatrixInfo *matrix, int row_in
   return addr;
 }
 
-static inline int matrix_get_element_addr_offset_in_row(const ErvpMatrixInfo *matrix, int col_index)
+static inline int matrix_get_element_addr_offset_within_row(const ErvpMatrixInfo *matrix, int col_index)
 {
   assert(matrix_is_row_addr_aligned_to_byte(matrix));
   int shift_amount = matrix_datatype_get_addr_lsa(matrix->datatype);
@@ -68,7 +68,7 @@ static inline void *matrix_get_element_addr(const ErvpMatrixInfo *matrix, int ro
 {
   assert(col_index < matrix->num_col);
   void *row_addr = matrix_get_row_addr(matrix, row_index);
-  int offset = matrix_get_element_addr_offset_in_row(matrix, col_index);
+  int offset = matrix_get_element_addr_offset_within_row(matrix, col_index);
   void *addr = row_addr + offset;
   return addr;
 }

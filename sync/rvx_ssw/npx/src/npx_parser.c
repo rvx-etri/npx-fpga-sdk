@@ -24,6 +24,8 @@ static void parse_leaky(npx_layer_compute_t *layer_compute, texpar_list_t *optio
 static void parse_flatten(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator);
 static void parse_linear(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator);
 static void parse_maxpool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator);
+static void parse_shortcut(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator);
+static void parse_pool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator, npx_layer_type_t layer_type);
 
 static npx_network_t *npx_network_malloc(int num_layer);
 
@@ -84,6 +86,10 @@ npx_network_t *npx_parse_network_cfg(const char *net_fname, const char *opt_fnam
     {
       parse_flatten(net->layer_compute_seq[layer_index], option_list, operator);
     }
+    else if (strcmp(net_section->type, "[Shortcut]") == 0)
+    {
+      parse_shortcut(net->layer_compute_seq[layer_index], option_list, operator);
+    }
     else
       assert(0);
 
@@ -95,6 +101,16 @@ npx_network_t *npx_parse_network_cfg(const char *net_fname, const char *opt_fnam
   }
   // free_list(section_list);
   // free_list(opt_section_list);
+
+  for (int i = 0; i < net->num_layer; i++)
+  {
+    if (net->layer_compute_seq[i]->layer_type != NPXL_SHORTCUT)
+      continue;
+    npx_shortcut_layer_t *shortcut_layer = (npx_shortcut_layer_t *)(net->layer_compute_seq[i]->layer);
+    const int source_index = i + shortcut_layer->skip_from;
+    assert(source_index >= 0);
+    shortcut_layer->shortcut_input = &(net->layer_compute_seq[source_index]->output_tsseq);
+  }
 
   printf("\nnumber of layers: %d\n", net->num_layer);
 
@@ -111,20 +127,19 @@ static npx_network_t *npx_network_malloc(int num_layer)
   return net;
 }
 
-static void set_array_from_str(char *size_str, int *size_array, int num)
+// atoi stops at the first non-digit, so the option string is read without being modified
+static void set_array_from_str(const char *size_str, int *size_array, int num)
 {
-  char *p;
   if (size_str[0] == '(')
     size_str++;
-  int len = strlen(size_str);
-  if (size_str[len - 1] == ')')
-    size_str[len - 1] = 0;
-  p = strtok(size_str, ",");
   for (int i = 0; i < num; i++)
   {
-    assert(p);
-    size_array[num - 1 - i] = atoi(p);
-    p = strtok(NULL, ",");
+    assert(*size_str);
+    size_array[num - 1 - i] = atoi(size_str);
+    while (*size_str && (*size_str != ','))
+      size_str++;
+    if (*size_str == ',')
+      size_str++;
   }
 }
 
@@ -189,22 +204,24 @@ static void parse_iodata2d(npx_layer2d_iodata_t *iodata, texpar_list_t *option_l
 
 static int get_weight_datatype(texpar_list_t *option_list)
 {
-  int weight_bitwidth = texpar_find_int_quiet(option_list, "weight_bitwidth", 0);
-  assert(weight_bitwidth > 0);
-  weight_bitwidth = round_up_power2(weight_bitwidth);
-  int weight_datatype = MATRIX_DATATYPE_SINT08;
-  if (weight_bitwidth == 8)
-    weight_datatype = MATRIX_DATATYPE_SINT08;
-  else if (weight_bitwidth == 16)
-    weight_datatype = MATRIX_DATATYPE_SINT16;
-  else if (weight_bitwidth == 32)
-    weight_datatype = MATRIX_DATATYPE_SINT32;
-  else
-    assert(0);
-  return weight_datatype;
+  const char *neuron_type = texpar_find_str(option_list, "neuron_type", "");
+  assert_msg(neuron_type[0] == 'w', "%s", neuron_type);
+  if (neuron_type[1] == 'f')
+    return MATRIX_DATATYPE_FLOAT32;
+  int weight_is_signed = (neuron_type[1] == 's');
+  assert_msg(weight_is_signed || (neuron_type[1] == 'u'), "%s", neuron_type);
+  int weight_bitwidth = atoi(neuron_type + 2);
+  assert_msg(weight_bitwidth > 0, "%s", neuron_type);
+  if (weight_bitwidth <= 8)
+    return weight_is_signed ? MATRIX_DATATYPE_SINT08 : MATRIX_DATATYPE_UINT08;
+  assert_msg(weight_is_signed, "%s", neuron_type);
+  if (weight_bitwidth <= 16)
+    return MATRIX_DATATYPE_SINT16;
+  assert_msg(weight_bitwidth <= 32, "%s", neuron_type);
+  return MATRIX_DATATYPE_SINT32;
 }
 
-static void _transpose_matrix(ErvpMatrixInfo **src_info_list, ErvpMatrixInfo **dst_info_list, int row, int col)
+static void _transpose_matrix_info(ErvpMatrixInfo **src_info_list, ErvpMatrixInfo **dst_info_list, int row, int col)
 {
   for (int i = 0; i < row; i++)
     for (int j = 0; j < col; j++)
@@ -221,7 +238,6 @@ static void parse_conv2d(npx_layer_compute_t *layer_compute, texpar_list_t *opti
 
   int pad_amount = texpar_find_int_quiet(option_list, "padding", 0);
   conv2d_layer->pad_options.value = 0;
-  conv2d_layer->pad_options.br.is_regular = 1;
   conv2d_layer->pad_options.br.num_rowu = pad_amount;
   conv2d_layer->pad_options.br.num_rowd = pad_amount;
   conv2d_layer->pad_options.br.num_colu = pad_amount;
@@ -231,24 +247,39 @@ static void parse_conv2d(npx_layer_compute_t *layer_compute, texpar_list_t *opti
   else
     conv2d_layer->pad_options.br.mode = PADMODE_ZEROS;
 
+  conv2d_layer->groups = texpar_find_int_quiet(option_list, "groups", 1);
+
   assert(conv2d_layer->kernel_size > 0);
   assert(conv2d_layer->stride > 0);
   assert(conv2d_layer->stride < 16);
+  assert(conv2d_layer->groups > 0);
 
   parse_iodata2d(&(conv2d_layer->iodata), option_list);
+
+  assert((conv2d_layer->iodata.in_channels % conv2d_layer->groups) == 0);
+  assert((conv2d_layer->iodata.out_channels % conv2d_layer->groups) == 0);
+  conv2d_layer->in_channels_per_group = conv2d_layer->iodata.in_channels / conv2d_layer->groups;
+  conv2d_layer->out_channels_per_group = conv2d_layer->iodata.out_channels / conv2d_layer->groups;
+
+  const int num_weight_matrix = conv2d_layer->iodata.out_channels * conv2d_layer->in_channels_per_group;
 
   // weight
   conv2d_layer->weight_tensor = npx_tensor_alloc_wo_data(4);
   npx_tensor_set_size(conv2d_layer->weight_tensor, 0, conv2d_layer->kernel_size);
   npx_tensor_set_size(conv2d_layer->weight_tensor, 1, conv2d_layer->kernel_size);
-  npx_tensor_set_size(conv2d_layer->weight_tensor, 2, conv2d_layer->iodata.in_channels);
+  npx_tensor_set_size(conv2d_layer->weight_tensor, 2, conv2d_layer->in_channels_per_group);
   npx_tensor_set_size(conv2d_layer->weight_tensor, 3, conv2d_layer->iodata.out_channels);
   npx_tensor_set_datatype(conv2d_layer->weight_tensor, get_weight_datatype(option_list));
   npx_tensor_alloc_data(conv2d_layer->weight_tensor);
 
-  conv2d_layer->weight_matrix_info_list_for_output_reuse = npx_tensor_to_matrix_info_list(conv2d_layer->weight_tensor, 1, conv2d_layer->iodata.out_channels * conv2d_layer->iodata.in_channels);
-  conv2d_layer->weight_matrix_info_list_for_input_reuse = npx_tensor_to_matrix_info_list(conv2d_layer->weight_tensor, 1, conv2d_layer->iodata.out_channels * conv2d_layer->iodata.in_channels);
-  _transpose_matrix(conv2d_layer->weight_matrix_info_list_for_output_reuse, conv2d_layer->weight_matrix_info_list_for_input_reuse, conv2d_layer->iodata.out_channels, conv2d_layer->iodata.in_channels);
+  conv2d_layer->weight_matrix_info_list_for_output_reuse = npx_tensor_generate_matrix_info_list(conv2d_layer->weight_tensor, 1, num_weight_matrix);
+  conv2d_layer->weight_matrix_info_list_for_input_reuse = npx_tensor_generate_matrix_info_list(conv2d_layer->weight_tensor, 1, num_weight_matrix);
+  // memory leak
+  for (int g = 0; g < conv2d_layer->groups; g++)
+  {
+    const int offset = g * conv2d_layer->out_channels_per_group * conv2d_layer->in_channels_per_group;
+    _transpose_matrix_info(&(conv2d_layer->weight_matrix_info_list_for_output_reuse[offset]), &(conv2d_layer->weight_matrix_info_list_for_input_reuse[offset]), conv2d_layer->out_channels_per_group, conv2d_layer->in_channels_per_group);
+  }
 
   // operator
   layer_compute->operator = operator;
@@ -258,34 +289,101 @@ static void parse_conv2d(npx_layer_compute_t *layer_compute, texpar_list_t *opti
     layer_compute->forward = npx_forward_conv2d_layer_default;
 }
 
-static void parse_avgpool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator)
+static void parse_shortcut(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator)
 {
-  npx_avgpool2d_layer_t *avgpool2d_layer = (npx_avgpool2d_layer_t *)calloc(1, sizeof(npx_avgpool2d_layer_t));
-  layer_compute->layer_type = NPXL_AVGPOOL2D;
-  layer_compute->layer = avgpool2d_layer;
-  avgpool2d_layer->kernel_size = texpar_find_int_quiet(option_list, "kernel_size", 0);
-  avgpool2d_layer->stride = texpar_find_int_quiet(option_list, "stride", 1);
+  npx_shortcut_layer_t *shortcut_layer = (npx_shortcut_layer_t *)calloc(1, sizeof(npx_shortcut_layer_t));
+  layer_compute->layer_type = NPXL_SHORTCUT;
+  layer_compute->layer = shortcut_layer;
 
-  const int pad_amount = texpar_find_int_quiet(option_list, "padding", 0);
-  avgpool2d_layer->pad_options.value = 0;
-  avgpool2d_layer->pad_options.br.is_regular = 1;
-  avgpool2d_layer->pad_options.br.num_rowu = pad_amount;
-  avgpool2d_layer->pad_options.br.num_rowd = pad_amount;
-  avgpool2d_layer->pad_options.br.num_colu = pad_amount;
-  avgpool2d_layer->pad_options.br.num_cold = pad_amount;
-  if (pad_amount == 0)
-    avgpool2d_layer->pad_options.br.mode = PADMODE_NONE;
+  shortcut_layer->skip_from = texpar_find_int_quiet(option_list, "skip_from", 0);
+  assert(shortcut_layer->skip_from < 0);
+
+  const char *shortcut_type = texpar_find_str(option_list, "type", "Identity");
+  if (strcmp(shortcut_type, "Identity") == 0)
+  {
+    shortcut_layer->shortcut_type = NPXL_IDENTITY;
+    shortcut_layer->layer = NULL;
+    parse_iodata2d(&(shortcut_layer->iodata), option_list);
+  }
   else
-    avgpool2d_layer->pad_options.br.mode = PADMODE_ZEROS;
-
-  assert(avgpool2d_layer->kernel_size > 0);
-  assert(avgpool2d_layer->stride > 0);
-  assert(avgpool2d_layer->stride < 16);
-
-  parse_iodata2d(&(avgpool2d_layer->iodata), option_list);
+  {
+    npx_layer_compute_t inner_layer_compute;
+    memset(&inner_layer_compute, 0, sizeof(npx_layer_compute_t));
+    if (strcmp(shortcut_type, "Conv2d") == 0)
+      parse_conv2d(&inner_layer_compute, option_list, operator);
+    else if (strcmp(shortcut_type, "MaxPool2d") == 0)
+      parse_pool2d(&inner_layer_compute, option_list, operator, NPXL_MAXPOOL2D);
+    else if (strcmp(shortcut_type, "AvgPool2d") == 0)
+      parse_pool2d(&inner_layer_compute, option_list, operator, NPXL_AVGPOOL2D);
+    else
+      assert(0);
+    shortcut_layer->shortcut_type = inner_layer_compute.layer_type;
+    shortcut_layer->layer = inner_layer_compute.layer;
+    assert(shortcut_layer->layer);
+    switch (shortcut_layer->shortcut_type)
+    {
+    case NPXL_CONV2D:
+      shortcut_layer->iodata = ((npx_conv2d_layer_t *)(shortcut_layer->layer))->iodata;
+      break;
+    case NPXL_MAXPOOL2D:
+    case NPXL_AVGPOOL2D:
+      shortcut_layer->iodata = ((npx_pool2d_layer_t *)(shortcut_layer->layer))->iodata;
+      break;
+    default:
+      assert(0);
+    }
+  }
 
   layer_compute->operator = operator;
-  layer_compute->forward = npx_forward_avgpool2d_layer_default;
+  layer_compute->forward = npx_forward_shortcut_layer_default;
+}
+
+static void parse_pool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator, npx_layer_type_t layer_type)
+{
+  npx_pool2d_layer_t *pool2d_layer = (npx_pool2d_layer_t *)calloc(1, sizeof(npx_pool2d_layer_t));
+  layer_compute->layer_type = layer_type;
+  layer_compute->layer = pool2d_layer;
+  pool2d_layer->kernel_size = texpar_find_int_quiet(option_list, "kernel_size", 0);
+  pool2d_layer->stride = texpar_find_int_quiet(option_list, "stride", 1);
+
+  const int pad_amount = texpar_find_int_quiet(option_list, "padding", 0);
+  pool2d_layer->pad_options.value = 0;
+  pool2d_layer->pad_options.br.num_rowu = pad_amount;
+  pool2d_layer->pad_options.br.num_rowd = pad_amount;
+  pool2d_layer->pad_options.br.num_colu = pad_amount;
+  pool2d_layer->pad_options.br.num_cold = pad_amount;
+  if (pad_amount == 0)
+    pool2d_layer->pad_options.br.mode = PADMODE_NONE;
+  else
+    pool2d_layer->pad_options.br.mode = PADMODE_ZEROS;
+
+  assert(pool2d_layer->kernel_size > 0);
+  assert(pool2d_layer->stride > 0);
+  assert(pool2d_layer->stride < 16);
+  assert(pool2d_layer->kernel_size == pool2d_layer->stride);
+
+  parse_iodata2d(&(pool2d_layer->iodata), option_list);
+
+  layer_compute->operator = operator;
+  switch (layer_type)
+  {
+  case NPXL_MAXPOOL2D:
+    layer_compute->forward = npx_forward_maxpool2d_layer_default;
+    break;
+  case NPXL_AVGPOOL2D:
+    layer_compute->forward = npx_forward_avgpool2d_layer_default;
+    break;
+  case NPXL_SUMPOOL2D:
+    layer_compute->forward = npx_forward_sumpool2d_layer_default;
+    break;
+  default:
+    assert(0);
+  }
+}
+
+static void parse_avgpool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator)
+{
+  parse_pool2d(layer_compute, option_list, operator, NPXL_SUMPOOL2D);
 }
 
 static void parse_leaky(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator)
@@ -293,7 +391,7 @@ static void parse_leaky(npx_layer_compute_t *layer_compute, texpar_list_t *optio
   npx_leaky_layer_t *leaky_layer = (npx_leaky_layer_t *)calloc(1, sizeof(npx_leaky_layer_t));
   layer_compute->layer_type = NPXL_LEAKY;
   layer_compute->layer = leaky_layer;
-  // leaky_layer->beta = texpar_find_float_quiet(option_list, "beta", 0.0f);
+
   leaky_layer->reset_mechanism = texpar_find_str(option_list, "reset_mechanism", "");
   leaky_layer->reset_delay = texpar_find_str(option_list, "reset_delay", "");
 
@@ -302,15 +400,6 @@ static void parse_leaky(npx_layer_compute_t *layer_compute, texpar_list_t *optio
   leaky_layer->is_soft_reset = (strcmp(leaky_layer->reset_mechanism, "subtract") == 0);
   assert(leaky_layer->is_hard_reset || leaky_layer->is_soft_reset);
   leaky_layer->has_reset_delay = (strcmp(leaky_layer->reset_delay, "True") == 0);
-  leaky_layer->does_decay = (leaky_layer->beta != 1.0f);
-
-  // leaky_layer->beta_denominator_rsa = 8;
-  // leaky_layer->beta_denominator = pow(2, leaky_layer->beta_denominator_rsa);
-  // leaky_layer->beta_numerator = leaky_layer->beta * leaky_layer->beta_denominator;
-  // assert(leaky_layer->beta == (((float)(leaky_layer->beta_numerator) / leaky_layer->beta_denominator)));
-  leaky_layer->beta_denominator_rsa = 0;
-  leaky_layer->beta_denominator = 0;
-  leaky_layer->beta_numerator = 0;
 
   parse_iodata2d(&(leaky_layer->iodata), option_list);
 
@@ -318,21 +407,18 @@ static void parse_leaky(npx_layer_compute_t *layer_compute, texpar_list_t *optio
   ervp_matrix_datatype_t datatype = leaky_layer->iodata.in_is_quantized ? MATRIX_DATATYPE_SINT32 : MATRIX_DATATYPE_FLOAT32;
   leaky_layer->membrane_potential = (ErvpMatrixInfo **)calloc(num_channel, sizeof(ErvpMatrixInfo *));
 #if 1
-  leaky_layer->membrane_potential_total = matrix_alloc(datatype, num_channel * leaky_layer->iodata.in_size[1], leaky_layer->iodata.in_size[0], NULL);
+  leaky_layer->membrane_potential_total = matrix_alloc(datatype, num_channel * leaky_layer->iodata.in_size[1], leaky_layer->iodata.in_size[0]);
   for (int i = 0; i < num_channel; i++)
   {
-    leaky_layer->membrane_potential[i] = matrix_generate_submatrix_info(leaky_layer->membrane_potential_total, NULL);
+    leaky_layer->membrane_potential[i] = matrix_generate_submatrix_info(leaky_layer->membrane_potential_total);
     leaky_layer->membrane_potential[i]->addr = matrix_get_row_addr(leaky_layer->membrane_potential_total, i * leaky_layer->iodata.in_size[1]);
     leaky_layer->membrane_potential[i]->num_row = leaky_layer->iodata.in_size[1];
   }
 #else
   for (int i = 0; i < num_channel; i++)
-    leaky_layer->membrane_potential[i] = matrix_alloc(datatype, leaky_layer->iodata.in_size[1], leaky_layer->iodata.in_size[0], NULL);
+    leaky_layer->membrane_potential[i] = matrix_alloc(datatype, leaky_layer->iodata.in_size[1], leaky_layer->iodata.in_size[0]);
 #endif
-  if (leaky_layer->beta_denominator == leaky_layer->beta_numerator)
-    leaky_layer->membrane_potential_scaled = 1;
-  else
-    leaky_layer->membrane_potential_scaled = 4; // increase to ensure reserved precision
+  leaky_layer->membrane_potential_scaled = 1;
 
   layer_compute->operator = operator;
   layer_compute->forward = npx_forward_leaky_layer_default;
@@ -370,7 +456,7 @@ static void parse_linear(npx_layer_compute_t *layer_compute, texpar_list_t *opti
   npx_tensor_set_datatype(linear_layer->weight_tensor, get_weight_datatype(option_list));
   npx_tensor_alloc_data(linear_layer->weight_tensor);
 
-  linear_layer->transposed_weight_matrix = matrix_alloc(linear_layer->weight_tensor->datatype, linear_layer->in_features, linear_layer->out_features, NULL);
+  linear_layer->transposed_weight_matrix = matrix_alloc(linear_layer->weight_tensor->datatype, linear_layer->in_features, linear_layer->out_features);
 
   layer_compute->operator = operator;
   layer_compute->forward = npx_forward_linear_layer_default;
@@ -378,30 +464,5 @@ static void parse_linear(npx_layer_compute_t *layer_compute, texpar_list_t *opti
 
 static void parse_maxpool2d(npx_layer_compute_t *layer_compute, texpar_list_t *option_list, const char *operator)
 {
-  npx_maxpool2d_layer_t *maxpool2d_layer = (npx_maxpool2d_layer_t *)calloc(1, sizeof(npx_maxpool2d_layer_t));
-  layer_compute->layer_type = NPXL_MAXPOOL2D;
-  layer_compute->layer = maxpool2d_layer;
-  maxpool2d_layer->kernel_size = texpar_find_int_quiet(option_list, "kernel_size", 0);
-  maxpool2d_layer->stride = texpar_find_int_quiet(option_list, "stride", 1);
-
-  int pad_amount = texpar_find_int_quiet(option_list, "padding", 0);
-  maxpool2d_layer->pad_options.value = 0;
-  maxpool2d_layer->pad_options.br.is_regular = 1;
-  maxpool2d_layer->pad_options.br.num_rowu = pad_amount;
-  maxpool2d_layer->pad_options.br.num_rowd = pad_amount;
-  maxpool2d_layer->pad_options.br.num_colu = pad_amount;
-  maxpool2d_layer->pad_options.br.num_cold = pad_amount;
-  if (pad_amount == 0)
-    maxpool2d_layer->pad_options.br.mode = PADMODE_NONE;
-  else
-    maxpool2d_layer->pad_options.br.mode = PADMODE_ZEROS;
-
-  assert(maxpool2d_layer->kernel_size > 0);
-  assert(maxpool2d_layer->stride > 0);
-  assert(maxpool2d_layer->stride < 16);
-
-  parse_iodata2d(&(maxpool2d_layer->iodata), option_list);
-
-  layer_compute->operator = operator;
-  layer_compute->forward = npx_forward_maxpool2d_layer_default;
+  parse_pool2d(layer_compute, option_list, operator, NPXL_MAXPOOL2D);
 }

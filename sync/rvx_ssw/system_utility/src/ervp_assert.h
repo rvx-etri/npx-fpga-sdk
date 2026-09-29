@@ -16,16 +16,16 @@
 #define assert_must_msg(expr, ...) assert_must_info(expr, __FILE__, __LINE__, __func__, __VA_ARGS__)
 #define assert_must_info(expr, file, line, func, ...) do {if(!(((unsigned int)(expr)))) _assert_fail_rvx(file, line, func, __VA_ARGS__);} while(0)
 
-void _assert_fail_rvx(const char* file, unsigned int line, const char* func, const char* format, ...);
+__attribute__((noreturn)) void _assert_fail_rvx(const char* file, unsigned int line, const char* func, const char* format, ...);
 
-#define POINTEROR1(a1)                        ((int)a1)
-#define POINTEROR2(a1, a2)                    (((int)a1) | ((int)a2))
-#define POINTEROR3(a1, a2, a3)                (((int)a1) | ((int)a2) | ((int)a3))
-#define POINTEROR4(a1, a2, a3, a4)            (((int)a1) | ((int)a2) | ((int)a3) | ((int)a4))
-#define POINTEROR5(a1, a2, a3, a4, a5)        (((int)a1) | ((int)a2) | ((int)a3) | ((int)a4) | ((int)a5))
+#define POINTEROR1(a1)                        ((uintptr_t)a1)
+#define POINTEROR2(a1, a2)                    (((uintptr_t)a1) | ((uintptr_t)a2))
+#define POINTEROR3(a1, a2, a3)                (((uintptr_t)a1) | ((uintptr_t)a2) | ((uintptr_t)a3))
+#define POINTEROR4(a1, a2, a3, a4)            (((uintptr_t)a1) | ((uintptr_t)a2) | ((uintptr_t)a3) | ((uintptr_t)a4))
+#define POINTEROR5(a1, a2, a3, a4, a5)        (((uintptr_t)a1) | ((uintptr_t)a2) | ((uintptr_t)a3) | ((uintptr_t)a4) | ((uintptr_t)a5))
 
 #define assert_pointer(n, ...) assert(POINTEROR##n(__VA_ARGS__))
-#define assert_pointer_align(p, n) assert((((unsigned int)(p))&(n-1))==0)
+#define assert_pointer_align(p, n) assert((((uintptr_t)(p))&(n-1))==0)
 
 int check_if_data_porinter_is_valid(void* p);
 

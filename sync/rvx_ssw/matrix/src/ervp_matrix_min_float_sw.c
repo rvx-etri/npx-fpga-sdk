@@ -18,7 +18,7 @@ void _matrix_min_float_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixInfo 
       {
         float result;
         float a_value = matrix_read_float_element(a, i, j);
-        
+
         result = (a_value <= b_value)? a_value : b_value;
         matrix_write_float_element(c, i, j, result);
       }
@@ -33,7 +33,7 @@ void _matrix_min_float_sw(ervp_mop_mapping_t* mop_mapping, const ErvpMatrixInfo 
         float result;
         float a_value = matrix_read_float_element(a, i, j);
         float b_value = matrix_read_float_element(b, i, j);
-        
+
         result = (a_value <= b_value)? a_value : b_value;
         matrix_write_float_element(c, i, j, result);
       }

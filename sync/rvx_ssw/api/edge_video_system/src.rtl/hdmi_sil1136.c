@@ -352,6 +352,4 @@ void sii1136_init(void)
 
 	// End
 	printf( "SII1136 Initialization Done!\n");
-
-	return 0;
 }

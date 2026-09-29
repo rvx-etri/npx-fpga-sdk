@@ -56,7 +56,7 @@ if __name__ == '__main__':
     elif image_format=='JPEG':
       jpeg_path = output_directory / (input_path.stem + '_temp.jpg')
       image.save(jpeg_path)
-      contents = jpeg_path.read_text()
+      contents = jpeg_path.read_text(encoding='utf8')
       assert 0
     # var
     ervp_image_name = f'{image_name}_image'
@@ -79,7 +79,7 @@ if __name__ == '__main__':
     line_list.append(f'#endif')
 
     output_path = output_directory / f'{ervp_image_name}.h'
-    output_path.write_text('\n'.join(line_list))
+    output_path.write_text('\n'.join(line_list), encoding='utf8')
 
     # c
     mmap_name = f'MMAP_{rom_name}_{ervp_image_name.upper()}'
@@ -129,4 +129,4 @@ if __name__ == '__main__':
     line_list.append(f'#endif')
 
     output_path = output_directory / f'{ervp_image_name}.c'
-    output_path.write_text('\n'.join(line_list))
+    output_path.write_text('\n'.join(line_list), encoding='utf8')

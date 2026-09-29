@@ -16,14 +16,16 @@ int npx_layer_output_size(npx_layer_type_t layer_type, void *layer);
 int npx_layer_testvector_size(npx_layer_type_t layer_type, void *layer);
 
 // weak functions
-void npx_forward_conv2d_layer_default(npx_conv2d_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_maxpool2d_layer_default(npx_maxpool2d_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_avgpool2d_layer_default(npx_avgpool2d_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_linear_layer_default(npx_linear_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_flatten_layer_default(npx_flatten_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_leaky_layer_default(npx_leaky_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_layer_block_default(npx_layer_block_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
-void npx_forward_conv2d_layer_reuse(npx_conv2d_layer_t *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_conv2d_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_maxpool2d_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_avgpool2d_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_sumpool2d_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_linear_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_flatten_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_leaky_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_shortcut_layer_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_layer_block_default(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+void npx_forward_conv2d_layer_reuse(void *layer_ptr, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
 // weak functions
 
 #endif // __NPX_LAYER_H__

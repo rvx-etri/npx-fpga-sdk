@@ -7,7 +7,7 @@ from os_util import *
 from gather_files import *
 
 
-def execute_shell_cmd(cmd_list, ignore_error: bool = False):
+def execute_shell_cmd_list(cmd_list, ignore_error: bool = False):
     if type(cmd_list) == str:
         cmd = cmd_list
     else:
@@ -29,7 +29,7 @@ def execute_shell_cmd_separately(common_cmd_list: list, file_list: list, each: b
     for i in range(0, len(file_list), number_of_file_at_once):
         cmd_list = common_cmd_list + \
             [str(x) for x in file_list[i:i+number_of_file_at_once]]
-        execute_shell_cmd(cmd_list)
+        execute_shell_cmd_list(cmd_list)
 
 
 def get_hdlsim_filename(tool: str, action: str) -> str:
@@ -195,28 +195,28 @@ if __name__ == '__main__':
                 for i in range(len(pkg_vhdl_file_list)):
                     for vhdl_file in set(candidate_set):
                         cmd_list = common_cmd_list + [vhdl_file]
-                        if execute_shell_cmd(cmd_list, True):
+                        if execute_shell_cmd_list(cmd_list, True):
                             candidate_set.remove(vhdl_file)
                     if len(candidate_set) == 0:
                         break
                 assert len(candidate_set) == 0
                 cmd_list = common_cmd_list + \
                     [str(x) for x in pkg_vhdl_file_list]
-                execute_shell_cmd(cmd_list)
+                execute_shell_cmd_list(cmd_list)
             if normal_vhdl_file_list:
                 all_correct = True
                 candidate_set = set([str(x) for x in normal_vhdl_file_list])
                 for i in range(len(normal_vhdl_file_list)):
                     for vhdl_file in set(candidate_set):
                         cmd_list = common_cmd_list + [vhdl_file]
-                        if execute_shell_cmd(cmd_list, True):
+                        if execute_shell_cmd_list(cmd_list, True):
                             candidate_set.remove(vhdl_file)
                     if len(candidate_set) == 0:
                         break
                 assert len(candidate_set) == 0
                 cmd_list = common_cmd_list + \
                     [str(x) for x in normal_vhdl_file_list]
-                execute_shell_cmd(cmd_list)
+                execute_shell_cmd_list(cmd_list)
         remove_file(compile_wrong_file)
         compile_correctly_file.touch()
 
@@ -238,7 +238,7 @@ if __name__ == '__main__':
                     cmd_list.append(
                         '-timescale 1ns/100ps -ntcnotchks -message')
                 cmd_list.append(f'worklib.{args.top}')
-                execute_shell_cmd(cmd_list)
+                execute_shell_cmd_list(cmd_list)
             elif args.simulator == 'modelsim' or args.simulator == 'questasim':
                 pass
 
@@ -259,7 +259,7 @@ if __name__ == '__main__':
                     cmd_list.append(
                         f'-UNBUFFERED -message -LICQUEUE -input {sim_script}')
                 cmd_list.append(f'worklib.{args.top}')
-                execute_shell_cmd(cmd_list)
+                execute_shell_cmd_list(cmd_list)
             elif args.simulator == 'modelsim' or args.simulator == 'questasim':
                 # execute_shell_cmd(f'vopt -debugdb +acc {args.top} -o {args.top}_opt')
                 sim_script = Path('.') / f'{args.operation}.do'
@@ -273,7 +273,7 @@ if __name__ == '__main__':
                 log_file_path = Path(
                     '.') / get_hdlsim_filename(args.simulator, f'{args.operation}.log')
                 cmd_list.append(f'-l {log_file_path}')
-                execute_shell_cmd(cmd_list)
+                execute_shell_cmd_list(cmd_list)
 
     elif args.operation == 'debug_view':
         assert args.top
@@ -289,12 +289,12 @@ if __name__ == '__main__':
         if args.simulator == 'ncsim' or args.simulator == 'xcelium':
             cmd_list = []
             cmd_list.append('simvision ./wave/*-1-1.trn &')
-            execute_shell_cmd(cmd_list)
+            execute_shell_cmd_list(cmd_list)
         elif args.simulator == 'modelsim' or args.simulator == 'questasim':
             cmd_list = []
             if args.simulator == 'modelsim' or args.simulator == 'questasim':
                 cmd_list.append('vsim -view dataset=./vsim.wlf')
-            execute_shell_cmd(cmd_list)
+            execute_shell_cmd_list(cmd_list)
         else:
             not_allowed_assertion(args.simulator)
     else:

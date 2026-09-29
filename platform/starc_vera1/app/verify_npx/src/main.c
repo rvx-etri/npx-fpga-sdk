@@ -13,11 +13,10 @@
 #include "npx_network.h"
 #include "npx_sample.h"
 #include "npx_preprocess.h"
-#include "npx_buffer_allocator.h"
+
+static const char app_name[] = "verify_app";
 
 #define FNAME_MAX 256
-
-char app_name[FNAME_MAX] = "verify_app";
 
 char net_fname[FNAME_MAX];
 char opt_fname[FNAME_MAX];
@@ -46,13 +45,9 @@ int main()
     printf_section(SKIP_SIM, "Verify NPX: %s", net_fname);
 
     npx_network_t *net = npx_parse_network_cfg(net_fname, opt_fname);
-    npx_network_print(net);
     npx_network_load_parameters(net, parameter_fname);
     npx_network_map_matrix_operator(net, -1, mop_mapping);
     npx_network_print(net);
-#if defined(I_SCRATCHPAD_BASEADDR)
-    npx_buffer_create(I_SCRATCHPAD_BASEADDR, I_SCRATCHPAD_SIZE);
-#endif
 
     while (1)
     {
@@ -75,18 +70,14 @@ int main()
         state.output_tsseq = npx_inference(net, state.input_tsseq, layer_index, layer_index + 1);
         assert(state.output_tsseq != NULL);
         npx_verify_with_testvector(state.output_tsseq, tv, layer_index);
-        if (layer_index != 0)
-          npx_layerio_tsseq_free(state.input_tsseq);
+        if (layer_index >= 1)
+          npx_layer_output_release(net, layer_index - 1);
         state.input_tsseq = state.output_tsseq;
         state.output_tsseq = NULL;
       }
-      npx_layerio_tsseq_free(state.input_tsseq);
+      npx_layer_output_release(net, net->num_layer - 1);
       sample_index++;
     }
-    
-#if defined(I_SCRATCHPAD_BASEADDR)
-    npx_buffer_destroy();
-#endif
 
     printf("\n\nVerify NPX Complete");
   }

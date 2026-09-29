@@ -1,7 +1,10 @@
+#include <math.h>
 #include <stdint.h>
+
 #include "ervp_printf.h"
 #include "ervp_assert.h"
 #include "ervp_malloc.h"
+#include "ervp_stdlib.h"
 #include "texpar_api.h"
 
 #include "SPTK.h"
@@ -52,13 +55,13 @@ NpxTensorInfo *npx_log_mel_spectrogram(NpxTensorInfo *input, texpar_list_t *opti
   npx_tensor_set_size(mel_spectrogram, 0, n_mels);
   npx_tensor_set_size(mel_spectrogram, 1, nframes);
   npx_tensor_set_size(mel_spectrogram, 2, 1);
-  npx_tensor_set_datatype(mel_spectrogram, MATRIX_DATATYPE_SINT08);
+  npx_tensor_set_datatype(mel_spectrogram, MATRIX_DATATYPE_SINT16);
   npx_tensor_alloc_data(mel_spectrogram);
 
-  int8_t *lms_int8 = mel_spectrogram->addr;
+  int16_t *lms_int16 = mel_spectrogram->addr;
   for (int i = 0; i < nframes * n_mels; i++)
   {
-    lms_int8[i] = (int8_t)lms[i];
+    lms_int16[i] = (int16_t)lms[i];
   }
   free(lms);
 

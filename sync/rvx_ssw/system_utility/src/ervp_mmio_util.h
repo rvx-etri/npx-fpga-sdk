@@ -6,7 +6,7 @@
 #include "ervp_round_int.h"
 #include "core_dependent.h"
 
-typedef volatile unsigned int mmio_addr_t;
+typedef volatile uintptr_t mmio_addr_t;
 typedef uint32_t mmio_data_t;
 typedef void mmio_struct_t;
 

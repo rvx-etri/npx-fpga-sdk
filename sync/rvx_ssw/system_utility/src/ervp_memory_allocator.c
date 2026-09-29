@@ -22,33 +22,12 @@ memory_block_info_t *memory_allocator_pop(memory_allocator_t *allocator, size_t 
   return block;
 }
 
-static ervp_private_cacheline_t private_cacheline[NUM_CORE] DATA_BSS;
-
-#if defined(CACHE_LINE_SIZE)
-static const int ALLOC_SIZE = ALIGN_UP_POW2(sizeof(memory_block_head_info_t), CACHE_LINE_SIZE);
-#else
-static const int ALLOC_SIZE = sizeof(memory_block_head_info_t);
-#endif
-
-static inline void *palloc_head_info()
-{
-  assert(sizeof(memory_block_head_info_t) <= ALLOC_SIZE);
-
-  ervp_private_cacheline_t *cacheline = &(private_cacheline[EXCLUSIVE_ID]);
-  if (cacheline->current_size < ALLOC_SIZE)
-  {
-    cacheline->ptr = palloc_cacheline(ALLOC_SIZE);
-    cacheline->current_size = ALLOC_SIZE;
-  }
-  uintptr_t ptr;
-  ptr = cacheline->ptr;
-  cacheline->ptr += ALLOC_SIZE;
-  cacheline->current_size -= ALLOC_SIZE;
-  return (void *)ptr;
-}
-
 void memory_allocator_push(memory_allocator_t *allocator, memory_block_info_t *block)
 {
+#if 0
+  void *ptr = (void *)(((unsigned int)block) + MEMORY_BLOCK_INFO_SIZE);
+  debug_printx((unsigned int)ptr);
+#endif
   memory_block_head_info_t *head;
   assert(allocator != NULL);
   assert(block);
@@ -57,7 +36,7 @@ void memory_allocator_push(memory_allocator_t *allocator, memory_block_info_t *b
   {
     // make first element dummy
     // head = _alloc_new_memory_space(sizeof(memory_block_head_info_t));
-    head = palloc_head_info();
+    head = ppalloc(sizeof(memory_block_head_info_t));
     head->size = block->size;
     head->next = NULL;
     HASH_ADD(hh, *allocator, size, sizeof(size_t), head);

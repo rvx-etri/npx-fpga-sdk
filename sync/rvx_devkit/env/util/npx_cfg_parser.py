@@ -130,7 +130,7 @@ class NpxCfgParser():
   
   def parse_file(self, path:Path):
     assert path.is_file(), path
-    line_list = path.read_text().split('\n')
+    line_list = path.read_text(encoding='utf8').split('\n')
 
     current_section = None
     for line in line_list:
@@ -168,7 +168,7 @@ class NpxCfgParser():
     return str(self)+'\n' 
   
   def write_file(self, path:Path):
-    path.write_text(str(self))
+    path.write_text(str(self), encoding='utf8')
     
   def add_train_info(self):
     assert self.train_info

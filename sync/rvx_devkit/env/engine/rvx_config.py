@@ -37,7 +37,7 @@ class RvxPathConfig(ConfigFileManager):
       if not python_config_path.is_file(): # due to Windows
         python_config_path = Path(os.environ.get('RVX_SHARED_HOME')) / 'rvx_python_config.mh'
       assert python_config_path.is_file(), python_config_path
-      python_config_list = python_config_path.read_text().split('\n')
+      python_config_list = python_config_path.read_text(encoding='utf8').split('\n')
       self.python3_cmd = None
       for python_config in python_config_list:
         if 'PYTHON3_CMD=' in python_config:
@@ -81,8 +81,9 @@ class RvxPathConfig(ConfigFileManager):
     '''    
 
 class RvxToolConfig(ConfigFileManager):
-  def __init__(self, file_path:Path, is_frozen:bool):
+  def __init__(self, file_path:Path, home_path:Path, is_frozen:bool):
     super().__init__('rvx_tool_config', file_path, None)
+    self.home_path = home_path
     self.allowed_set = frozenset(('rtl_simulator','use_terminal_for_implementing_fpga','use_terminal_for_running_ocd','use_terminal_for_connecting_ocd','use_terminal_for_printf', 'build_smart','build_local','syn_local','minicom_as_file'))
     if not self.check(self.allowed_set, exact=True):
       self.clear()
@@ -90,18 +91,14 @@ class RvxToolConfig(ConfigFileManager):
     self.update_build_local(is_frozen)
     self.update_syn_local(is_frozen)
 
+  @property
+  def binary_path(self):
+    candidate_list = (self.home_path / 'rvx_binary', get_path_from_os_env('RVX_BINARY_HOME'))
+    return select_path(candidate_list, False)
+
   def update_build_local(self, is_frozen:bool):
-    # nullify if not exist
-    exist = False
-    binary_path = get_path_from_os_env('RVX_BINARY_HOME')
-    if binary_path:
-      if (binary_path / 'rvx_setup.sh').is_file():
-        exist = True
-    if is_frozen:
-      self.set_attr('build_local', True)
-    elif not exist:
-      self.set_attr('build_local', False)
-    
+    exists = self.binary_path and self.binary_path.is_dir()
+    self.set_attr('build_local', exists)
   
   def update_syn_local(self, is_frozen:bool):
     # nullify if not exist
@@ -231,43 +228,31 @@ class RvxConfig():
   def eclipse_project_template_path(self):
     return self.env_path / 'eclipse_template' / 'project'
   
-  @staticmethod
-  def select_path(candidate_list:list, must:bool):
-    path = None
-    for candidate in candidate_list:
-      if candidate==None:
-        continue
-      if not candidate.is_dir():
-        continue
-      path = candidate
-      break
-    assert (not must) or (path!=None), candidate_list
-    return path
-
   @property
   def hwlib_path(self):
     candidate_list = (self.home_path / 'rvx_hwlib',
                       get_path_from_os_env('RVX_HWLIB_HOME'))
-    return self.select_path(candidate_list, True)
+    return select_path(candidate_list, False)
   
   @property
   def special_ip_path(self):
     candidate_list = (self.home_path / 'rvx_special_ip',
                       self.home_path / 'hwlib_special',
                       get_path_from_os_env('RVX_SPECIAL_IP_HOME'))
-    return self.select_path(candidate_list, False)
+    return select_path(candidate_list, False)
     
   @property
   def munoc_path(self):
-    candidate_list = (get_path_from_os_env('MUNOC_HW_HOME'),
-                      self.hwlib_path / 'munoc')
-    return self.select_path(candidate_list, True)
+    candidate_list = [get_path_from_os_env('MUNOC_HW_HOME')]
+    if self.hwlib_path:
+      candidate_list.append(self.hwlib_path / 'munoc')
+    return select_path(candidate_list, False)
   
   def get_speical_git_path(self, name:str):
     candidate_list = [get_path_from_os_env(f'{name.upper()}_HW_HOME')]
     if self.special_ip_path:
       candidate_list.append(self.special_ip_path / name)
-    return self.select_path(candidate_list, False)
+    return select_path(candidate_list, False)
   
   @property
   def pact_path(self):
@@ -311,7 +296,7 @@ class RvxConfig():
       assert self.home_path==self.devkit_path, (self.home_path, self.devkit_path)
 
     self.path_config = RvxPathConfig(self.path_config_path, self.home_path, self.devkit_path, self.is_mini)
-    self.tool_config = RvxToolConfig(self.tool_config_path, self.is_frozen)
+    self.tool_config = RvxToolConfig(self.tool_config_path, self.home_path, self.is_frozen)
     self.key_manager = KeyFileManager(self.key_path)
     if not self.key_manager.key:
       self.key_manager.generate_key()

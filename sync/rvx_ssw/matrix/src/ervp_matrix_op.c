@@ -26,18 +26,18 @@ int _melement_perform_rshift_and_clip(int value, int rshift, int performs_clipin
 ErvpMatrixInfo *matrix_conv_alloc_output(const ErvpMatrixInfo *input_info, const ErvpMatrixInfo *kernel_info, unsigned int conv_option_value)
 {
   ErvpMatrixInfo *result;
-  int o_num_row = matrix_conv_output_rows(input_info->num_row, kernel_info->num_row, conv_option_value);
-  int o_num_col = matrix_conv_output_cols(input_info->num_col, kernel_info->num_col, conv_option_value);
+  int o_num_row = matrix_conv_output_rows(input_info->num_row, kernel_info->num_row, mconv_option_set(conv_option_value));
+  int o_num_col = matrix_conv_output_cols(input_info->num_col, kernel_info->num_col, mconv_option_set(conv_option_value));
   ervp_matrix_datatype_t datatype;
   datatype = matrix_datatype_is_float(input_info->datatype) ? MATRIX_DATATYPE_FLOAT32 : MATRIX_DATATYPE_SINT32;
-  result = matrix_alloc(datatype, o_num_row, o_num_col, NULL);
+  result = matrix_alloc(datatype, o_num_row, o_num_col);
   return result;
 }
 
 int matrix_conv_check_size(const ErvpMatrixInfo *input_info, const ErvpMatrixInfo *kernel_info, const ErvpMatrixInfo *output_info, unsigned int conv_option_value)
 {
-  int o_num_row = matrix_conv_output_rows(input_info->num_row, kernel_info->num_row, conv_option_value);
-  int o_num_col = matrix_conv_output_cols(input_info->num_col, kernel_info->num_col, conv_option_value);
+  int o_num_row = matrix_conv_output_rows(input_info->num_row, kernel_info->num_row, mconv_option_set(conv_option_value));
+  int o_num_col = matrix_conv_output_cols(input_info->num_col, kernel_info->num_col, mconv_option_set(conv_option_value));
   return (output_info->num_row == o_num_row) && (output_info->num_col == o_num_col);
 }
 
@@ -45,21 +45,7 @@ unsigned int matrix_pad_gen_option(unsigned int conv_option_value)
 {
   ervp_mconv_option_t conv_option;
   conv_option.value = conv_option_value;
-  ervp_mpad_option_t pad_option;
-  pad_option.value = 0;
-  if (conv_option.br.pad_amount > 0)
-  {
-    if (conv_option.br.pad_has_rowd)
-      pad_option.br.num_rowd = conv_option.br.pad_amount;
-    if (conv_option.br.pad_has_rowu)
-      pad_option.br.num_rowu = conv_option.br.pad_amount;
-    if (conv_option.br.pad_has_cold)
-      pad_option.br.num_cold = conv_option.br.pad_amount;
-    if (conv_option.br.pad_has_colu)
-      pad_option.br.num_colu = conv_option.br.pad_amount;
-    pad_option.br.mode = conv_option.br.pad_mode;
-  }
-  return pad_option.value;
+  return conv_option.br.pad_option.value;
 }
 
 ErvpMatrixInfo *matrix_pad_alloc_output(const ErvpMatrixInfo *input_info, unsigned int pad_option_value)
@@ -67,7 +53,7 @@ ErvpMatrixInfo *matrix_pad_alloc_output(const ErvpMatrixInfo *input_info, unsign
   ErvpMatrixInfo *result;
   int o_num_row = matrix_pad_output_rows(input_info->num_row, pad_option_value);
   int o_num_col = matrix_pad_output_cols(input_info->num_col, pad_option_value);
-  result = matrix_alloc(input_info->datatype, o_num_row, o_num_col, NULL);
+  result = matrix_alloc(input_info->datatype, o_num_row, o_num_col);
   return result;
 }
 

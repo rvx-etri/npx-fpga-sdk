@@ -94,6 +94,6 @@ if __name__ == '__main__':
         line_list.append('List of functions that require caution if called:')
         line_list += found_warning_set
     if line_list:
-        output_path.write_text('\n'.join(line_list))
+        output_path.write_text('\n'.join(line_list), encoding='utf8')
     else:
         output_path.touch()

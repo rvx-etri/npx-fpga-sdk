@@ -23,7 +23,7 @@ from re_util import *
 from xml_util import *
 
 def gen_script_file(cmd:str, file_path:Path):
-  file_path.write_text(cmd)
+  file_path.write_text(cmd, encoding='utf8')
   make_executable(file_path)
 
 def run_xlaunch(binary_dir:Path):
@@ -31,7 +31,7 @@ def run_xlaunch(binary_dir:Path):
     execute_shell_cmd(binary_dir/'config.xlaunch', None, True)
 
 def get_define_list(define_pragma:str, path:Path):
-  file_contents = path.read_text()
+  file_contents = path.read_text(encoding='utf8')
   file_contents = remove_comments(file_contents)
   #reexp_define = define_pragma + reexp_blank + memorize(wordize(reexp_identifier)) + exist_or_not(reexp_blank + '\(' + memorize(reexp_anything) + r'\)') + r'$'
   reexp_define = define_pragma + reexp_blank + memorize(wordize(reexp_identifier)) + exist_or_not(reexp_blank + memorize(reexp_exp)) + r'$'

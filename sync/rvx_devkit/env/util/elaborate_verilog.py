@@ -10,13 +10,13 @@ class VerilogFileList():
     self.target_set = frozenset([ x.name for x in target_file_list ])
     for file in chain(target_file_list,include_file_list):
       if file.name.endswith('.vf'):
-        self.name2text[file.name] = [file, remove_comments(file.read_text())]
+        self.name2text[file.name] = [file, remove_comments(file.read_text(encoding='utf8'))]
       elif file.name.endswith('.vb'):
-        self.name2text[file.name] = [file, remove_comments(file.read_text())]
+        self.name2text[file.name] = [file, remove_comments(file.read_text(encoding='utf8'))]
       elif file.name.endswith('.vh'):
-        self.name2text[file.name] = [file, remove_comments(file.read_text())]
+        self.name2text[file.name] = [file, remove_comments(file.read_text(encoding='utf8'))]
       else:
-        self.name2text[file.name] = [file, file.read_text()]
+        self.name2text[file.name] = [file, file.read_text(encoding='utf8')]
 
   def elab_all(self):
     self.compelte_set = set()
@@ -72,12 +72,12 @@ class VerilogFileList():
   def export_all(self):
     for file_name, (file, contencts) in self.name2text.items():
       if file_name in self.target_set:
-        file.write_text(contencts)
+        file.write_text(contencts, encoding='utf8')
 
   def export_module(self):
     for file_name, (file, contencts) in self.name2text.items():
       if file_name.endswith('.v') and file_name in self.target_set:
-        file.write_text(contencts)
+        file.write_text(contencts, encoding='utf8')
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Elaborating Verilog')

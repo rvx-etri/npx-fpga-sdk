@@ -45,7 +45,7 @@ class RvxBinary():
 
   @staticmethod
   def __get_info(info_file:Path):
-    return info_file.read_text().split('\n')
+    return info_file.read_text(encoding='utf8').split('\n')
 
   def download(self, output_dir:Path, removes_top_dir:bool=False):
     assert output_dir.is_absolute()

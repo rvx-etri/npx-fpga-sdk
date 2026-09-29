@@ -44,9 +44,9 @@ def configure_template_text(contents:str, conv_info=None):
   return contents
 
 def configure_template_file(input_file:Path, output_file:Path, conv_dict:dict={}):
-  contents = input_file.read_text()
+  contents = input_file.read_text(encoding='utf8')
   contents = configure_template_text(contents, conv_dict)
-  output_file.write_text(contents)
+  output_file.write_text(contents, encoding='utf8')
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='Configure..')

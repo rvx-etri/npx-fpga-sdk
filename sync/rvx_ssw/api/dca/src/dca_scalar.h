@@ -3,6 +3,6 @@
 
 #include "ervp_matrix.h"
 
-ErvpMatrixInfo* dca_scalar_malloc(int value);
+const ErvpMatrixInfo *dca_scalar_malloc(int value);
 
 #endif

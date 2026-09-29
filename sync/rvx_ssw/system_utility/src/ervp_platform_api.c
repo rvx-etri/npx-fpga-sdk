@@ -22,6 +22,8 @@
 #include "ervp_variable_allocation.h"
 #include "ervp_mmiox1.h"
 #include "ervp_thread.h"
+#include "ervp_memory_dump.h"
+#include "ervp_fakefile_system.h"
 
 #ifdef INCLUDE_FUSE_BOX
 #include "ervp_fuse_box.h"
@@ -205,7 +207,7 @@ void _init_platform()
 		worker_core_entry();
 	else if (core_id == 0)
 	{
-#ifdef PROFILE_OFFCHIP_MRAM
+#ifdef USE_OFFCHIP_MRAM_PROFILER
 		offchip_mram_profile_start(0, 0);
 		offchip_mram_profile_start(1, 0);
 #endif
@@ -255,13 +257,13 @@ void _reboot_nvm()
 #ifdef USE_SMALL_RAM
 		if (num_restart == 0)
 		{
-			src = GET_LINKER_VAR(_sram_start_);
-			dst = GET_LINKER_VAR(_heap_sram_baseaddr_);
+			src = (uint8_t *)GET_LINKER_VAR(_sram_start_);
+			dst = (uint8_t *)GET_LINKER_VAR(_heap_sram_baseaddr_);
 		}
 		else
 		{
-			src = GET_LINKER_VAR(_heap_sram_baseaddr_);
-			dst = GET_LINKER_VAR(_sram_start_);
+			src = (uint8_t *)GET_LINKER_VAR(_heap_sram_baseaddr_);
+			dst = (uint8_t *)GET_LINKER_VAR(_sram_start_);
 		}
 		for (int i = 0; i < _get_backup_sram_size(); i++)
 			dst[i] = src[i];
@@ -269,13 +271,13 @@ void _reboot_nvm()
 #ifdef USE_LARGE_RAM
 		if (num_restart == 0)
 		{
-			src = GET_LINKER_VAR(_backup_start_);
-			dst = GET_LINKER_VAR(_heap_dram_baseaddr_) + _get_backup_sram_size();
+			src = (uint8_t *)GET_LINKER_VAR(_backup_start_);
+			dst = (uint8_t *)GET_LINKER_VAR(_heap_dram_baseaddr_) + _get_backup_sram_size();
 		}
 		else
 		{
-			src = GET_LINKER_VAR(_heap_dram_baseaddr_) + _get_backup_sram_size();
-			dst = GET_LINKER_VAR(_backup_start_);
+			src = (uint8_t *)GET_LINKER_VAR(_heap_dram_baseaddr_) + _get_backup_sram_size();
+			dst = (uint8_t *)GET_LINKER_VAR(_backup_start_);
 		}
 		for (int i = 0; i < _get_backup_dram_size(); i++)
 			dst[i] = src[i];
@@ -290,14 +292,14 @@ void _init_heap()
 	{
 #ifdef USE_SMALL_RAM
 		heap_sram_addr = GET_LINKER_VAR(_heap_sram_baseaddr_);
-		heap_sram_size = ((unsigned int)SMALL_RAM_LASTADDR) - heap_sram_addr + 1;
+		heap_sram_size = ((uintptr_t)SMALL_RAM_LASTADDR) - heap_sram_addr + 1;
 #endif
 #ifdef USE_LARGE_RAM
 		heap_dram_addr = GET_LINKER_VAR(_heap_dram_baseaddr_);
 #ifdef INCLUDE_OFFCHIP_MRAM
 		heap_dram_addr += round_up_int(_get_backup_total_size(), DATA_ALIGN_SIZE);
 #endif
-		heap_dram_size = ((unsigned int)LARGE_RAM_LASTADDR) - heap_dram_addr + 1;
+		heap_dram_size = ((uintptr_t)LARGE_RAM_LASTADDR) - heap_dram_addr + 1;
 #endif
 	}
 }
@@ -308,8 +310,8 @@ void _init_each_core()
 #ifdef INCLUDE_TCACHING
 	tcaching_init();
 #endif
-	unsigned int cacheable_start = GET_LINKER_VAR(_cacheable_start_);
-	unsigned int cacheable_last = GET_LINKER_VAR(_cacheable_end_) - 1;
+	uintptr_t cacheable_start = GET_LINKER_VAR(_cacheable_start_);
+	uintptr_t cacheable_last = GET_LINKER_VAR(_cacheable_end_) - 1;
 #ifdef USE_TCACHING
 #ifdef USE_LARGE_RAM
 	assert((cacheable_start - 1) == TEMPORARY_CACHING_HEAP_LAST); // NOT continuous cacheable region!
@@ -342,7 +344,7 @@ void exit_platform()
 			profiling_print();
 			printf_must("\n\n[RVX/END]\n");
 		}
-#ifdef PROFILE_OFFCHIP_MRAM
+#ifdef USE_OFFCHIP_MRAM_PROFILER
 		flush_cache();
 		offchip_mram_profile_finish(-1);
 		offchip_mram_profile_print();

@@ -39,7 +39,7 @@ if __name__ == '__main__':
     line_list.append(f'#endif')
 
     output_path = output_directory / f'{design_name}.h'
-    output_path.write_text('\n'.join(line_list))
+    output_path.write_text('\n'.join(line_list), encoding='utf8')
 
     # body
     line_list = []
@@ -86,4 +86,4 @@ if __name__ == '__main__':
     line_list.append('#endif')
 
     output_path = output_directory / f'{design_name}.c'
-    output_path.write_text('\n'.join(line_list))
+    output_path.write_text('\n'.join(line_list), encoding='utf8')

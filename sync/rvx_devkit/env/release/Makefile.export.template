@@ -22,7 +22,7 @@
 # make config_python
 # edit "rvx_python_config.mh"
 # make check_python
-# make rvx_init_git2
+# make fork_git
 
 ## How to import platform
 # source ./rvx_setup.sh
@@ -77,7 +77,7 @@ init: _check_etri_home
 ########
 
 VERSION_INFO_FILE=${CURDIR}/version_info.xml
-RVX_ETRI_SUBDIR_LIST = local_setup imp_class_info hwlib_basic hwlib_chip hwlib_special
+RVX_ETRI_SUBDIR_LIST = imp_class_info hwlib_basic hwlib_chip hwlib_special
 
 fork_git: distclean import_git import_etri_module tip_hello
 
@@ -168,5 +168,5 @@ customize::
 	@echo "Customization Complete"
 
 
-.PHONY: rvx_util_git rvx_ssw_git rvx_binary_git import_git_rvx_synthesizer import_git_rvx_devkit rvx_hwlib_git local_setup customize
+.PHONY: rvx_util_git rvx_ssw_git rvx_binary_git import_git_rvx_synthesizer import_git_rvx_devkit rvx_hwlib_git customize
 

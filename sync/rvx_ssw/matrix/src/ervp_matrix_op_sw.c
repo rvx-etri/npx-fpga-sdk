@@ -14,7 +14,7 @@ ervp_hwtask_busy_fx_t _matrix_add_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
     matrix_add_float_sw(a, b, c, option_value);
   else
     matrix_add_fixed_sw(a, b, c, option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_sub_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c, unsigned int option_value)
@@ -28,7 +28,7 @@ ervp_hwtask_busy_fx_t _matrix_sub_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
     matrix_sub_float_sw(a, b, c, option_value);
   else
     matrix_sub_fixed_sw(a, b, c, option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_ewmult_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c, unsigned int option_value)
@@ -42,7 +42,7 @@ ervp_hwtask_busy_fx_t _matrix_ewmult_sw(ervp_mop_mapping_t *mop_mapping, const E
     matrix_ewmult_float_sw(a, b, c, option_value);
   else
     matrix_ewmult_fixed_sw(a, b, c, option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_mult_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c, unsigned int option_value)
@@ -57,27 +57,26 @@ ervp_hwtask_busy_fx_t _matrix_mult_sw(ervp_mop_mapping_t *mop_mapping, const Erv
     matrix_mult_float_sw(a, b, c, option_value);
   else
     matrix_mult_fixed_sw(a, b, c, option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 static ervp_hwtask_busy_fx_t __matrix_copy_part_sw(const ErvpMatrixInfo *a, ErvpMatrixInfo *c, int num_row, int num_col, unsigned int option_value)
 {
-  assert(_mop_option_check(c, option_value));
-  assert(mop_option_is_acc(option_value) == 0);
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
+  assert(_mop_option_check(c, mop_option_set(option_value)));
+  assert(mop_option_is_acc(mop_option_set(option_value)) == 0);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
   for (int i = 0; i < num_row; i++)
     for (int j = 0; j < num_col; j++)
     {
       UNKNOWN_TYPE data = _matrix_read_element(a, i, j);
-      if (mop_option_has_postprocess(option_value))
+      if (mop_option_has_postprocess(mop_option_set(option_value)))
         data.value_signed = _melement_perform_rshift_and_clip(data.value_signed, mop_option.br.rshift, mop_option.br.performs_cliping, c->datatype);
       _matrix_write_element(c, i, j, data);
     }
   //
   trackedvar_add(a->addr, 0);
   trackedvar_add(c->addr, 1);
-  mop_option_free(mop_option);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_copy_part_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, ErvpMatrixInfo *c, int num_row, int num_col, unsigned int option_value)
@@ -88,22 +87,21 @@ ervp_hwtask_busy_fx_t _matrix_copy_part_sw(ervp_mop_mapping_t *mop_mapping, cons
 
 static ervp_hwtask_busy_fx_t __matrix_transpose_part_sw(const ErvpMatrixInfo *a, ErvpMatrixInfo *c, int num_row, int num_col, unsigned int option_value)
 {
-  assert(_mop_option_check(c, option_value));
-  assert(mop_option_is_acc(option_value) == 0);
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
+  assert(_mop_option_check(c, mop_option_set(option_value)));
+  assert(mop_option_is_acc(mop_option_set(option_value)) == 0);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
   for (int i = 0; i < num_row; i++)
     for (int j = 0; j < num_col; j++)
     {
       UNKNOWN_TYPE data = _matrix_read_element(a, i, j);
-      if (mop_option_has_postprocess(option_value))
+      if (mop_option_has_postprocess(mop_option_set(option_value)))
         data.value_signed = _melement_perform_rshift_and_clip(data.value_signed, mop_option.br.rshift, mop_option.br.performs_cliping, c->datatype);
       _matrix_write_element(c, j, i, data);
     }
   //
   trackedvar_add(a->addr, 0);
   trackedvar_add(c->addr, 1);
-  mop_option_free(mop_option);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_transpose_part_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, ErvpMatrixInfo *c, int num_row, int num_col, unsigned int option_value)
@@ -125,13 +123,13 @@ ervp_hwtask_busy_fx_t _matrix_conv_sw(ervp_mop_mapping_t *mop_mapping, const Erv
     matrix_conv_float_sw(input_info, kernel_info, output_info, conv_option_value);
   else
     matrix_conv_fixed_sw(input_info, kernel_info, output_info, conv_option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_shift_fixed_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, int shamount, ErvpMatrixInfo *c, unsigned int option_value)
 {
   assert(!matrix_datatype_is_float(a->datatype));
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
   for (int i = 0; i < a->num_row; i++)
   {
     for (int j = 0; j < a->num_col; j++)
@@ -150,8 +148,7 @@ ervp_hwtask_busy_fx_t _matrix_shift_fixed_sw(ervp_mop_mapping_t *mop_mapping, co
   //
   trackedvar_add(a->addr, 0);
   trackedvar_add(c->addr, 1);
-  mop_option_free(mop_option);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_reshape_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, ErvpMatrixInfo *c, unsigned int option_value)
@@ -160,9 +157,9 @@ ervp_hwtask_busy_fx_t _matrix_reshape_sw(ervp_mop_mapping_t *mop_mapping, const 
   assert(c != NULL);
   assert(matrix_num_elements(a) == matrix_num_elements(c));
   assert(matrix_datatype_is_float(a->datatype) == matrix_datatype_is_float(c->datatype));
-  assert(_mop_option_check(c, option_value));
+  assert(_mop_option_check(c, mop_option_set(option_value)));
 
-  ervp_mop_option_t mop_option = mop_option_alloc(option_value);
+  ervp_mop_option_t mop_option = mop_option_set(option_value);
   int m = 0;
   int n = 0;
   for (int i = 0; i < a->num_row; i++)
@@ -184,8 +181,7 @@ ervp_hwtask_busy_fx_t _matrix_reshape_sw(ervp_mop_mapping_t *mop_mapping, const 
   //
   trackedvar_add(a->addr, 0);
   trackedvar_add(c->addr, 1);
-  mop_option_free(mop_option);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_downsample_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *input_info, ErvpMatrixInfo *output_info, unsigned int downsample_option_value)
@@ -200,7 +196,7 @@ ervp_hwtask_busy_fx_t _matrix_downsample_sw(ervp_mop_mapping_t *mop_mapping, con
     _matrix_downsample_float_sw(mop_mapping, input_info, output_info, downsample_option_value);
   else
     _matrix_downsample_fixed_sw(mop_mapping, input_info, output_info, downsample_option_value);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_max_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c)
@@ -214,7 +210,7 @@ ervp_hwtask_busy_fx_t _matrix_max_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
     _matrix_max_float_sw(mop_mapping, a, b, c);
   else
     _matrix_max_fixed_sw(mop_mapping, a, b, c);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_min_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c)
@@ -228,7 +224,7 @@ ervp_hwtask_busy_fx_t _matrix_min_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
     _matrix_min_float_sw(mop_mapping, a, b, c);
   else
     _matrix_min_fixed_sw(mop_mapping, a, b, c);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_asl_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c)
@@ -240,7 +236,7 @@ ervp_hwtask_busy_fx_t _matrix_asl_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
   assert(matrix_is_same_size(a, c));
   assert(!matrix_datatype_is_float(a->datatype));
   _matrix_asl_fixed_sw(mop_mapping, a, b, c);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_asr_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c)
@@ -252,7 +248,7 @@ ervp_hwtask_busy_fx_t _matrix_asr_sw(ervp_mop_mapping_t *mop_mapping, const Ervp
   assert(matrix_is_same_size(a, c));
   assert(!matrix_datatype_is_float(a->datatype));
   _matrix_asr_fixed_sw(mop_mapping, a, b, c);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }
 
 ervp_hwtask_busy_fx_t _matrix_compare_sw(ervp_mop_mapping_t *mop_mapping, const ErvpMatrixInfo *a, const ErvpMatrixInfo *b, ErvpMatrixInfo *c, unsigned int compare_mode)
@@ -266,5 +262,5 @@ ervp_hwtask_busy_fx_t _matrix_compare_sw(ervp_mop_mapping_t *mop_mapping, const 
     _matrix_compare_float_sw(mop_mapping, a, b, c, compare_mode);
   else
     _matrix_compare_fixed_sw(mop_mapping, a, b, c, compare_mode);
-  return NULL;
+  return HWTASK_BUSY_FX_NULL;
 }

@@ -1,6 +1,7 @@
 #ifndef __ERVP_MMIOX1_RAW_H__
 #define __ERVP_MMIOX1_RAW_H__
 
+#include "ervp_misc_util.h"
 #include "ervp_mmio_util.h"
 #include "ervp_round_int.h"
 #include "ervp_core_id.h"
@@ -63,11 +64,21 @@ static inline int mmiox1_raw_inst_is_busy(mmio_addr_t mmiox1_maddr)
 
 static inline void mmiox1_raw_inst_push(mmio_addr_t mmiox1_maddr, const mmio_struct_t *inst, int num_inst, int size_of_inst, int enable_itr)
 {
-  // while (mmiox1_raw_inst_num_vacant(mmiox1_maddr) < num_inst);
-  int size_in_4byte = rshift_ru(size_of_inst, 2) * num_inst;
-  if (enable_itr)
-    mmio_write_data(mmiox1_maddr + MMAP_OFFSET_MMIO_ITR_REQUEST, (1 << EXCLUSIVE_ID));
-  mmio_write_struct(mmiox1_maddr + MMAP_OFFSET_MMIO_INST_FIFO_SAWD, size_in_4byte << 2, inst);
+  const int num_bytes_per_inst = rshift_ru(size_of_inst, 2) << 2;
+  uintptr_t inst_addr = (uintptr_t)inst;
+  while (num_inst > 0)
+  {
+    int num_vacant = mmiox1_raw_inst_num_vacant(mmiox1_maddr);
+    int num_push = min(num_vacant, num_inst);
+    if (num_push == 0)
+      continue;
+    int num_bytes = num_bytes_per_inst * num_push;
+    if (enable_itr)
+      mmio_write_data(mmiox1_maddr + MMAP_OFFSET_MMIO_ITR_REQUEST, (1 << EXCLUSIVE_ID));
+    mmio_write_struct(mmiox1_maddr + MMAP_OFFSET_MMIO_INST_FIFO_SAWD, num_bytes, (const mmio_struct_t *)inst_addr);
+    inst_addr += num_bytes;
+    num_inst -= num_push;
+  }
 }
 
 static inline int mmiox1_raw_core_has_log(mmio_addr_t mmiox1_maddr)

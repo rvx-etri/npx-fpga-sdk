@@ -1,6 +1,8 @@
 #ifndef __CORE_DEPENDENT_H__
 #define __CORE_DEPENDENT_H__
 
+#include <stdint.h>
+
 #include "platform_info.h"
 
 #include "riscv_isa.h"
@@ -95,7 +97,7 @@ static inline void init_core()
 	write_csr(mie, 0);
 };
 
-void init_cache(unsigned int cacheable_start, unsigned int cacheable_last);
-void set_cacheable_region(int index, unsigned int cacheable_start, unsigned int cacheable_last);
+void init_cache(uintptr_t cacheable_start, uintptr_t cacheable_last);
+void set_cacheable_region(int index, uintptr_t cacheable_start, uintptr_t cacheable_last);
 
 #endif

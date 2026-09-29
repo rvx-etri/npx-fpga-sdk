@@ -5,7 +5,6 @@
 
 dca_matrix_info_t *dca_matrix_info_generate(const ErvpMatrixInfo *info, dca_matrix_info_t *prealloated)
 {
-  assert(info);
   dca_matrix_info_t *result;
   if (prealloated != NULL)
     result = prealloated;
@@ -14,18 +13,23 @@ dca_matrix_info_t *dca_matrix_info_generate(const ErvpMatrixInfo *info, dca_matr
     result = malloc(sizeof(dca_matrix_info_t));
     assert(result);
   }
-  result->hex[(sizeof(dca_matrix_info_t) >> 2) - 1] = 0;
-  result->br.addr = info->addr;
-  result->br.stride_ls3 = info->stride_ls3;
-  result->br.num_row_m1 = info->num_row - 1;
-  result->br.num_col_m1 = info->num_col - 1;
-  result->br.bit_offset = info->bit_offset;
-  result->br.is_binary = info->is_binary;
-  ErvpMatrixDataType datatype;
-  datatype.value = info->datatype;
-  result->br.is_signed = datatype.br.is_signed;
-  result->br.is_float = datatype.br.is_float;
-  result->br.addr_lsa_p3 = datatype.br.addr_lsa + 3;
+  if (info)
+  {
+    result->hex[(sizeof(dca_matrix_info_t) >> 2) - 1] = 0;
+    result->br.addr = info->addr;
+    result->br.stride_ls3 = info->stride_ls3;
+    result->br.num_row_m1 = info->num_row - 1;
+    result->br.num_col_m1 = info->num_col - 1;
+    result->br.bit_offset = info->bit_offset;
+    result->br.is_binary = info->is_binary;
+    ErvpMatrixDatatype datatype;
+    datatype.value = info->datatype;
+    result->br.is_signed = datatype.br.is_signed;
+    result->br.is_float = datatype.br.is_float;
+    result->br.addr_lsa_p3 = datatype.br.addr_lsa + 3;
+  }
+  else
+    dca_matrix_info_init(result);
   return result;
 }
 

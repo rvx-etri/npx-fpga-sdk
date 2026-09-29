@@ -20,7 +20,7 @@ APP_ORIGIN_DIR=${RVX_ETRI_HOME}/app
 ifdef PYTHON3_CMD
 APP_ORIGIN_LIST = $(shell ${PYTHON3_CMD} ${RVX_UTIL_HOME}/os_util.py dir_list ${APP_ORIGIN_DIR} )
 APP_LIST = $(shell ${PYTHON3_CMD} ${RVX_UTIL_HOME}/os_util.py dir_list ${ENGINE_WS}/${PLATFORM_NAME}/app )
-PLATFORM_LIST =  $(shell ${PYTHON3_CMD} ${RVX_UTIL_HOME}/os_util.py dir_list ${ENGINE_WS} )
+PLATFORM_LIST = $(shell ${PYTHON3_CMD} ${RVX_UTIL_HOME}/os_util.py dir_list ${ENGINE_WS} )
 endif
 
 var:
@@ -59,7 +59,8 @@ $(addsuffix .reimport_app, $(APP_ORIGIN_LIST)):%.reimport_app:
 			else \
 				cp -r ${APP_BASE_DIR}/$(*)/include ${APP_BASE_DIR}; \
 				cd ${APP_BASE_DIR} && make $(*).import_app; \
-				mv ${APP_BASE_DIR}/include ${APP_BASE_DIR}/$(*)/; \
+				cp -rf ${APP_BASE_DIR}/include ${APP_BASE_DIR}/$(*)/; \
+				rm -rf ${APP_BASE_DIR}/include; \
 			fi; \
 		else \
 			cd ${APP_BASE_DIR} && make $(*).import_app; \
@@ -100,7 +101,7 @@ $(addsuffix .test_build, $(APP_LIST)):%.test_build:
 	if [ -d ${APP_BASE_DIR}/$(*) ] ;	\
 	then \
 		cd ${APP_BASE_DIR}/$(*) && make clean rtl; \
-    test -e ${APP_BASE_DIR}/$(*)/rtl.release/compile_correctly || exit 1; \
+		test -e ${APP_BASE_DIR}/$(*)/rtl.release/compile_correctly || exit 1; \
 	fi
 
 platform_reimport_app: $(addsuffix .platform_reimport_app, $(PLATFORM_LIST))

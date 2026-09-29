@@ -3,7 +3,8 @@
 
 #include <stdint.h>
 #include "ervp_matrix_datatype_define.h"
-#include "ervp_printf.h"
+#include "ervp_sharedpointer.h"
+#include "ervp_malloc.h"
 
 // #define MATRIX_DATATYPE_SINT01 GEN_MATRIX_DATATYPE(0,1,0) // IMPOSSIBLE
 #define MATRIX_DATATYPE_UINT01 GEN_MATRIX_DATATYPE(0, 0, -3, 1)
@@ -26,20 +27,44 @@ typedef struct
 	int num_row;
 	int num_col;
 	ervp_matrix_datatype_t datatype;
-	uint8_t is_array_allocated; // allocated by this struct
-	uint8_t is_sub;							// is submatrix of the original
-	uint8_t is_binary;
+	refcount_t *refcount;
+	unsigned int array_needs_free : 1; // allocated by this struct
+	unsigned int is_sub : 1;					 // is submatrix of the original
+	unsigned int is_binary : 1;
 	unsigned int is_scalar : 1;
-	unsigned int bit_offset : 7; // min 3
+	unsigned int bit_offset : 4; // min 3
 } ErvpMatrixInfo;
 
-ErvpMatrixInfo *matrix_generate_info(ervp_matrix_datatype_t datatype, int num_row, int num_col, void *array_1d, ErvpMatrixInfo *preallocated);
-ErvpMatrixInfo *matrix_generate_submatrix_info(const ErvpMatrixInfo *original_matrix, ErvpMatrixInfo *preallocated);
-static inline ErvpMatrixInfo *matrix_generate_scalar_info(ervp_matrix_datatype_t datatype, void *array_1d, ErvpMatrixInfo *preallocated)
+typedef ErvpMatrixInfo ErvpMatrixDescriptor;
+
+void matrix_init_info(ervp_matrix_datatype_t datatype, int num_row, int num_col, void *array_1d, ErvpMatrixInfo *preallocated);
+
+static inline ErvpMatrixInfo *matrix_alloc_wo_data(ervp_matrix_datatype_t datatype, int num_row, int num_col, void *array_1d)
 {
-	ErvpMatrixInfo *result = matrix_generate_info(datatype, 1, 1, array_1d, preallocated);
-	result->is_scalar = 1;
+	ErvpMatrixInfo *result = malloc(sizeof(ErvpMatrixInfo));
+	matrix_init_info(datatype, num_row, num_col, array_1d, result);
 	return result;
+}
+
+// deprecated
+static inline ErvpMatrixInfo *matrix_generate_info(ervp_matrix_datatype_t datatype, int num_row, int num_col, void *array_1d, ErvpMatrixInfo *preallocated)
+{
+	ErvpMatrixInfo *result;
+	if (preallocated == NULL)
+		result = matrix_alloc_wo_data(datatype, num_row, num_col, array_1d);
+	else
+	{
+		result = preallocated;
+		matrix_init_info(datatype, num_row, num_col, array_1d, result);
+	}
+	return result;
+}
+
+ErvpMatrixInfo *matrix_generate_submatrix_info(ErvpMatrixInfo *original_matrix);
+static inline void matrix_init_scalar_info(ervp_matrix_datatype_t datatype, void *array_1d, ErvpMatrixInfo *preallocated)
+{
+	matrix_init_info(datatype, 1, 1, array_1d, preallocated);
+	preallocated->is_scalar = 1;
 }
 
 static inline void matrix_set_stride(ErvpMatrixInfo *info, int stride)
@@ -58,7 +83,7 @@ static inline int matrix_num_elements(const ErvpMatrixInfo *info)
 
 int matrix_num_bytes(const ErvpMatrixInfo *info);
 
-ErvpMatrixInfo *matrix_alloc(ervp_matrix_datatype_t datatype, int num_row, int num_col, ErvpMatrixInfo *preallocated);
+ErvpMatrixInfo *matrix_alloc(ervp_matrix_datatype_t datatype, int num_row, int num_col);
 void matrix_free(ErvpMatrixInfo *ptr);
 void matrix_list_free(ErvpMatrixInfo **ptr, int num);
 

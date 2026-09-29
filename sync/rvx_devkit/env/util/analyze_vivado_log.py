@@ -17,7 +17,7 @@ if __name__ == '__main__':
   assert output_path.is_dir(), output_path
   input_file_path = Path(args.input)
   assert input_file_path.is_file(), input_file_path
-  input_contents = input_file_path.read_text()
+  input_contents = input_file_path.read_text(encoding='utf8')
 
   reexp_error = r'^ERROR:' + reexp_anything + r'$'
   re_error = re.compile(reexp_error,re.MULTILINE)
@@ -78,28 +78,28 @@ if __name__ == '__main__':
     if op=='error.all':
       contents = '\n'.join(error_result)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='critical.all':
       contents = '\n'.join(critical_result)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='critical.known':
       contents = '\n'.join(critical_result_known)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='critical.unknown':
       contents = '\n'.join(critical_result_unknown)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.all':
       contents = '\n'.join(warning_result)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.known':
       contents = '\n'.join(warning_result_known)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.unknown':
       contents = '\n'.join(warning_result_unknown)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}{input_file_path.suffix}'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')

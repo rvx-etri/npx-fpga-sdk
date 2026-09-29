@@ -23,7 +23,7 @@ if __name__ == '__main__':
     assert len(input_file_path_list)==1, input_file_path_list
     input_file_path = input_file_path_list[0]
 
-  input_contents = input_file_path.read_text()
+  input_contents = input_file_path.read_text(encoding='utf8')
 
   reexp_error = memorize(r'^Error:' + reexp_anything + '\(' + memorize(r'[A-Za-z0-9-]+') + r'\)$')
   re_error = re.compile(reexp_error,re.MULTILINE)
@@ -85,28 +85,28 @@ if __name__ == '__main__':
     elif op=='error.all':
       contents = '\n'.join([ x[0] for x in error_result ])
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='error.known':
       contents = '\n'.join(error_result_known)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='error.unknown':
       contents = '\n'.join(error_result_unknown)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.all':
       contents = '\n'.join([ x[0] for x in warning_result ])
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.known':
       contents = '\n'.join(warning_result_known)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.critical':
       contents = '\n'.join(warning_result_critical)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')
     elif op=='warning.unknown':
       contents = '\n'.join(warning_result_unknown)
       output_file_path = input_file_path.parent / f'{input_file_path.stem}.{op}.txt'
-      output_file_path.write_text(contents)
+      output_file_path.write_text(contents, encoding='utf8')

@@ -38,6 +38,11 @@ APP_NAME = "${APP_NAME}"
 TARGET_IMP_CLASS = "${TARGET_IMP_CLASS}"
 BUILD_MODE="${BUILD_MODE}"
 
+ifeq ($(OS),Windows_NT)
+export RVX_SSW_HOME=${RVX_MINI_HOME}/rvx_ssw
+export RVX_COMPILER_XPACK = ${RVX_MINI_HOME}/rvx_binary/compiler_xpack/bin/riscv-none-elf-
+endif
+
 ifeq (${TARGET_IMP_CLASS},vp)
 HW_ENV = vp
 else

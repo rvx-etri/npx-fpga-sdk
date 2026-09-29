@@ -33,7 +33,7 @@ void vom_set_param(sVOM *vom);
 void vom_enable_lcd(void);
 void vom_enable_hdmi(void);
 void vom_disable(void);
-void vom_set_base(unsigned int addr);
+void vom_set_base(void* addr);
 void vom_set_offset(unsigned int offset0, unsigned int offset1);
 void vom_set_clkpol(int pol);
 void vom_set_size(unsigned int width, unsigned int height);

@@ -25,15 +25,14 @@ void print_memory_4byte(uint32_t *array, int num)
 	{
 		if ((i & 3) == 0)
 			printf("\n");
-		printf("0x%08x ", (unsigned int)(array[i]));
+		printf("0x%08x ", (uintptr_t)(array[i]));
 	}
 }
 
-static void *memset_1byte(void *dst, int value, int num)
+static void *memset_1byte(void *dst, uint8_t value_1byte, int num)
 {
-	unsigned int dst_addr = (unsigned int)dst;
-	const unsigned int dst_addr_end = ((unsigned int)dst) + num;
-	const unsigned char value_1byte = (value & 0xFF);
+	uintptr_t dst_addr = (uintptr_t)dst;
+	const uintptr_t dst_addr_end = ((uintptr_t)dst) + num;
 	while (dst_addr < dst_addr_end)
 	{
 		REG8(dst_addr) = value_1byte;
@@ -45,8 +44,8 @@ static void *memset_1byte(void *dst, int value, int num)
 static void *memset_4byte(void *dst, uint32_t value, int num)
 {
 	assert_pointer_align(dst, 4);
-	unsigned int dst_addr = (unsigned int)dst;
-	const unsigned int dst_addr_end = ((unsigned int)dst) + (num << 2);
+	uintptr_t dst_addr = (uintptr_t)dst;
+	const uintptr_t dst_addr_end = ((uintptr_t)dst) + (num << 2);
 	const uint32_t value_4byte = (value & 0xFF) * 0x01010101;
 
 	while (dst_addr < dst_addr_end)
@@ -60,7 +59,7 @@ static void *memset_4byte(void *dst, uint32_t value, int num)
 void *memset_rvx(void *dst, int value, size_t num)
 {
 	assert(dst);
-	unsigned int dst_addr = (unsigned int)dst;
+	uintptr_t dst_addr = (uintptr_t)dst;
 	unsigned int num_prolog, num_body;
 
 	// prologue
@@ -73,7 +72,8 @@ void *memset_rvx(void *dst, int value, size_t num)
 	}
 	// body
 	num_body = num >> 2;
-	memset_4byte((void *)dst_addr, value, num_body);
+	uint32_t value_4byte = (value & 0xFF) * 0x01010101;
+	memset_4byte((void *)dst_addr, value_4byte, num_body);
 	dst_addr += (num_body << 2);
 	num -= (num_body << 2);
 	// epilogue
@@ -81,11 +81,11 @@ void *memset_rvx(void *dst, int value, size_t num)
 	return dst;
 }
 
-void *memcpy_1byte(void *dst, const void *src, int num)
+static void *memcpy_1byte(void *dst, const void *src, int num)
 {
-	unsigned int src_addr = (unsigned int)src;
-	unsigned int dst_addr = (unsigned int)dst;
-	const unsigned int dst_addr_end = ((unsigned int)dst) + num;
+	uintptr_t src_addr = (uintptr_t)src;
+	uintptr_t dst_addr = (uintptr_t)dst;
+	const uintptr_t dst_addr_end = ((uintptr_t)dst) + num;
 	while (dst_addr < dst_addr_end)
 	{
 		REG8(dst_addr) = REG8(src_addr);
@@ -97,9 +97,9 @@ void *memcpy_1byte(void *dst, const void *src, int num)
 
 static void *memcpy_4byte(void *dst, const void *src, int num)
 {
-	unsigned int src_addr = (unsigned int)src;
-	unsigned int dst_addr = (unsigned int)dst;
-	const unsigned int dst_addr_end = ((unsigned int)dst) + (num << 2);
+	uintptr_t src_addr = (uintptr_t)src;
+	uintptr_t dst_addr = (uintptr_t)dst;
+	const uintptr_t dst_addr_end = ((uintptr_t)dst) + (num << 2);
 	while (dst_addr < dst_addr_end)
 	{
 		REG32(dst_addr) = REG32(src_addr);
@@ -113,8 +113,8 @@ void *memcpy_rvx(void *dst, const void *src, size_t num)
 {
 	assert(src);
 	assert(dst);
-	unsigned int src_addr = (unsigned int)src;
-	unsigned int dst_addr = (unsigned int)dst;
+	uintptr_t src_addr = (uintptr_t)src;
+	uintptr_t dst_addr = (uintptr_t)dst;
 	unsigned int num_prolog, num_body;
 	if (((src_addr ^ dst_addr) & 0x3) == 0)
 	{
@@ -189,8 +189,8 @@ static inline int _memory_compare_4byte(const void *result, const void *ref, siz
 
 int memory_compare(const void *result, const void *ref, size_t num, int prints)
 {
-	const int num_prolog_result = (4 - (((unsigned int)(result)) & 3)) & 3;
-	const int num_prolog_ref = (4 - (((unsigned int)(ref)) & 3)) & 3;
+	const int num_prolog_result = (4 - (((uintptr_t)(result)) & 3)) & 3;
+	const int num_prolog_ref = (4 - (((uintptr_t)(ref)) & 3)) & 3;
 	int all_are_equal = 1;
 	if (num_prolog_result != num_prolog_ref)
 		all_are_equal &= _memory_compare_byte(result, ref, num, prints);

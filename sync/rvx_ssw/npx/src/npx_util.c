@@ -10,7 +10,7 @@ ErvpMatrixInfo *matrix_cast_sint8_to_float(const ErvpMatrixInfo *mat)
   assert(mat->datatype==MATRIX_DATATYPE_SINT08);
   int i;
   ErvpMatrixInfo *result = matrix_alloc(MATRIX_DATATYPE_FLOAT32, 
-                  mat->num_row, mat->num_col, NULL);
+                  mat->num_row, mat->num_col);
  
   int8_t *input = mat->addr;
   float *output = result->addr;

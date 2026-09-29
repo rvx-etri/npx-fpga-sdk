@@ -215,5 +215,5 @@ i_STARTUPE2
   if not output_dir.is_dir():
     output_dir.mkdir(parents=True)
   output_file = output_dir / f'{fpga_top_module_name}.v'
-  output_file.write_text(file_contents)
+  output_file.write_text(file_contents, encoding='utf8')
 

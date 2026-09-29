@@ -214,9 +214,9 @@ ErvpImage* image_filter(ervp_mop_mapping_t* mop_mapping, const ErvpImage* const 
   assert(!image_is_packed(original->format));
   ervp_mconv_option_t conv_option;
   conv_option.value = 0;
-  conv_option.br.performs_cliping = 1;
-  int width = matrix_conv_output_cols(original->width, filter->num_col, conv_option.value);
-  int height = matrix_conv_output_rows(original->height, filter->num_row, conv_option.value);
+  conv_option.br.mop_option.br.performs_cliping = 1;
+  int width = matrix_conv_output_cols(original->width, filter->num_col, conv_option);
+  int height = matrix_conv_output_rows(original->height, filter->num_row, conv_option);
   if(preallocated==NULL)
     result = image_alloc(width, height, original->format);
   else
@@ -231,12 +231,12 @@ ErvpImage* image_filter(ervp_mop_mapping_t* mop_mapping, const ErvpImage* const 
     ErvpMatrixInfo* filter_converted;    
     const int shift_amount = 16;
     
-    filter_converted = matrix_alloc(MATRIX_DATATYPE_SINT32,filter->num_row,filter->num_col,NULL);
+    filter_converted = matrix_alloc(MATRIX_DATATYPE_SINT32,filter->num_row,filter->num_col);
     for(int i=0; i<filter->num_row; i++)
       for(int j=0; j<filter->num_col; j++)
         matrix_write_fixed_element(filter_converted,i,j,matrix_read_float_element(filter,i,j)*(1<<shift_amount));
     
-    conv_option.br.rshift = shift_amount;
+    conv_option.br.mop_option.br.rshift = shift_amount;
     for(int i=0; i<image_get_num_plane(original->format); i++)
     {
       ErvpMatrixInfo* a = image_generate_matrix_info(original, i, 0, 0);

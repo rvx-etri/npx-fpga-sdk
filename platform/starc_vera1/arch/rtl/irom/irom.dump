@@ -86,28 +86,28 @@ Disassembly of section .text:
   f0:	40550533          	sub	a0,a0,t0
 
 000000f4 <num_bytes>:
-  f4:	0d0000ef          	jal	ra,1c4 <read_one_byte_from_flash>
-  f8:	0cc000ef          	jal	ra,1c4 <read_one_byte_from_flash>
-  fc:	0c8000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 100:	0c4000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 104:	12c000ef          	jal	ra,230 <convert_endian>
+  f4:	0d0000ef          	jal	1c4 <read_one_byte_from_flash>
+  f8:	0cc000ef          	jal	1c4 <read_one_byte_from_flash>
+  fc:	0c8000ef          	jal	1c4 <read_one_byte_from_flash>
+ 100:	0c4000ef          	jal	1c4 <read_one_byte_from_flash>
+ 104:	12c000ef          	jal	230 <convert_endian>
  108:	0a058a63          	beqz	a1,1bc <set_ready>
  10c:	00058993          	mv	s3,a1
 
 00000110 <memory_addr>:
- 110:	0b4000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 114:	0b0000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 118:	0ac000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 11c:	0a8000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 120:	110000ef          	jal	ra,230 <convert_endian>
+ 110:	0b4000ef          	jal	1c4 <read_one_byte_from_flash>
+ 114:	0b0000ef          	jal	1c4 <read_one_byte_from_flash>
+ 118:	0ac000ef          	jal	1c4 <read_one_byte_from_flash>
+ 11c:	0a8000ef          	jal	1c4 <read_one_byte_from_flash>
+ 120:	110000ef          	jal	230 <convert_endian>
  124:	00058a13          	mv	s4,a1
 
 00000128 <write_unit>:
- 128:	09c000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 12c:	098000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 130:	094000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 134:	090000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 138:	0f8000ef          	jal	ra,230 <convert_endian>
+ 128:	09c000ef          	jal	1c4 <read_one_byte_from_flash>
+ 12c:	098000ef          	jal	1c4 <read_one_byte_from_flash>
+ 130:	094000ef          	jal	1c4 <read_one_byte_from_flash>
+ 134:	090000ef          	jal	1c4 <read_one_byte_from_flash>
+ 138:	0f8000ef          	jal	230 <convert_endian>
  13c:	00200313          	li	t1,2
  140:	02658463          	beq	a1,t1,168 <loop_2byte>
  144:	00400313          	li	t1,4
@@ -115,7 +115,7 @@ Disassembly of section .text:
 
 0000014c <loop_1byte>:
  14c:	00000593          	li	a1,0
- 150:	074000ef          	jal	ra,1c4 <read_one_byte_from_flash>
+ 150:	074000ef          	jal	1c4 <read_one_byte_from_flash>
  154:	00ba0023          	sb	a1,0(s4)
  158:	fff98993          	addi	s3,s3,-1
  15c:	001a0a13          	addi	s4,s4,1
@@ -124,9 +124,9 @@ Disassembly of section .text:
 
 00000168 <loop_2byte>:
  168:	00000593          	li	a1,0
- 16c:	058000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 170:	054000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 174:	0bc000ef          	jal	ra,230 <convert_endian>
+ 16c:	058000ef          	jal	1c4 <read_one_byte_from_flash>
+ 170:	054000ef          	jal	1c4 <read_one_byte_from_flash>
+ 174:	0bc000ef          	jal	230 <convert_endian>
  178:	0105d593          	srli	a1,a1,0x10
  17c:	00ba1023          	sh	a1,0(s4)
  180:	ffe98993          	addi	s3,s3,-2
@@ -136,11 +136,11 @@ Disassembly of section .text:
 
 00000190 <loop_4byte>:
  190:	00000593          	li	a1,0
- 194:	030000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 198:	02c000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 19c:	028000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 1a0:	024000ef          	jal	ra,1c4 <read_one_byte_from_flash>
- 1a4:	08c000ef          	jal	ra,230 <convert_endian>
+ 194:	030000ef          	jal	1c4 <read_one_byte_from_flash>
+ 198:	02c000ef          	jal	1c4 <read_one_byte_from_flash>
+ 19c:	028000ef          	jal	1c4 <read_one_byte_from_flash>
+ 1a0:	024000ef          	jal	1c4 <read_one_byte_from_flash>
+ 1a4:	08c000ef          	jal	230 <convert_endian>
  1a8:	00ba2023          	sw	a1,0(s4)
  1ac:	ffc98993          	addi	s3,s3,-4
  1b0:	004a0a13          	addi	s4,s4,4
@@ -165,20 +165,20 @@ Disassembly of section .text:
 
 000001dc <cmd>:
  1dc:	00300613          	li	a2,3
- 1e0:	088000ef          	jal	ra,268 <write_tx_fifo>
+ 1e0:	088000ef          	jal	268 <write_tx_fifo>
  1e4:	01055613          	srli	a2,a0,0x10
- 1e8:	080000ef          	jal	ra,268 <write_tx_fifo>
+ 1e8:	080000ef          	jal	268 <write_tx_fifo>
  1ec:	00855613          	srli	a2,a0,0x8
- 1f0:	078000ef          	jal	ra,268 <write_tx_fifo>
+ 1f0:	078000ef          	jal	268 <write_tx_fifo>
  1f4:	00050613          	mv	a2,a0
- 1f8:	070000ef          	jal	ra,268 <write_tx_fifo>
+ 1f8:	070000ef          	jal	268 <write_tx_fifo>
 
 000001fc <set_read_direction>:
  1fc:	000803b7          	lui	t2,0x80
  200:	04792023          	sw	t2,64(s2)
 
 00000204 <read_rx_fifo>:
- 204:	064000ef          	jal	ra,268 <write_tx_fifo>
+ 204:	064000ef          	jal	268 <write_tx_fifo>
 
 00000208 <.L1^B3>:
  208:	04c92283          	lw	t0,76(s2)
@@ -229,18 +229,25 @@ Disassembly of section .text:
 Disassembly of section .riscv.attributes:
 
 00000000 <.riscv.attributes>:
-   0:	1e41                	addi	t3,t3,-16
-   2:	0000                	unimp
-   4:	7200                	flw	fs0,32(a2)
-   6:	7369                	lui	t1,0xffffa
+   0:	3041                	.insn	2, 0x3041
+   2:	0000                	.insn	2, 0x0000
+   4:	7200                	.insn	2, 0x7200
+   6:	7369                	.insn	2, 0x7369
    8:	01007663          	bgeu	zero,a6,14 <.riscv.attributes+0x14>
-   c:	0014                	0x14
-   e:	0000                	unimp
-  10:	7205                	lui	tp,0xfffe1
-  12:	3376                	fld	ft6,376(sp)
-  14:	6932                	flw	fs2,12(sp)
-  16:	7032                	flw	ft0,44(sp)
-  18:	5f30                	lw	a2,120(a4)
-  1a:	326d                	jal	fffff9c4 <check_empty+0xfffff74c>
-  1c:	3070                	fld	fa2,224(s0)
+   c:	0026                	.insn	2, 0x0026
+   e:	0000                	.insn	2, 0x0000
+  10:	7205                	.insn	2, 0x7205
+  12:	3376                	.insn	2, 0x3376
+  14:	6932                	.insn	2, 0x6932
+  16:	7032                	.insn	2, 0x7032
+  18:	5f31                	.insn	2, 0x5f31
+  1a:	326d                	.insn	2, 0x326d
+  1c:	3070                	.insn	2, 0x3070
+  1e:	7a5f 6369 7273      	.insn	6, 0x727363697a5f
+  24:	7032                	.insn	2, 0x7032
+  26:	5f30                	.insn	2, 0x5f30
+  28:	6d7a                	.insn	2, 0x6d7a
+  2a:	756d                	.insn	2, 0x756d
+  2c:	316c                	.insn	2, 0x316c
+  2e:	3070                	.insn	2, 0x3070
 	...

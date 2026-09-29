@@ -33,9 +33,18 @@ int npx_classify(npx_network_t *net, const npx_layerio_tsseq_t *output_tsseq, in
 
 void npx_network_reset(npx_network_t *net);
 void npx_network_map_matrix_operator(npx_network_t *net, int layer_index, ervp_mop_mapping_t *mop_mapping);
+void _npx_layer_output_release(npx_layer_compute_t *layer_compute);
+
+static inline void npx_layer_output_release(npx_network_t *net, int layer_index)
+{
+  assert(layer_index >= 0);
+  assert(layer_index < net->num_layer);
+  _npx_layer_output_release(net->layer_compute_seq[layer_index]);
+}
 
 // weak functions
-npx_layerio_tsseq_t *npx_foward_layers(npx_layer_compute_t **layer_compute_seq, const npx_layerio_tsseq_t *input_tsseq, int layer_start_index, int layer_end_index);
+// output is newly allocated
+npx_layerio_tsseq_t *_npx_foward_layer_sequence(npx_layer_compute_t **layer_compute_seq, const npx_layerio_tsseq_t *input_tsseq, int layer_start_index, int layer_end_index, int top);
 npx_layerio_tsseq_t *npx_inference(npx_network_t *net, const npx_layerio_tsseq_t *input_tsseq, int layer_start_index, int layer_end_index);
 void npx_network_optimize(npx_network_t *net, const char *pattern, int num_change, const char *operator, void (*forward)(void *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state));
 // weak functions

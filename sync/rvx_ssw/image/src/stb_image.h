@@ -304,6 +304,7 @@ RECENT REVISION HISTORY:
 #ifndef STBI_NO_STDIO
 //#include <stdio.h>
 //#include <stdlib.h>
+#include "ervp_stdlib.h"
 #include "ervp_fakefile.h"
 #endif // STBI_NO_STDIO
 

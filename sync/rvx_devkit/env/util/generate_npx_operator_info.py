@@ -32,30 +32,43 @@ def gen_operator_info(app_cfg_path:Path, ssw_info_path:Path, output_dir_path:Pat
     if layer_option.name == 'Linear':
       if 'USE_DCA' in define_dict:
         cfg_section['operator'] = 'dca'
-      elif 'USE_VTA' in define_dict:
-        cfg_section['operator'] = 'vta'
       else:
         cfg_section['operator'] = 'cpu'
     elif layer_option.name == 'Conv2d':
       if 'USE_DCA' in define_dict:
         cfg_section['operator'] = 'dca'
-      elif 'USE_VTA' in define_dict:
-        cfg_section['operator'] = 'vta'
+      else:
+        cfg_section['operator'] = 'cpu'
+    elif layer_option.name == 'Shortcut':
+      if 'USE_DCA' in define_dict:
+        cfg_section['operator'] = 'dca'
       else:
         cfg_section['operator'] = 'cpu'
     elif layer_option.name == 'MaxPool2d':
-      cfg_section['operator'] = 'cpu'
+      if 'USE_DCA' in define_dict:
+        cfg_section['operator'] = 'dca'
+      else:
+        cfg_section['operator'] = 'cpu'
     elif layer_option.name == 'AvgPool2d':
-      cfg_section['operator'] = 'cpu'
+      if 'USE_DCA' in define_dict:
+        cfg_section['operator'] = 'dca'
+      else:
+        cfg_section['operator'] = 'cpu'
     elif layer_option.name == 'Flatten':
-      cfg_section['operator'] = 'cpu'
-    elif layer_option.name == 'Leaky':
-      cfg_section['operator'] = 'cpu'
+      if 'USE_DCA' in define_dict:
+        cfg_section['operator'] = 'dca'
+      else:
+        cfg_section['operator'] = 'cpu'
+    elif layer_option.name in ('Leaky', 'Synaptic', 'Alpha'):
+      if 'USE_DCA' in define_dict:
+        cfg_section['operator'] = 'dca'
+      else:
+        cfg_section['operator'] = 'cpu'
     else:
       assert 0, layer_option.name
 
   operator_info_path = output_dir_path / (app_cfg_path.stem + suffix + app_cfg_path.suffix)
-  operator_info_path.write_text(str(operator_info))
+  operator_info_path.write_text(str(operator_info), encoding='utf8')
   
 if __name__ == '__main__':
   

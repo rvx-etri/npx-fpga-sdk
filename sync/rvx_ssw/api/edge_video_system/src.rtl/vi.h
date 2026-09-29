@@ -28,8 +28,8 @@ typedef struct {
 	unsigned int vsize;	
 	unsigned int stride;
 	
-	unsigned int addr0;
-	unsigned int addr1;
+	void* addr0;
+	void* addr1;
 	unsigned int offset0;
 	unsigned int offset1;
 
@@ -46,8 +46,8 @@ void vim_set_param(sVIM *vim);
 void vim_enable_cis(void);
 void vim_enable_hdmi(void);
 void vim_disable(void);
-void vim_set_base0(unsigned int addr);
-void vim_set_base1(unsigned int addr);
+void vim_set_base0(void* addr);
+void vim_set_base1(void* addr);
 void vim_set_offset(unsigned int offset0, unsigned int offset1);
 void vim_set_clkpol(int pol);
 void vim_set_size(unsigned int width, unsigned int height);

@@ -13,8 +13,11 @@ typedef enum
   NPXL_LINEAR,
   NPXL_MAXPOOL2D,
   NPXL_AVGPOOL2D,
+  NPXL_SUMPOOL2D,
   NPXL_LEAKY,
   NPXL_FLATTEN,
+  NPXL_SHORTCUT,
+  NPXL_IDENTITY,
   NPXL_BLOCK
 } npx_layer_type_t;
 
@@ -49,6 +52,9 @@ typedef struct
   npx_layer2d_iodata_t iodata;
   int kernel_size;
   int stride;
+  int groups;
+  int in_channels_per_group;
+  int out_channels_per_group;
   ervp_mpad_option_t pad_options;
   NpxTensorInfo *weight_tensor;
   ErvpMatrixInfo **weight_matrix_info_list_for_output_reuse;
@@ -65,6 +71,7 @@ typedef struct
 
 typedef npx_pool2d_layer_t npx_maxpool2d_layer_t;
 typedef npx_pool2d_layer_t npx_avgpool2d_layer_t;
+typedef npx_pool2d_layer_t npx_sumpool2d_layer_t;
 
 typedef struct
 {
@@ -102,7 +109,16 @@ typedef struct
 
 typedef struct
 {
-  const npx_layerio_tsseq_t *input_tsseq;
+  npx_layer2d_iodata_t iodata;
+  int skip_from;
+  npx_layer_type_t shortcut_type;
+  void *layer;
+  npx_layerio_tsseq_t** shortcut_input;
+} npx_shortcut_layer_t;
+
+typedef struct
+{
+  npx_layerio_tsseq_t *input_tsseq;
   npx_layerio_tsseq_t *output_tsseq;
 } npx_layerio_state_t;
 
@@ -113,6 +129,8 @@ typedef struct
   ervp_mop_mapping_t *mop_mapping;
   const char *operator;
   void (*forward)(void *layer, ervp_mop_mapping_t *mop_mapping, npx_layerio_state_t *state);
+  npx_layerio_tsseq_t *output_tsseq;
+  int output_usage_count;
 } npx_layer_compute_t;
 
 typedef struct

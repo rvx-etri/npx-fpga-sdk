@@ -270,6 +270,10 @@
       <value type="bool">False</value>
     </define>
     <define>
+      <name>INCLUDE_OFFCHIP_MRAM_PROFILER</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
       <name>INCLUDE_OFFCHIP_MRAM_OPT</name>
       <value type="bool">False</value>
     </define>
@@ -519,7 +523,7 @@
     </define>
     <define>
       <name>NUM_OFFCHIP_MRAM_PROFILER</name>
-      <value type="dec">8</value>
+      <value type="dec">0</value>
     </define>
     <define>
       <name>BW_OFFCHIP_MRAM_PROFILER</name>
@@ -814,12 +818,8 @@
       <value type="bool">True</value>
     </define>
     <define>
-      <name>INCLUDE_OFFCHIP_MRAM_PROFILER</name>
-      <value type="bool">True</value>
-    </define>
-    <define>
       <name>NOT_INCLUDE_OFFCHIP_MRAM_PROFILER</name>
-      <value type="bool">False</value>
+      <value type="bool">True</value>
     </define>
     <define>
       <name>INCLUDE_CORE</name>
@@ -1085,10 +1085,6 @@
       <value type="bool">False</value>
     </define>
     <define>
-      <name>PROFILE_OFFCHIP_MRAM</name>
-      <value type="bool">False</value>
-    </define>
-    <define>
       <name>USE_IROM</name>
       <value type="bool">True</value>
     </define>
@@ -1102,6 +1098,10 @@
     </define>
     <define>
       <name>USE_OFFCHIP_MRAM</name>
+      <value type="bool">False</value>
+    </define>
+    <define>
+      <name>USE_OFFCHIP_MRAM_PROFILER</name>
       <value type="bool">False</value>
     </define>
     <define>
@@ -1387,10 +1387,6 @@
     <define>
       <name>USE_C2C_SLAVE</name>
       <value type="bool">False</value>
-    </define>
-    <define>
-      <name>USE_OFFCHIP_MRAM_PROFILER</name>
-      <value type="bool">True</value>
     </define>
     <define>
       <name>USE_CORE</name>
