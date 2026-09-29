@@ -1069,7 +1069,7 @@ class RvxWorkspace():
     for ip_name in ('pact', 'starc', 'dca'):
       candidate_list = [self._get_user_path(platform_name) / ip_name,
                         getattr(self.config, f'{ip_name}_path')]
-      ip_path = self.config.select_path(candidate_list, False)
+      ip_path = select_path(candidate_list, False)
       if ip_path:
         env_var_list.append(f'{ip_name.upper()}_HW_HOME={ip_path}')
     parameter = '-v {0} -l makefile -o {1}'.format(' '.join(env_var_list),imp_instance_path/'set_path.mh')
@@ -1363,7 +1363,7 @@ class RvxWorkspace():
     for ip_name in ('pact', 'starc', 'dca'):
       candidate_list = [self._get_user_path(platform_name) / ip_name,
                         getattr(self.config, f'{ip_name}_path')]
-      ip_path = self.config.select_path(candidate_list, False)
+      ip_path = select_path(candidate_list, False)
       if ip_path:
         env_var_list.append(f'{ip_name.upper()}_HW_HOME={ip_path}')
             
